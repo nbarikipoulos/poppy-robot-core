@@ -31,6 +31,7 @@ Enjoy, ;)
     + [position](#position)
     + [led](#led)
 - [Writing your own Scripts](#writing-your-own-scripts)
+  * [Initializing Context](#initializing-context)
   * [Creating a Script file](#creating-a-script-file)
     + [File Header](#file-header)
     + [Defining the Scripts themselves](#defining-the-scripts-themselves)
@@ -286,15 +287,24 @@ Next to the CLI uses, users can write their own scripts to test more complex  co
 
 Such scripts are written in javascript language but all technical \'difficulties\' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
 
-Note Such approach has been retained for [examples](##Examples) provided with this project _i.e._ their javascript-technical matters are reduced insofar as possible.
+Note the same approach has been retained for [examples](##Examples) provided with this project _i.e._ their javascript-technical matters are reduced insofar as possible or explained when needed.
 
 Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as detailed parts about writing your script and executions purposes. 
-Advanced users could refers to the project [API](#API)
- for advanced topics.
+Advanced users could refers to the project [API](#API) for advanced topics.
+
+### Initializing Context
+
+Note: users should have globally installed the poppy-robot-client as explained [earlier](#installing-the-poppy-robot-client-module).
+
+Any script files are javascript files interpreted by the javascript motor embedded in node.js. In order to be able to execute the script feature of the poppy-robot-client, a last operation should be performed: users must first "initialize" their node environment (note this operation must only be performed once).
+
+Open a terminal in the (root) target folder where you expect to write your scripts and type:
+```shell
+npm link poppy-robot-client
+```
+it will create a sub-folder named 'node_modules' which simply contains link to the poppy-robot-client module and which allows node.js to reference the poppy-robot-client module when users will execute their scripts (see [here](#Executing-Scripts)).
 
 ### Creating a Script file
-
-Any script files are javascript files interpreted by the javascript motor embedded in node.js.
 
 #### File Header
 
@@ -334,25 +344,30 @@ We can also add other scripts to the file:
 
 ```js
 let toPosition0 = P.createScript()
-    .select('all') // Select all motors
-    .position(0) // and move all of them to the 0 degree position.
+    .select('all') // Select all motors...
+    .position(0) // ...and move all of them to the 0 degree position.
 ;
 
-let openGrip = P.createScript()
-    .select('m6')
-    .position(90)
+let openGrip = P.createScript() // A new script opening the grip
+    .select('m6') // Select the motor 'm6'
+    .position(90) //...and move it to the 90 degrees position.
 ;
 
-let closeGrip = P.createScript()
-    .select('m6')
-    .position(0)
+let closeGrip = P.createScript() // A new script opening the grip
+    .select('m6') // Select the motor 'm6'...
+    .position(0)  // ...and move it to the 0 degree position.
+;
+
+let end = P.createScript() // another script to 'free' all motors
+    .select('all')
+    .compliant(true)
 ;
 
 ```
 
 #### Executing Scripts
 
-Once scripts defined, their executions is done through the execution engine handled by an object named Poppy:
+Once scripts defined, their execution is done through the execution engine handled by an object named Poppy:
 
 Adding to your script file:
 
@@ -364,16 +379,19 @@ poppy.exec( // call the execution engine
     toPosition0,
     openGrip,
     closeGrip,
+    openGrip, // let play the open-close scripts twice
+    closeGrip,
     end
 );
 ```
+will do the stuff in order to execute the set of scripts passed as arguments to the poppy exec method.
 
-and simply typing:
+Simply typing:
 
 ```shell
 node ./myScriptFile.js
 ```
-will execute your the scripts.
+will execute your scripts.
 
 ### The Script Object
 
@@ -569,10 +587,18 @@ let script = P.createScript()
 ## Examples
 
 A set of examples script files are located on the so named 'examples' folder.
-All these scripts files could be executed to your local computer once the poppy-robot-client globally installed typing:
+All these script files could be executed if the poppy-robot-client has been first globally installed(see [here](#installing-the-poppy-robot-client-module))  and following the steps below:
+- Fetch the examples anywhere on your computer,
+- Open a terminal in this folder and type (only once):
+```shell
+npm link poppy-robot-client 
+```
+that will "initialize" the node.js context for this folder,
+- Then, to launch any of these examples, simply type:
 ```shell
 node path_to_script_file
 ```
+to execute them.
 
 __basic.js__
 
