@@ -1,0 +1,33 @@
+{
+  "name": "poppy-robot-client",
+  "version": "0.1.0",
+  "description": "Poppy ergo jr front-end in javascript",
+  "main": "index.js",
+  "bin": {
+    "poppy": "./bin/cli.js"
+  },
+  "author": "Nikolaos Barikipoulos <nikolaos.barikipoulos@outlook.fr>",
+  "license": "MIT",
+  "keywords": [
+    "poppy",
+    "poppy Ergo Jr",
+    "pypot",
+    "dynamixel xl-320"
+  ],
+  "scripts": {
+    "gendoc": "",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cli-table": "^0.3.1",
+    "yargs": "^11.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nbarikipoulos/poppy-robot-client.git"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}

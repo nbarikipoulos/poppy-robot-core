@@ -1,0 +1,27 @@
+{
+    "motors": [{
+        "name": "m1",
+        "lower_limit": -90,
+        "upper_limit": 90
+    },{
+        "name": "m2",
+        "lower_limit": 90,
+        "upper_limit": -125
+    },{
+        "name": "m3",
+        "lower_limit": 90,
+        "upper_limit": -90
+    },{
+        "name": "m4",
+        "lower_limit": -90,
+        "upper_limit": 90
+    },{
+        "name": "m5",
+        "lower_limit": 90,
+        "upper_limit": -90
+    },{
+        "name": "m6",
+        "lower_limit": 90,
+        "upper_limit": -90
+    }]
+}

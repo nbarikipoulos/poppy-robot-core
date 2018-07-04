@@ -1,0 +1,35 @@
+[{
+    "id": "alias",
+    "category": "motor",
+    "desc": "Get all the motor aliases",
+    "path": "/motor/alias/list.json",
+    "method": "get"
+},
+{
+    "id": "motors",
+    "category": "motor",
+    "desc": "Get the motors of a specific alias",
+    "path": "/motor/:alias/list.json",
+    "method": "get"
+},
+{
+    "id": "registers",
+    "category": "motor",
+    "desc": "Get the registers list of a specific motor",
+    "path": "/motor/:motor_name/register/list.json",
+    "method": "get"
+},
+{
+    "id": "get_register",
+    "category": "motor",
+    "desc": "Get a register value",
+    "path": "/motor/:motor_name/register/:register_name",
+    "method": "get"
+},
+{
+    "id": "set_register",
+    "category": "motor",
+    "desc": "Set new value to a register",
+    "path": "/motor/:motor_name/register/:register_name/value.json",
+    "method": "post"
+}]
