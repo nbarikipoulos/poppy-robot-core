@@ -12,11 +12,6 @@
 
 const Table = require('cli-table');
 
-const cliOptions = require('./cli-options'),
-    initCLIOptions = cliOptions.init,
-    EPILOGUE = cliOptions.EPILOGUE
-;
-
 //////////////////////////////////
 //////////////////////////////////
 // Public API
