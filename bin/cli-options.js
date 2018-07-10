@@ -10,6 +10,9 @@
 
 'use strict'
 
+const fs = require('fs');
+const path = require('path');
+
 const RawMotorRequest = require('../lib/motor/RawMotorRequest');
 
 //////////////////////////////////
@@ -154,6 +157,7 @@ const _OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
+            nargs: 1,
             type: 'number',
             describe: 'Set the rotation speed of the selected motor(s).'
                 + ' Value must be in the [0,1023] range.'
@@ -163,6 +167,7 @@ const _OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
+            nargs: 1,
             type: 'number',
             describe: 'Rotate the selected motor(s) by x degrees.'
         }
@@ -171,6 +176,7 @@ const _OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
+            nargs: 1,
             type: 'number',
             describe: 'Move the selected motor(s) to a given position.'
         }
@@ -198,6 +204,7 @@ const _OPTIONS = {
         key: 'i',
         details: {
             alias: 'ip',
+            nargs: 1,
             type: 'string',
             default: 'poppy.local',
             describe: 'Set the Poppy IP/hostname.'
@@ -208,6 +215,7 @@ const _OPTIONS = {
         details: {
             alias: 'http-port',
             type: 'number',
+            nargs: 1,
             default: 8080,
             describe: 'Set the Poppy http server port.'
         }
@@ -217,8 +225,18 @@ const _OPTIONS = {
         details: {
             alias: 'snap-port',
             type: 'number',
+            nargs: 1,
             default: 6969,
             describe: 'Set the Poppy snap server port.'
+        }
+    },
+    save_config: {
+        key: 's',
+        details: {
+            alias: 'save',
+            type: 'boolean',
+            default: false,
+            describe: 'Save configuration to local .poppyrc file'
         }
     }
 };
@@ -228,13 +246,38 @@ const _OPTIONS = {
 //////////////////////////////////
 
 const getPoppyConfiguration = (argv) => {
-    return {
-        connect: { // Poppy configuration is called before initializing the yargs context...
-            ip: argv.ip || argv.i,
-            httpPort: argv.httpPort || argv.p,
-            snapPort: argv.snapPort || argv.P
+    
+    let config = {connect: {}};
+
+    let ckeys = {
+        'ip': [ 'i', 'ip'],
+        'httpPort': ['p', 'httpPort', 'http-port'],
+        'snapPort': [ 'P', 'snapPort', 'snap-port']
+    };
+    let tr = (src, tgt) => {
+        for( let k in ckeys ) {
+            let v = ckeys[k].find( elt => undefined != src[elt]);
+            if (v) { 
+                tgt[k] = src[v];
+            }
         }
+    };
+
+    // First, let read configuration from local .poppyrc file, if any
+    try {
+        let configFile = path.resolve(process.cwd(), '.poppyrc');
+        let obj = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+        tr(obj.connect || {}, config.connect);
+    } catch(e) {
+       //Does nothing
     }
+
+    // On a second hand, let's obtain settings from the cli.
+    // Note Poppy configuration is called before initializing the yargs context...
+
+    tr(argv, config.connect);
+
+    return config;
 };
 
 //////////////////////////////////

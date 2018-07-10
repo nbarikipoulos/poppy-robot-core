@@ -44,7 +44,8 @@ Enjoy, ;)
     + [script.position(value, [wait]) ⇒ ```this```](#scriptpositionvalue-wait-%E2%87%92-this)
     + [script.led(value) ⇒ ```this```](#scriptledvalue-%E2%87%92-this)
     + [script.wait(value) ⇒ ```this```](#scriptwaitvalue-%E2%87%92-this)
-- [Configuring the Poppy Context](#configuring-the-poppy-context)
+- [Configuring Poppy](#configuring-poppy)
+  * [Connexion Settings](#connexion-settings)
 - [Examples](#examples)
 - [API](#api)
 - [Credits](#credits)
@@ -115,6 +116,8 @@ poppy exec init
 ```
 
 If not performed, the first command/request send to the Poppy next to switching it on will systematically failed, next ones will succeed.
+
+Furthermore, Note for particular/advanced cases, users can configure some Poppy parameters such as connexion settings, and so on as explained in a dedicated [section](#Configuring-poppy).
 
 ## CLI Mode
 
@@ -585,7 +588,9 @@ let script = P.createScript()
 ;
 ```
 
-## Configuring the Poppy Context
+## Configuring Poppy
+
+### Connexion Settings
 
 In order to configure the connexion to the Poppy robot, a bunch of optional flags are available for both CLI and script mode:
 
@@ -605,6 +610,16 @@ As example,
 ````
 
 will execute myScript looking for a Poppy with 'poppy1.local' as hostname and with an http server configured on port 8081.
+
+Furthermore, to avoid typing these values each times, users can persist their connexion configuration using the 'init' command of the CLI.
+Typing:
+```shell
+poppy init --ip poppy1.local -p 8081 --save
+````
+will create a local .poppyrc file which handles these settings. __This file will be used for each call of the poppy-robot-client__ (in both CLI and script mode) __executed from this directory__.
+
+Note the poppy-robot-client first checks if a .poppyrc file exists, then it reads it, and next, it overrides the settings with values provided via CLI flags, if any.
+
 
 ## Examples
 
@@ -632,7 +647,7 @@ A more 'real-life' case which demonstrates:
 - the sequencing of many scripts,
 - the synchronous/asynchronous call of actions.
 
-The default release of this script is in asynchronous mode. Simply editing it and setting the variable named sync to true will set all the motion in synchronous mode.
+The default release of this script is in asynchronous mode. Simply editing it and setting the variable named sync to true will set all the motions in synchronous mode.
 
 __XmasTree.js__
 

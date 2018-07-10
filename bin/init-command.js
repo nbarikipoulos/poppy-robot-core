@@ -10,7 +10,10 @@
 
 'use strict'
 
-const Script = require('../lib/Script');
+const fs = require('fs');
+const path = require('path');
+
+const colors = require('colors');
 
 //////////////////////////////////
 //////////////////////////////////
@@ -20,7 +23,7 @@ const Script = require('../lib/Script');
 
 module.exports = (yargs, helper) => yargs.command(
     'init',
-    'Init the Poppy robot next to its power up.',
+    'Init/Configure the Poppy robot.',
     (yargs) => {
         yargs
             .example(
@@ -28,9 +31,13 @@ module.exports = (yargs, helper) => yargs.command(
                 'Initialize the Poppy robot next to its power up.'
             )
         ;
-        helper.optionHelper.addPoppyConfigurationOptions(yargs);
+        helper.optionHelper.addPoppyConfigurationOptions(yargs); // Poppy conf options
+        helper.optionHelper.addOptions( // add save option
+            yargs,
+            'Poppy Configuration Options:',
+            ['save_config']);
     },
-    argv => init(helper.poppy) // Main job
+    argv => init(helper.poppy, argv.save) // Main job
 );
 
 //////////////////////////////////
@@ -43,16 +50,53 @@ module.exports = (yargs, helper) => yargs.command(
 // The init command itself
 //////////////////////////////////
 
-const init = async (poppy) => {
+const init = async (poppy, save) => {
+
+    let dummyHttpRequest = async _ => {
+        let result = true;
+        let motor = poppy[poppy.getAllMotorIds()[0]];
+        try {
+            await motor.get(motor._motor.name, 'compliant')
+        } catch(e) { result = false;}
+        return result;
+    }
+
+    let ledSnapRequest = async _ => {
+        let result = true;
+        let motor = poppy[poppy.getAllMotorIds()[0]];
+        try {
+            await motor.led(motor._motor.name, 'off')
+        } catch(e) { result = false;}
+        return result;
+    }
 
     //
     // The First request on the http server systematically fails.
     // So, let perform a dummy one on the first registered motor.
     //
 
-    let motor = poppy[poppy.getAllMotorIds()[0]];
-    try {
-        await motor.get(motor._motor.name, 'compliant')
-    } catch(e) {}
+    let t = (res) => res ?
+        colors.green.inverse('OK'):
+        colors.red.inverse('KO')
+    ;
 
+    dummyHttpRequest(); // First "dummy" request
+
+    let config = poppy.getConfig();
+    let connect = config.connect;
+
+    let res = await dummyHttpRequest(); // Next must succeed
+    console.log(`Connexion to Poppy (hostname/ip: ${connect.ip})`);
+    console.log(`> Http server (port ${connect.httpPort}):\t` + t(res));
+    // Test the snap server with led set`
+    res = await ledSnapRequest();
+    console.log(`> Snap server (port ${connect.snapPort}):\t` + t(res));
+
+    if ( save ) {
+        fs.writeFileSync(
+            path.resolve(process.cwd(), '.poppyrc'),
+            JSON.stringify(config)
+        );
+    }
+        
 }
