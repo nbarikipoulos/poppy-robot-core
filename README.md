@@ -44,7 +44,7 @@ Enjoy, ;)
     + [script.position(value, [wait]) ⇒ ```this```](#scriptpositionvalue-wait-%E2%87%92-this)
     + [script.led(value) ⇒ ```this```](#scriptledvalue-%E2%87%92-this)
     + [script.wait(value) ⇒ ```this```](#scriptwaitvalue-%E2%87%92-this)
-- [Configuring the Poppy context](#configuring-the-poppy-context)
+- [Configuring the Poppy Context](#configuring-the-poppy-context)
 - [Examples](#examples)
 - [API](#api)
 - [Credits](#credits)
@@ -585,12 +585,12 @@ let script = P.createScript()
 ;
 ```
 
-## Configuring the Poppy context
+## Configuring the Poppy Context
 
 In order to configure the connexion to the Poppy robot, a bunch of optional flags are available for both CLI and script mode:
 
 option | desc | value | default
---- | --- | --- | --- | ---
+--- | --- | --- | --- 
 -i/--ip | Set the Poppy IP/hostname | string | poppy.local
 -p/--http-port | Set the http server port on Poppy | integer | 8080
 -P/--snap-port | Set the snap server port on Poppy | integer | 6969
