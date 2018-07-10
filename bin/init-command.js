@@ -10,11 +10,7 @@
 
 'use strict'
 
-const Script = require('../index').Script;
-
-const cliOptions = require('./cli-options'),
-    EPILOGUE = cliOptions.EPILOGUE
-;
+const Script = require('../lib/Script');
 
 //////////////////////////////////
 //////////////////////////////////
@@ -22,19 +18,19 @@ const cliOptions = require('./cli-options'),
 //////////////////////////////////
 //////////////////////////////////
 
-module.exports = (yargs, poppy) => yargs.command(
+module.exports = (yargs, helper) => yargs.command(
     'init',
     'Init the Poppy robot next to its power up.',
     (yargs) => {
-        yargs.strict()
+        yargs
             .example(
                 `$0 init`,
                 'Initialize the Poppy robot next to its power up.'
             )
-            .epilogue(EPILOGUE);
         ;
+        helper.optionHelper.addPoppyConfigurationOptions(yargs);
     },
-    argv => init(poppy) // Main job
+    argv => init(helper.poppy) // Main job
 );
 
 //////////////////////////////////

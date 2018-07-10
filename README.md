@@ -44,6 +44,7 @@ Enjoy, ;)
     + [script.position(value, [wait]) ⇒ ```this```](#scriptpositionvalue-wait-%E2%87%92-this)
     + [script.led(value) ⇒ ```this```](#scriptledvalue-%E2%87%92-this)
     + [script.wait(value) ⇒ ```this```](#scriptwaitvalue-%E2%87%92-this)
+- [Configuring the Poppy context](#configuring-the-poppy-context)
 - [Examples](#examples)
 - [API](#api)
 - [Credits](#credits)
@@ -583,6 +584,27 @@ let script = P.createScript()
     .wait(1000) // Wait 1 second
 ;
 ```
+
+## Configuring the Poppy context
+
+In order to configure the connexion to the Poppy robot, a bunch of optional flags are available for both CLI and script mode:
+
+option | desc | value | default
+--- | --- | --- | --- | ---
+-i/--ip | Set the Poppy IP/hostname | string | poppy.local
+-p/--http-port | Set the http server port on Poppy | integer | 8080
+-P/--snap-port | Set the snap server port on Poppy | integer | 6969
+
+For the CLI mode, such options are available as other ones and typing -h will display them in help.
+
+For the script modes, simply typing -h will display help about these options and simply adding these flags at execution time will configure the Poppy context.
+
+As example,
+```shell
+    node myScript.js --ip poppy1.local -p 8081
+````
+
+will execute myScript looking for a Poppy with 'poppy1.local' as hostname and with an http server configured on port 8081.
 
 ## Examples
 

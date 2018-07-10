@@ -23,20 +23,20 @@ const cliOptions = require('./cli-options'),
 //////////////////////////////////
 //////////////////////////////////
 
-module.exports = (yargs, poppy) => yargs.command(
+module.exports = (yargs, helper) => yargs.command(
     'query',
     'Query the state of Poppy motors.',
     (yargs) => {
-        // init options with the poppy configuration.
-        initCLIOptions(poppy);
+        let optionHelper = helper.optionHelper;
 
-        let opts = cliOptions.toObject('motor', 'register', 'invert');
-        
-        for (let opt in opts) {
-            yargs.options(opts[opt].key, opts[opt].details)
-        }
+        optionHelper.addOptions(
+            yargs,
+            'Query Options:',
+            ['motor', 'register', 'invert']
+        );
+        optionHelper.addPoppyConfigurationOptions(yargs);
 
-        yargs.strict()
+        yargs
             .example(
                 `$0 query -r compliant`,
                 'Get the \`compliant\` register value of all motors'
@@ -45,14 +45,9 @@ module.exports = (yargs, poppy) => yargs.command(
                 `$0 query -m m1 m6 -r present_position upper_limit`,
                 'Get the \`present_position\` and \'upper_limit\' register values of motors m1 and m6'
             )
-            .group(
-                Object.keys(opts).map(k => opts[k].key),
-                'Motor states:'
-            )
-            .epilogue(EPILOGUE);
         ;
     },
-    argv => query(argv, poppy) // Main job
+    (argv) => query(argv, helper.poppy) // Main job
 );
 
 //////////////////////////////////

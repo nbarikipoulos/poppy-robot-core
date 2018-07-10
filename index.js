@@ -10,13 +10,63 @@
 
 'use strict'
 
+const yargs = require('yargs');
+
+const cliOptions = require('./bin/cli-options'),
+    OptionHelper = cliOptions.OptionHelper,
+    getPoppyConfiguration = cliOptions.getPoppyConfiguration
+;
+
 const Script = require('./lib/Script');
 const Poppy = require('./lib/Poppy');
 const ExtMotorRequest = require('./lib/motor/ExtMotorRequest');
 
-let createScript = (...motorIds) => new Script(...motorIds)
 
-let createPoppy = (options) => new Poppy(options);
+//////////////////////////////////
+// Automatically add CLI options for Poppy configuration to any scripts
+//////////////////////////////////
+
+yargs
+    .locale('en')
+    .alias('h','help')
+    .help('h')
+;
+
+let optionHelper = new OptionHelper();
+optionHelper.addPoppyConfigurationOptions(yargs);
+
+yargs
+    .wrap(yargs.terminalWidth())
+    .argv
+;
+
+//////////////////////////////////
+// Main object factories
+//////////////////////////////////
+
+let createScript = (...motorIds) => new Script(...motorIds);
+
+let createPoppy = (options) => {
+
+  // First, let get the Poppy configuration, if any
+  // without, the following default values will be used (see RawMotorRequest).
+  // poppy address: poppy.local
+  // http port: 8080
+  // snap port: 6969
+  let config = Object.assign( {},
+    getPoppyConfiguration(yargs.argv),
+    options
+  )
+
+  // at last, instantiate the Poppy object
+  return new Poppy(config);
+}
+
+//////////////////////////////////
+//////////////////////////////////
+// Public API
+//////////////////////////////////
+//////////////////////////////////
 
 module.exports = {
   createScript,

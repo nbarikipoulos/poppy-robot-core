@@ -10,13 +10,88 @@
 
 'use strict'
 
-const P = require('../index');
+const RawMotorRequest = require('../lib/motor/RawMotorRequest');
+
+//////////////////////////////////
+// Option helper
+//////////////////////////////////
+
+//FIXME TO REWRITE !!!
+class OptionHelper {
+
+    constructor() {}
+
+    // For CLI only, it needs a poppy instance
+    // to populate the motor options.
+    init(poppy) {
+            
+        let motorIds = poppy.getAllMotorIds();
+
+        // Motor Ids
+
+        _OPTIONS.motor.details.choices.push(
+            ...motorIds
+        );
+
+        // Led values
+
+        let leds = RawMotorRequest.prototype.getLedValues();
+
+        let details = _OPTIONS.led.details;
+        details.default = leds.shift();
+        details.choices = [details.default].concat(...leds);
+    }
+
+    addOptions(yargs, groupName, optionKeys, ...mandatoryOptionKeys) {
+
+        let opts = this._toObject(optionKeys);
+
+        for (let opt in opts) {
+            yargs.options(
+                opts[opt].key,
+                opts[opt].details
+            );
+        }
+        
+        mandatoryOptionKeys.forEach( opt => yargs.demand(
+            opts[opt].key,
+            'This option is mandatory.'
+        ));
+
+        if ( groupName ) {
+            yargs.group( // Group all these options in one group.
+                optionKeys.map( opt => opts[opt].key),
+                groupName
+            );
+        }
+
+    }
+    
+    addPoppyConfigurationOptions(yargs) {
+        this.addOptions(
+            yargs,
+            'Poppy Configuration Options:',
+            ['ip', 'http_port', 'snap_port']
+        );
+    }
+
+    _toObject(keys) {
+        return keys.reduce(
+            (acc, key) => {
+                acc[key] = _OPTIONS[key];
+                return acc;
+            },
+            Object.create(null)
+        );
+    }
+
+}
 
 //////////////////////////////////
 // Argument "descriptors"
 //////////////////////////////////
 
-const OPTIONS = {
+const _OPTIONS = {
     motor: {
         key: 'm',
         details: {
@@ -55,7 +130,7 @@ const OPTIONS = {
         }
     },
     invert: {
-        key: 'i',
+        key: 'I',
         details: {
             alias: 'invert',
             type: 'boolean',
@@ -79,7 +154,7 @@ const OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
-            type: 'integer',
+            type: 'number',
             describe: 'Set the rotation speed of the selected motor(s).'
                 + ' Value must be in the [0,1023] range.'
         }
@@ -88,7 +163,7 @@ const OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
-            type: 'integer',
+            type: 'number',
             describe: 'Rotate the selected motor(s) by x degrees.'
         }
     },
@@ -96,7 +171,7 @@ const OPTIONS = {
         key: 'v',
         details: {
             alias: 'value',
-            type: 'integer',
+            type: 'number',
             describe: 'Move the selected motor(s) to a given position.'
         }
     },
@@ -118,33 +193,49 @@ const OPTIONS = {
             choices: [], // init()
             describe: 'The led color (or turn-off) value.'
         }
+    },
+    ip: {
+        key: 'i',
+        details: {
+            alias: 'ip',
+            type: 'string',
+            default: 'poppy.local',
+            describe: 'Set the Poppy IP/hostname.'
+        } 
+    },
+    http_port: {
+        key: 'p',
+        details: {
+            alias: 'http-port',
+            type: 'number',
+            default: 8080,
+            describe: 'Set the Poppy http server port.'
+        }
+    },
+    snap_port: {
+        key: 'P',
+        details: {
+            alias: 'snap-port',
+            type: 'number',
+            default: 6969,
+            describe: 'Set the Poppy snap server port.'
+        }
     }
 };
 
 //////////////////////////////////
-// misc.
+// Utility functions
 //////////////////////////////////
 
-const get = (key) => OPTIONS[key];
-
-//FIXME TO REWRITE !!!
-const _initOptions = (poppy) => {
-
-    // Motor Ids
-    
-    OPTIONS.motor.details.choices.push(
-        ...poppy.getAllMotorIds()
-    );
-
-    // Led values
-
-    let leds = P.Motor.prototype.getLedValues();
-
-    let details = OPTIONS.led.details;
-    details.default = leds.shift();
-    details.choices = [details.default].concat(...leds);
-}
-
+const getPoppyConfiguration = (argv) => {
+    return {
+        connect: { // Poppy configuration is called before initializing the yargs context...
+            ip: argv.ip || argv.i,
+            httpPort: argv.httpPort || argv.p,
+            snapPort: argv.snapPort || argv.P
+        }
+    }
+};
 
 //////////////////////////////////
 //////////////////////////////////
@@ -153,18 +244,6 @@ const _initOptions = (poppy) => {
 //////////////////////////////////
 
 module.exports = {
-    get,
-    init: (poppy) => {
-        _initOptions(poppy);
-    },
-    toObject: (...keys) => keys.reduce(
-        (acc, key) => {
-            acc[key] = get(key);
-            return acc;
-        },
-        Object.create(null)
-    ),
-    EPILOGUE:
-        'Poppy CLI. (c)2018 N. Barikipoulos. Released under the MIT license.\n'
-        + 'More details on http://github.com/nbarikipoulos/poppy-robot-cli'
+    OptionHelper,
+    getPoppyConfiguration
 };

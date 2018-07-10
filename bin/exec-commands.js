@@ -10,16 +10,7 @@
 
 'use strict'
 
-const PATH = require('path');
-
-const P = require('../index'),
-    Script = P.Script
-;
-
-const cliOptions = require('./cli-options'),
-    initCLIOptions = cliOptions.init,
-    EPILOGUE = cliOptions.EPILOGUE
-;
+const Script = require('../lib/Script');
 
 //////////////////////////////////
 //////////////////////////////////
@@ -27,13 +18,12 @@ const cliOptions = require('./cli-options'),
 //////////////////////////////////
 //////////////////////////////////
 
-module.exports = (yargs, poppy) => yargs.command(
+module.exports = (yargs, helper) => yargs.command(
     'exec',
     `Execute command on Poppy. Type $0 exec <command> -h for help on each command.`,
     (yargs) => {
-        // init options with the poppy configuration.
-        initCLIOptions(poppy);
-        _poppy = poppy;
+        _helper = helper;
+
         COMMANDS.forEach( cmd => yargs.command(
             cmd.name,
             cmd.desc,
@@ -41,10 +31,7 @@ module.exports = (yargs, poppy) => yargs.command(
             cmd.exec
         ));
 
-        yargs
-            .demandCommand(1, 'Use at least one command')
-            .epilogue(EPILOGUE)
-        ;
+        yargs.demandCommand(1, 'Use at least one command');
     }
 );
 
@@ -55,7 +42,7 @@ module.exports = (yargs, poppy) => yargs.command(
 //////////////////////////////////
 
 // ...
-let _poppy = undefined;
+let _helper = undefined;
 
 //////////////////////////////////
 // Execute simple command
@@ -83,8 +70,8 @@ async function exec(type, motors, options) {
     //
     // ... and execute it
     //
-
-    _poppy.exec(script);
+    let poppy = _helper.poppy;
+    poppy.exec(script);
 
 }
 
@@ -96,10 +83,11 @@ const COMMANDS = [{
     name: 'compliant',
     desc: 'Set the compliant state of the selected motor(s)',
     options: (yargs) => {
-        let opts = cliOptions.toObject('motor', 'compliant');
-        _addArgsAndOtherStuff(yargs, opts);
+
+        _toCmdOptions(yargs, ['motor', 'compliant']);
 
         yargs
+            .strict()
             .example(
                 `$0 exec compliant`,
                 'Switch all motors compliant state to \'false\' i.e. motors are addressable.'
@@ -120,14 +108,10 @@ const COMMANDS = [{
     desc: 'Set the rotation speed of the selected motor(s).\n'
         + 'Value must be in the [0, 1023] range',
     options: (yargs) => {
-        let opts = cliOptions.toObject('motor', 'speed');
-        _addArgsAndOtherStuff(yargs, opts);
+        
+        _toCmdOptions(yargs, ['motor', 'speed'], 'speed');
 
         yargs
-            .demandOption(
-                opts['speed'].key,
-                'This option is mandatory.'
-            )
             .example(
                 `$0 exec speed -v 100`,
                 'Set the rotation speed of all motors to 100 (slower).'
@@ -143,14 +127,10 @@ const COMMANDS = [{
     name: 'rotate',
     desc: 'Rotate the target motor(s) by x degrees',
     options: (yargs) => {
-        let opts = cliOptions.toObject('motor', 'rotate', 'wait');
-        _addArgsAndOtherStuff(yargs, opts);
+        
+        _toCmdOptions(yargs, ['motor', 'rotate', 'wait'], 'rotate');
 
         yargs
-            .demandOption(
-                opts['rotate'].key,
-                'This option is mandatory'
-            )
             .example(
                 `$0 exec rotate -m m1 m2 -v -30 -w`,
                 'Rotate the motors m1 and m2 by -30 degrees and wait until each motors will reach its new position.'
@@ -162,14 +142,10 @@ const COMMANDS = [{
     name: 'position',
     desc: 'Set the target position of the selected motor(s)',
     options: (yargs) => {
-        let opts = cliOptions.toObject('motor', 'position', 'wait');
-        _addArgsAndOtherStuff(yargs, opts);
+
+        _toCmdOptions(yargs, ['motor', 'position', 'wait'], 'position');
 
         yargs
-            .demandOption(
-                opts['position'].key,
-                'This option is mandatory'
-            )
             .example(
                 `$0 exec position -m m1 m2 -v 0 -w`,
                 'Move the motors m1 and m2 to the 0 degree position and wait until each motors will reach its new position.'
@@ -181,8 +157,8 @@ const COMMANDS = [{
     name: 'led',
     desc: 'Set the led of the selected motor(s)',
     options: (yargs) => {
-        let opts = cliOptions.toObject('motor', 'led');
-        _addArgsAndOtherStuff(yargs, opts);
+        
+        _toCmdOptions(yargs, ['motor', 'led']);
 
         yargs
             .example(
@@ -202,22 +178,12 @@ const COMMANDS = [{
 // misc.
 //////////////////////////////////
 
-const _addArgsAndOtherStuff = (yargs,opts) => {
-
-    for (let opt in opts) { // add options
-        yargs.options(
-            opts[opt].key,
-            opts[opt].details
-        );
-    }
-
-    yargs
-        .strict()
-        .group( // Group all these options in one group.
-            Object.keys(opts).map(k => opts[k].key),
-            'Command Options:'
-        )
-        .epilogue(EPILOGUE)
-    ;
-
+let _toCmdOptions = (yargs, optionsKeys, ...mandatoryOptionsKeys) => {
+    _helper.optionHelper.addOptions(
+        yargs,
+        'Command Options:',
+        optionsKeys,
+        ...mandatoryOptionsKeys
+    );
+    _helper.optionHelper.addPoppyConfigurationOptions(yargs);
 }

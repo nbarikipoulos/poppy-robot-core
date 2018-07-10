@@ -15,7 +15,15 @@
 const yargs = require('yargs');
 
 const Poppy = require('../lib/Poppy');
-const EPILOGUE = require('./cli-options').EPILOGUE;
+
+const cliOptions = require('./cli-options'),
+    OptionHelper = cliOptions.OptionHelper,
+    getPoppyConfiguration = cliOptions.getPoppyConfiguration
+;
+
+let epilogue = 'Poppy CLI. (c)2018 N. Barikipoulos. Released under the MIT license.\n'
+    + 'More details on http://github.com/nbarikipoulos/poppy-robot-client'
+;
 
 //////////////////////////////////
 //////////////////////////////////
@@ -25,7 +33,14 @@ const EPILOGUE = require('./cli-options').EPILOGUE;
 //////////////////////////////////
 
 //FIX ME allow to change the config (set to poppy ergo jr)
-let poppy = new Poppy();
+let poppy = new Poppy(
+    getPoppyConfiguration(yargs.argv)
+);
+
+// And then, instantiate helper for CLI use which need a Poppy instance
+// to dynamically fill the motor options with motor ids.
+let optionHelper = new OptionHelper();
+optionHelper.init(poppy);
 
 //////////////////////////////////
 //////////////////////////////////
@@ -37,7 +52,7 @@ yargs
     .usage(`Usage: $0 <command> --help for detailed help`)
     .demandCommand(1,'Use at least one command')
     .strict()
-    .epilogue(EPILOGUE)
+    .epilogue(epilogue)
     .locale('en')
     .version()
     .alias('h','help')
@@ -51,7 +66,7 @@ yargs
 //////////////////////////////////
 //////////////////////////////////
 
-require('./init-command')(yargs, poppy);
+require('./init-command')(yargs, {optionHelper, poppy});
 
 //////////////////////////////////
 //////////////////////////////////
@@ -59,7 +74,7 @@ require('./init-command')(yargs, poppy);
 //////////////////////////////////
 //////////////////////////////////
 
-require('./exec-commands')(yargs, poppy);
+require('./exec-commands')(yargs, {optionHelper, poppy});
 
 //////////////////////////////////
 //////////////////////////////////
@@ -67,7 +82,7 @@ require('./exec-commands')(yargs, poppy);
 //////////////////////////////////
 //////////////////////////////////
 
-require('./query-commands')(yargs, poppy);
+require('./query-commands')(yargs, {optionHelper, poppy});
 
 //////////////////////////////////
 //////////////////////////////////
