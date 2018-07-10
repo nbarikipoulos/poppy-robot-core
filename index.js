@@ -23,7 +23,8 @@ const ExtMotorRequest = require('./lib/motor/ExtMotorRequest');
 
 
 //////////////////////////////////
-// Automatically add CLI options for Poppy configuration to any scripts
+// Automatically add CLI options 
+// for Poppy configuration to any scripts
 //////////////////////////////////
 
 yargs
@@ -48,18 +49,18 @@ let createScript = (...motorIds) => new Script(...motorIds);
 
 let createPoppy = (options) => {
 
-  // First, let get the Poppy configuration, if any
-  // without, the following default values will be used (see RawMotorRequest).
-  // poppy address: poppy.local
-  // http port: 8080
-  // snap port: 6969
-  let config = Object.assign( {},
-    getPoppyConfiguration(yargs.argv),
-    options
-  )
+    // First, let get the Poppy configuration, if any
+    // without, the following default values will be used (see RawMotorRequest).
+    // poppy address: poppy.local
+    // http port: 8080
+    // snap port: 6969
+    let config = Object.assign( {},
+        getPoppyConfiguration(yargs.argv),
+        options
+    );
 
-  // at last, instantiate the Poppy object
-  return new Poppy(config);
+    // At last, instantiate the Poppy object
+    return new Poppy(config);
 }
 
 //////////////////////////////////
@@ -69,9 +70,9 @@ let createPoppy = (options) => {
 //////////////////////////////////
 
 module.exports = {
-  createScript,
-  createPoppy,
-  Script,
-  Poppy,
-  Motor: ExtMotorRequest
+    createScript,
+    createPoppy,
+    Script,
+    Poppy,
+    Motor: ExtMotorRequest
 };
