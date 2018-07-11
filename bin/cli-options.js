@@ -250,14 +250,17 @@ const getPoppyConfiguration = (argv) => {
     let config = {connect: {}};
 
     let ckeys = {
-        'ip': [ 'i', 'ip'],
-        'httpPort': ['p', 'httpPort', 'http-port'],
-        'snapPort': [ 'P', 'snapPort', 'snap-port']
+        'ip': { flags: ['i', 'ip'], default: 'poppy.local'},
+        'httpPort': { flags: ['p', 'httpPort', 'http-port'], default: 8080},
+        'snapPort': { flags: ['P', 'snapPort', 'snap-port'], default: 6969}
     };
     let tr = (src, tgt) => {
         for( let k in ckeys ) {
-            let v = ckeys[k].find( elt => undefined != src[elt]);
-            if (v) { 
+            let v = ckeys[k].flags.find( elt => 
+                undefined != src[elt]
+                && ckeys[k].default != src[elt]
+            );
+            if (v) {
                 tgt[k] = src[v];
             }
         }
@@ -273,7 +276,8 @@ const getPoppyConfiguration = (argv) => {
     }
 
     // On a second hand, let's obtain settings from the cli.
-    // Note Poppy configuration is called before initializing the yargs context...
+    // Note Poppy configuration is called before initializing the yargs context
+    // in CLI mode...
 
     tr(argv, config.connect);
 
