@@ -33,9 +33,17 @@ let epilogue = 'Poppy CLI. (c)2018 N. Barikipoulos. Released under the MIT licen
 //////////////////////////////////
 
 //FIX ME allow to change the config (set to poppy ergo jr)
-let poppy = new Poppy(
-    getPoppyConfiguration(yargs.argv)
-);
+let poppy = undefined;
+
+try {
+    poppy = new Poppy(
+        getPoppyConfiguration(yargs.argv)
+    );
+} catch (error) {
+    console.log('Unable to create Poppy object:')
+    console.log(error.message);
+    process.exit(-1); // without any poppy instance, nothing is possible
+}
 
 // And then, instantiate helper for CLI use which need a Poppy instance
 // to dynamically fill the motor options with motor ids.

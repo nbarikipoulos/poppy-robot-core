@@ -291,8 +291,13 @@ const getPoppyConfiguration = (argv) => {
         let poppyrc = JSON.parse(fs.readFileSync(configFile, 'utf8'));
         // Connexion settings
         tr(config.connect, poppyrc.connect || {}, false);
+        // Robot descriptor
+        if (poppyrc.descriptor) {
+            config.descriptor = poppyrc.descriptor;
+        }
+
     } catch(error) {
-       // Do nothing
+       //Does nothing
     }
 
     // On a second hand, let's obtain settings from the cli.

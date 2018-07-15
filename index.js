@@ -49,19 +49,29 @@ let createScript = (...motorIds) => new Script(...motorIds);
 
 let createPoppy = (options) => {
 
-    // First, let get the Poppy configuration, if any
-    // without, the following default values will be used (see RawMotorRequest).
-    // poppy address: poppy.local
-    // http port: 8080
-    // snap port: 6969
+    // First let's obtain the configuration
     let config = Object.assign( {},
-        getPoppyConfiguration(yargs.argv),
-        options
+        getPoppyConfiguration(yargs.argv), // read from .poppyrc and CLI
+        options // from arguments
     );
 
     // At last, instantiate the Poppy object
-    return new Poppy(config);
+    let poppy = undefined;
+    try {
+        poppy = new Poppy(config);
+    } catch (error) {
+        console.log('Unable to create Poppy object:')
+        console.log(error.message);
+        process.exit(-1); // without any poppy instance, nothing is possible
+    }
+
+    return poppy;
 }
+
+
+//////////////////////////////////
+// Main object factories
+//////////////////////////////////
 
 //////////////////////////////////
 //////////////////////////////////
