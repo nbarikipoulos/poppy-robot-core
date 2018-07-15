@@ -249,37 +249,57 @@ const getPoppyConfiguration = (argv) => {
     
     let config = {connect: {}};
 
-    let ckeys = {
+    let ckeys = { // FIXME use _OPTIONS...
         'ip': { flags: ['i', 'ip'], default: 'poppy.local'},
         'httpPort': { flags: ['p', 'httpPort', 'http-port'], default: 8080},
         'snapPort': { flags: ['P', 'snapPort', 'snap-port'], default: 6969}
     };
-    let tr = (src, tgt) => {
+
+    let tr = (tgt, src, fromCli = true) => { // arf...
         for( let k in ckeys ) {
-            let v = ckeys[k].flags.find( elt => 
-                undefined != src[elt]
-                && ckeys[k].default != src[elt]
-            );
+
+            let flags = ckeys[k].flags;
+            let v = flags.find( elt => undefined != src[elt]);
+
             if (v) {
-                tgt[k] = src[v];
+                if (fromCli) {
+                    let isDefault = src[v] === ckeys[k].default;
+                    if ( isDefault ) {
+                        let isSetFromCLI = process.argv // ensure it comes from cli, not default from yargs...
+                            .slice(2) // not relevant
+                            .map( elt => elt.replace(/^[-]+/, '') ) // remove '-', '--'
+                            .some( elt => flags.includes(elt) ) // check if found
+                        ;
+                        if ( isSetFromCLI ) {
+                            delete tgt[k]; // Remove it...
+                        }
+                    } else {
+                        tgt[k] = src[v]; // ...Affect it
+                    }
+                } else { // we take everyting from the .poppyrc file
+                    tgt[k] = src[v];
+                }
             }
         }
     };
 
+    //
     // First, let read configuration from local .poppyrc file, if any
+    //
     try {
         let configFile = path.resolve(process.cwd(), '.poppyrc');
-        let obj = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-        tr(obj.connect || {}, config.connect);
-    } catch(e) {
-       //Does nothing
+        let poppyrc = JSON.parse(fs.readFileSync(configFile, 'utf8'));
+        // Connexion settings
+        tr(config.connect, poppyrc.connect || {}, false);
+    } catch(error) {
+       // Do nothing
     }
 
     // On a second hand, let's obtain settings from the cli.
     // Note Poppy configuration is called before initializing the yargs context
     // in CLI mode...
 
-    tr(argv, config.connect);
+    tr(config.connect, argv);
 
     return config;
 };
