@@ -142,7 +142,7 @@ Adding the flag -h will display help for optional options:
 - -r to select the register(s) to query,
 - -i to invert the output table form register/motor to motor/register.
 
-As example the following line will only display the temperature of the motors m1 and m5:
+As example the following line will only display the registry values for 'present_position' and 'goal_position' of the motors m2 to m5:
 ```shell
 poppy query -m m2 m3 m4 m5 -r present_position goal_position -i
 ```
@@ -606,7 +606,7 @@ For the script modes, simply typing -h will display help about these options and
 
 As example,
 ```shell
-    node myScript.js --ip poppy1.local -p 8081
+node myScript.js --ip poppy1.local -p 8081
 ````
 
 will execute myScript looking for a Poppy with 'poppy1.local' as hostname and with an http server configured on port 8081.
