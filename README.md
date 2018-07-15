@@ -168,7 +168,7 @@ name | description
 
 All these commands have a common flag '-m'. If not set, a command will be applied to all motors ('m1' to 'm6 for the Poppy Ergo Jr.) excepted if this flag is set on the CLI. In this case, it allows to select the targeted motors on which will apply the command.
 
-As examples: 
+As examples:
 ```shell
 poppy exec led -v green
 ```
@@ -253,12 +253,12 @@ Examples:
 
 - Move all motors to the 0 degree position asynchrously _i.e._ all motors will reach this position independently:
     ```shell
-        poppy exec position -v 0
+    poppy exec position -v 0
     ```
 
 - Move all motors to the 0 degree position sequentially _i.e._ for each motor, a request to send this position will be send, and it will await before the end of this action before proceding it to the next motor.:
     ```shell
-        poppy exec position -v 0 -w
+    poppy exec position -v 0 -w
     ```
 
 - Move the motors m1 and m2 to the 0 degree position and wait until each motors will reach its new position:
