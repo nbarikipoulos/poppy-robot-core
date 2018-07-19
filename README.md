@@ -70,7 +70,7 @@ To access to the inline help provided with the cli which allows both querying an
 
 Note, once the Poppy switches on and ready (green light blinking), the __init__ command must be performed first.
 
-Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#Writing-your-own-Scripts). A set of examples are provided [there](##Examples)
+Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#Writing-your-own-Scripts). A set of ready-to-use examples are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## Getting Started
 
@@ -291,7 +291,7 @@ Next to the CLI uses, users can write their own scripts to test more complex  co
 
 Such scripts are written in javascript language but all technical \'difficulties\' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
 
-Note the same approach has been retained for [examples](##Examples) provided with this project _i.e._ their javascript-technical matters are reduced insofar as possible or explained when needed.
+Note the same approach has been retained for the  examples located in the [poppy-examples repository](https://github.com/nbarikipoulos/poppy-examples)  _i.e._ their javascript-technical matters are reduced insofar as possible or explained when needed.
 
 Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as detailed parts about writing your script and executions purposes. 
 Advanced users could refers to the project [API](#API) for advanced topics.
@@ -623,36 +623,7 @@ Note the poppy-robot-client first checks if a .poppyrc file exists, then it read
 
 ## Examples
 
-A set of examples script files are located on the so named 'examples' folder.
-All these script files could be executed if the poppy-robot-client has been first globally installed(see [here](#installing-the-poppy-robot-client-module))  and following the steps below:
-- Fetch the examples anywhere on your computer,
-- Open a terminal in this folder and type (only once):
-```shell
-npm link poppy-robot-client 
-```
-that will "initialize" the node.js context for this folder,
-- Then, to launch any of these examples, simply type:
-```shell
-node path_to_script_file
-```
-to execute them.
-
-__basic.js__
-
-A true beginner script introducing to script writing.
-
-__tetris.js__
-
-A more 'real-life' case which demonstrates:
-- the sequencing of many scripts,
-- the synchronous/asynchronous call of actions.
-
-The default release of this script is in asynchronous mode. Simply editing it and setting the variable named sync to true will set all the motions in synchronous mode.
-
-__XmasTree.js__
-
-The led hell :).
-It demonstrates how to (efficiently enough) write scripts in a concise manner.
+The examples have been moved to a dedicated [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## API
 
