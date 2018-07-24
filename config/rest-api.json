@@ -1,5 +1,5 @@
 [{
-    "id": "alias",
+    "id": "aliases",
     "category": "motor",
     "desc": "Get all the motor aliases",
     "path": "/motor/alias/list.json",
