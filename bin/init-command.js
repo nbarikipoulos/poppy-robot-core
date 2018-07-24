@@ -56,7 +56,7 @@ const init = async (poppy, save) => {
         let result = true;
         let motor = poppy[poppy.getAllMotorIds()[0]];
         try {
-            await motor.get(motor._motor.name, 'compliant')
+            await motor.get('compliant');
         } catch(e) { result = false;}
         return result;
     }
@@ -65,7 +65,7 @@ const init = async (poppy, save) => {
         let result = true;
         let motor = poppy[poppy.getAllMotorIds()[0]];
         try {
-            await motor.led('off')
+            await motor.led('off');
         } catch(e) { result = false;}
         return result;
     }

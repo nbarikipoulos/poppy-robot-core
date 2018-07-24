@@ -125,9 +125,7 @@ const _query = async (poppy, motors, registers) => {
     for(let motor of motors) {        
         let data = (await Promise.all(
             registers.map( async register => 
-                // We only use the RawMotorRequest prototype which could be 
-                // directly call without Poppy.
-                await poppy[motor].get(motor, register)
+                await poppy[motor].get(register)
             )
         )).reduce( (acc, obj) =>
             Object.assign(acc, obj),
