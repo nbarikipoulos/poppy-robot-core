@@ -74,7 +74,7 @@ const query = async (argv, poppy) => {
     // ...And display them
     //
 
-    let display = argv.i ?
+    let display = argv['I'] ?
         {
             rows: motors, 
             cols: registers,
@@ -122,7 +122,8 @@ const _query = async (poppy, motors, registers) => {
 
     let res = [];
 
-    for(let motor of motors) {        
+    await Promise.all( motors.map( async motor => {
+    //for(let motor of motors) {        
         let data = (await Promise.all(
             registers.map( async register => 
                 await poppy[motor].get(register)
@@ -132,7 +133,7 @@ const _query = async (poppy, motors, registers) => {
             {motor}
         );
         res.push(data);
-    }
+    }));
 
     return res;
   }

@@ -140,11 +140,11 @@ will return data about all registers 'of interest' for all motors.
 Adding the flag -h will display help for optional options:
 - -m to select the motor(s) to query,
 - -r to select the register(s) to query,
-- -i to invert the output table form register/motor to motor/register.
+- -I to invert the output table form register/motor to motor/register.
 
 As example the following line will only display the registry values for 'present_position' and 'goal_position' of the motors m2 to m5:
 ```shell
-poppy query -m m2 m3 m4 m5 -r present_position goal_position -i
+poppy query -m m2 m3 m4 m5 -r present_position goal_position -I
 ```
 ![Querying command 2](./doc/query_1.png "Querying command 2")
 
