@@ -1,15 +1,18 @@
-# Poppy (Ergo Jr) Robot Client
+# Poppy Robot Client
 
 The Poppy Robot Client is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends to "replace" the snap UI with a __simple programmatic approach__ to drive robots of the [Poppy project](https://www.poppy-project.org/en/) family, or at least the Poppy Ergo Jr.
 
 It allows addressing the poppy robot in 2 modes:
-- A [CLI Mode](##CLI-Mode) to query and send basic set instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
+- A [CLI Mode](##CLI-Mode) to query and send basic set of instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
 - A [script exectution mode](#Writing-your-own-Scripts) to simply combine these basic instructions in order to test more complex motions. It is done writing script using the javascript language where all technical 'difficulties' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
 
-It has been first developped and tested with the Poppy Ergo Jr. It does not discover the installed motors on Poppy (it could) but through a "lazy" mode: they are listed in a configuration file.
-It uses the REST api exposed by the http server of the pypot library and could be probably used with any other configurations based on pypot.
+Communications with the robot are based on the REST api exposed by the http server of the pypot library.
 
-Furthermore, note this first release only aims to replace the 'compliant-mode-set-to-false' behaviour (sic) of the motors _i.e._ no motion recording has been developped (yet).
+Note it has been __first developped and tested with the Poppy Ergo Jr__ and then, it
+is configured by default to fit with it but __advanced users' can easily set their own robot configurations__ through a [discovering command](##discovering-robot-configuration) which allows to use this project with any set of motors driven through the pypot library.
+
+
+Furthermore, note these first releases only aims to replace the 'compliant-mode-set-to-false' behaviour (sic) of the motors _i.e._ no motion recording has been developped (yet).
 
 Enjoy, ;)
 
@@ -30,6 +33,9 @@ Enjoy, ;)
     + [rotate](#rotate)
     + [position](#position)
     + [led](#led)
+  * [Configuring Poppy](#configuring-poppy)
+    + [Connection Settings](#connection-settings)
+    + [Discovering Robot Configuration](#discovering-robot-configuration)
 - [Writing your own Scripts](#writing-your-own-scripts)
   * [Initializing Context](#initializing-context)
   * [Creating a Script file](#creating-a-script-file)
@@ -44,8 +50,6 @@ Enjoy, ;)
     + [script.position(value, [wait]) ⇒ ```this```](#scriptpositionvalue-wait-%E2%87%92-this)
     + [script.led(value) ⇒ ```this```](#scriptledvalue-%E2%87%92-this)
     + [script.wait(value) ⇒ ```this```](#scriptwaitvalue-%E2%87%92-this)
-- [Configuring Poppy](#configuring-poppy)
-  * [Connexion Settings](#connexion-settings)
 - [Examples](#examples)
 - [API](#api)
 - [Credits](#credits)
@@ -55,7 +59,7 @@ Enjoy, ;)
 
 ## TLTR;
 
-You just have to install this node module on your local computer, to turn on your Poppy and enjoy.
+You just have to install this node module on your local computer, to turn on your Poppy (Ergo Jr, if not read [this](##discovering-robot-configuration)) and enjoy.
 
 The next line will globally install the module on your computer (more details are available [here](###installation)):
 ```shell
@@ -68,9 +72,9 @@ poppy -h
 ```
 To access to the inline help provided with the cli which allows both querying and sending simple command to the motors of the robot.
 
-Note, once the Poppy switches on and ready (green light blinking), the __init__ command must be performed first.
+Note, once the Poppy switches on and ready (green light blinking), the __config__ command must be performed first.
 
-Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#Writing-your-own-Scripts). A set of ready-to-use examples are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
+Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#Writing-your-own-Scripts). A set of ready-to-use examples (for Poppy Ergo Jr) are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## Getting Started
 
@@ -94,7 +98,7 @@ To verify that it has been successfully installed, type:
 ```shell
 npm list -g -depth=0
 ├── npm@5.6.0
-└── poppy-robot-client@0.1.0 
+└── poppy-robot-client@2.0.0 
 ```
 
 Then, simply type:
@@ -112,18 +116,19 @@ __Note a specific command must be performed at each Poppy switching on in order 
 
 Next the Poppy robot turns on and is ready (green light blinking), the following command should be performed first:
 ```shell
-poppy exec init
+poppy config
 ```
 
 If not performed, the first command/request send to the Poppy next to switching it on will systematically failed, next ones will succeed.
 
-Furthermore, Note for particular/advanced cases, users can configure some Poppy parameters such as connexion settings, and so on as explained in a dedicated [section](#Configuring-poppy).
+Furthermore, Note for particular/advanced cases, users can configure some Poppy parameters such as connection settings, and so on as explained in a dedicated [section](#Configuring-poppy).
 
 ## CLI Mode
 
-The cli commands are divided into 2 parts:
+The cli commands are divided into 3 parts:
 - A querying module to get information about the motors,
-- A command module which allows sending simple commands to the motors.
+- A command module which allows sending simple commands to the motors,
+- At last, a robot configuration module.
 
 ### Querying
 
@@ -284,6 +289,79 @@ Examples:
     ```shell
     poppy exec led -m m3 -v green
     ```
+
+
+### Configuring Poppy
+
+#### Connection Settings
+
+In order to configure the connection to the Poppy robot, a bunch of optional flags are available for both CLI and script mode:
+
+option | desc | value | default
+--- | --- | --- | --- 
+-i/--ip | Set the Poppy IP/hostname | string | poppy.local
+-p/--http-port | Set the http server port on Poppy | integer | 8080
+-P/--snap-port | Set the snap server port on Poppy | integer | 6969
+
+For the CLI mode, such options are available as other ones and typing -h will display them in help.
+
+For the script modes, simply typing -h will display help about these options and simply adding these flags at execution time will configure the Poppy context.
+
+As example,
+```shell
+node myScript.js --ip poppy1.local -p 8081
+````
+
+will execute myScript looking for a Poppy with 'poppy1.local' as hostname and with an http server configured on port 8081.
+
+Furthermore, to avoid typing these values each times, users can persist their connection configuration using the 'config' command of the CLI.
+Typing:
+```shell
+poppy config --ip poppy1.local -p 8081 --save
+````
+will create a local .poppyrc file which handles these settings. __This file will be used for each call of the poppy-robot-client__ (in both CLI and script mode) __executed from this directory__.
+
+Note the poppy-robot-client first checks if a .poppyrc file exists, then it reads it, and next, it overrides the settings with values provided via CLI flags, if any.
+
+#### Discovering Robot Configuration
+
+Advanced users can modify the robot configuration in order to fit with others than the default one (aka Poppy Ergo Jr).
+
+Such task could be performed using the config command of the CLI.
+
+it allows:
+- Discovering the motor configuration of a target robot,
+- Saving it in a descriptor file,
+- At last, saving it to the poppyrc file.
+
+Typing
+```shell
+poppy config -D 
+```
+will discover the robot here located with the default values for hostname and http port _i.e._ poppy.local and 8080 and display an aliases/motors tree as shown on the screenshot below:
+
+![Discovering robot](./doc/discovering.png "Discovering robot")
+
+Adding -S flag will save this configuration to a descriptor file:
+```shell
+poppy config -D -S myPoppy.json
+```
+which could be use:
+- via the poppyrc file:
+    - Modifying/creating a .poppyrc file:
+        ```js
+        {
+            "descriptor": "file://myPoppy.json"
+        }
+        ```
+    - Or adding the -s flag over the discovering step to automatically add this line to the .poppyrc file
+        ```shell
+        poppy config -D -S myPoppy.json -s
+        ```
+- or programatically through the Poppy object factory or constructor (see [API](##API)).
+
+Note Furthermore, the __config__ command allows validating of the current descriptor in use (users\' one or default one) with the targeted robot using the -v flag.
+
 
 ## Writing your own Scripts
 
@@ -588,39 +666,6 @@ let script = P.createScript()
 ;
 ```
 
-## Configuring Poppy
-
-### Connexion Settings
-
-In order to configure the connexion to the Poppy robot, a bunch of optional flags are available for both CLI and script mode:
-
-option | desc | value | default
---- | --- | --- | --- 
--i/--ip | Set the Poppy IP/hostname | string | poppy.local
--p/--http-port | Set the http server port on Poppy | integer | 8080
--P/--snap-port | Set the snap server port on Poppy | integer | 6969
-
-For the CLI mode, such options are available as other ones and typing -h will display them in help.
-
-For the script modes, simply typing -h will display help about these options and simply adding these flags at execution time will configure the Poppy context.
-
-As example,
-```shell
-node myScript.js --ip poppy1.local -p 8081
-````
-
-will execute myScript looking for a Poppy with 'poppy1.local' as hostname and with an http server configured on port 8081.
-
-Furthermore, to avoid typing these values each times, users can persist their connexion configuration using the 'init' command of the CLI.
-Typing:
-```shell
-poppy init --ip poppy1.local -p 8081 --save
-````
-will create a local .poppyrc file which handles these settings. __This file will be used for each call of the poppy-robot-client__ (in both CLI and script mode) __executed from this directory__.
-
-Note the poppy-robot-client first checks if a .poppyrc file exists, then it reads it, and next, it overrides the settings with values provided via CLI flags, if any.
-
-
 ## Examples
 
 The examples have been moved to a dedicated [repository](https://github.com/nbarikipoulos/poppy-examples).
@@ -628,12 +673,13 @@ The examples have been moved to a dedicated [repository](https://github.com/nbar
 ## API
 
 The poppy-robot-client is mainly based on the following objects:
-- The poppy object which handles:
+- The Poppy object which handles:
     - The robot configuration and then, the motors objects,
     - The script execution engine.
 - The Motor Objects:
     - ExtMotorRequest which handles high level actions of the motors,
-    - RawMotorRequest which handles the low-level rest requests to the motor registries through the http server.
+    - RawMotorRequest which handles the low-level rest requests to the motor registry.
+- The RequestHandlerObject object in charge of all the requests the http server,
 - The Script object in order to develop scripts.
 
 The API documentation will coming soon.
