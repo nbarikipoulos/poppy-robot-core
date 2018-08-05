@@ -45,6 +45,10 @@ class OptionHelper {
         details.choices = [details.default].concat(...leds);
     }
 
+    get(optionKey) {
+        return _OPTIONS[optionKey];
+    } 
+
     addOptions(yargs, groupName, optionKeys, ...mandatoryOptionKeys) {
 
         let opts = this._toObject(optionKeys);
@@ -73,7 +77,7 @@ class OptionHelper {
     addPoppyConfigurationOptions(yargs) {
         this.addOptions(
             yargs,
-            'Poppy Configuration Options:',
+            'Poppy Setting Options:',
             ['ip', 'http_port', 'snap_port']
         );
     }
@@ -236,7 +240,52 @@ const _OPTIONS = {
             alias: 'save',
             type: 'boolean',
             default: false,
-            describe: 'Save configuration to local .poppyrc file'
+            describe: 'Save settings to a local .poppyrc file'
+        }
+    },
+    motor_conf: {
+        key: 'M',
+        details: {
+            alias: 'motor-configuration',
+            type: 'boolean',
+            default: false,
+            describe: 'Display motor configuration.'
+        }
+    },
+    discover: {
+        key: 'D',
+        details: {
+            alias: 'discover',
+            type: 'boolean',
+            default: 'false',
+            describe: 'Discover the poppy robot motors.'
+        }
+    },
+    all: {
+        key: 'a',
+        details: {
+            alias: 'all',
+            type: 'boolean',
+            default: false,
+            describe: 'Include details about motors (angle limits)'
+        }
+    },
+    validate: {
+        key: 'v',
+        details: {
+            alias: 'validate',
+            type: 'boolean',
+            default: 'false',
+            describe: 'Check if the current used robot descriptor matches with the target Poppy.'
+        }
+    },
+    save_descriptor: {
+        key: 'S',
+        details: {
+            alias: 'Save',
+            type: 'string',
+            nargs: 1,
+            describe: 'Save discovered configuration to a descriptor file.'
         }
     }
 };
