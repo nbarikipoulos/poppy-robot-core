@@ -9,7 +9,7 @@ It allows addressing the poppy robot in 2 modes:
 Communications with the robot are based on the REST api exposed by the http server of the pypot library.
 
 Note it has been __first developped and tested with the Poppy Ergo Jr__ and then, it
-is configured by default to fit with it but __advanced users' can easily set their own robot configurations__ through a [discovering command](##discovering-robot-configuration) which allows to use this project with any set of motors driven through the pypot library.
+is configured by default to fit with it but __advanced users' can easily set their own robot configurations__ through a [discovering command](#discovering-robot-configuration) which allows using this project with any set of motors driven through the pypot library.
 
 
 Furthermore, note these first releases only aims to replace the 'compliant-mode-set-to-false' behaviour (sic) of the motors _i.e._ no motion recording has been developped (yet).
