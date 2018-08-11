@@ -42,14 +42,6 @@ Enjoy, ;)
     + [File Header](#file-header)
     + [Defining the Scripts themselves](#defining-the-scripts-themselves)
     + [Executing Scripts](#executing-scripts)
-  * [The Script Object](#the-script-object)
-    + [script.select(...motors) ⇒ ```this```](#scriptselectmotors-%E2%87%92-this)
-    + [script.compliant(value) ⇒ ```this```](#scriptcompliantvalue-%E2%87%92-this)
-    + [script.speed(value) ⇒ ```this```](#scriptspeedvalue-%E2%87%92-this)
-    + [script.rotate(value, [wait]) ⇒ ```this```](#scriptrotatevalue-wait-%E2%87%92-this)
-    + [script.position(value, [wait]) ⇒ ```this```](#scriptpositionvalue-wait-%E2%87%92-this)
-    + [script.led(value) ⇒ ```this```](#scriptledvalue-%E2%87%92-this)
-    + [script.wait(value) ⇒ ```this```](#scriptwaitvalue-%E2%87%92-this)
 - [Examples](#examples)
 - [API](#api)
 - [Credits](#credits)
@@ -321,7 +313,11 @@ poppy config --ip poppy1.local -p 8081 --save
 ````
 will create a local .poppyrc file which handles these settings. __This file will be used for each call of the poppy-robot-client__ (in both CLI and script mode) __executed from this directory__.
 
-Note the poppy-robot-client first checks if a .poppyrc file exists, then it reads it, and next, it overrides the settings with values provided via CLI flags, if any.
+Note the poppy-robot-client will:
+- First checks if a .poppyrc file exists, and then it extracts its settings,
+- On a second hand, use the CLI settings, if any, and then it will override the corresponding values,
+- At last, it will override these settings with values passed through the
+arguments of this factory.
 
 #### Discovering Robot Configuration
 
@@ -371,8 +367,10 @@ Such scripts are written in javascript language but all technical \'difficulties
 
 Note the same approach has been retained for the  examples located in the [poppy-examples repository](https://github.com/nbarikipoulos/poppy-examples)  _i.e._ their javascript-technical matters are reduced insofar as possible or explained when needed.
 
-Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as detailed parts about writing your script and executions purposes. 
-Advanced users could refers to the project [API](#API) for advanced topics.
+Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as parts about how to write script and execution purposes. 
+
+
+Next, Users should refers to the [Script API](./doc/api.md#poppy-robot-client~Script) for further details.
 
 ### Initializing Context
 
@@ -406,6 +404,12 @@ Next to this step, some scripts can be added to the file.
 
 #### Defining the Scripts themselves
 
+The script are defined through a dedicated object named 'Script' (sic) which
+owns a bunch of methods in oder to:
+- select target motors,
+- perform some actions,
+- and other basic stuff such as waiting.
+
 As first example let add an initialisation script to our file:
 
 ```js
@@ -420,7 +424,7 @@ The first line:
 - Creates a new variable named 'init',
 - And affects to 'init' a new Script object.
 
-Next lines are call to the 'methods' of Script Object which are fully described in a dedicated [section](###The-Script-Object).
+Next lines are call to the 'methods' of Script Object which are fully described in the project API [here](./doc/api.md#poppy-robot-client~Script).
 
 We can also add other scripts to the file:
 
@@ -475,214 +479,13 @@ node ./myScriptFile.js
 ```
 will execute your scripts.
 
-### The Script Object
-
-This object allows to define a set of actions to apply to target motors.
-It allows selecting targeted motors, and then applying them a set of actions.
-
-Such object are created through the factory provided with the poppy-robot-client:
-
-```js
-const P = require('poppy-robot-client');
-
-let myScript = P.createScript();
-```
-
-It could optionally set the target motors for next actions of the script.
-
-```js
-let script = P.createScript('all') // Select all motors
-    .compliant(false) // Make them "drivable"
-    .speed(100) // Set all motor speed to 100
-;
-
-let myOtherScript = P.createScript('m1', 'm3') // Only select the 'm1' and 'm2' motors
-    .rotate(30) // rotate 'm1' and 'm3' by 30 degrees.
-    .select('m4') // select the 'm4' motor for next action
-    .rotate(20) // Rotate 'm4' by 20 degrees
-;
-```
-
-Once instantiated, Script objects own a bunch of methods in oder to:
-- select target motors,
-- perform some actions,
-- and other basic stuff such as waiting.
-
-Note contrary to the CLI mode, __no controls are performed on input values of these methods and then, it is easy to corrupt motor registries__. Such state will require a reboot of the robot.
-
-The table below resumes the method of the Script object:
-
-name | description
---- | ---
-[script.select(...motors)](#scriptselectmotors-%E2%87%92-this) | select the target motors
-[script.compliant(value)](#scriptcompliantvalue-%E2%87%92-this) | modify the 'compliant' state of selected motor(s)
-[script.speed(value)](#scriptspeedvalue-%E2%87%92-this) | set the speed of selected motor(s)
-[script.rotate(value, [wait])](#scriptrotatevalue-wait-%E2%87%92-this) | rotate the selected motor(s) by x degrees
-[script.position(value, [wait])](#scriptpositionvalue-wait-%E2%87%92-this) | move the selected motor(s) to a given position.
-[script.wait(value)](#scriptwaitvalue-%E2%87%92-this) | the wait function
-
-
-#### script.select(...motors) ⇒ ```this```
-
-Select the target motor(s) for the next script actions.
-It will define the targeted motor(s) until the next __select__ action, if any.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ...motors | ```string``` | the selected motor ids or 'all' to select all motors|
-
-**Example:**
-```js
-let script = P.createScript()
-    .select('all') // Select all motors...
-    .compliant(false) // Make them "drivable"
-    .position(0) // ... move all motors to position 'O' degree.
-    . ...        // ... do other nice stuffs (always on all motors)
-    . ...
-    .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
-    .rotate(30) // and apply them a rotation by +30 degrees.
-;
-```
-
-#### script.compliant(value) ⇒ ```this```
-
-Set the 'compliant' registry of the selected motor(s).
-
-It allows to select the motor state between programmatically "drivable" (false) or
-in "rest" mode (true) _i.e._ movable by hand.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | ```boolean``` | __false__ for "drivable" state, __true__ for "rest" mode. |
-
-**Example:**
-```js
-let script = P.createScript('all')
-    .compliant(false)
-;
-```
-
-#### script.speed(value) ⇒ ```this```
-
-Set the speed (registry 'moving_speed') of the selected motor(s).
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | ```integer``` | The speed value. It should be included into the [0,1023] range (speed is conversely to the value) |
-
-**Example:**
-```js
-let script = P.createScript('all')
-    .speed(100)
-;
-```
-
-#### script.rotate(value, [wait]) ⇒ ```this```
-
-Create an action to rotate the selected motor(s) by x degrees.
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| value | ```integer``` |  | The rotation value |
-| [wait] | ```boolean``` | ```true``` | optionally wait that motor(s)      will finish their rotations until executing the next action |
-
-**Example:**
-```js
-let script = new Script('m1', 'm5')
-    .rotate(-30) // Rotate by -30 degrees the selected motors.
-                 // It will await all motors finish their rotation)
-    .select('m6')
-    .rotate(60, false) // It will send an instruction in order to rotate
-                       // the motor 'm6' by 60 degrees.
-                       // Without awaiting the end of this action, 
-                       // the next action will be executed.
-    .select('m5')
-    .rotate(20)
-;
-```
-
-#### script.position(value, [wait]) ⇒ ```this```
-
-Set the target position (registry 'goal_position') of the selected
-motor(s).
-
-It will create an action which will move the selected motor(s) to a 
-given position.
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| value | ```integer``` |  | the position to reach |
-| [wait] | ```boolean``` | ```true``` | optionally wait that motor(s) reach(s)      the target position until executing the next action |
-
-**Example:**
-```js
-let script = P.createScript('all')
-    .position(0) // Move all motors to 0 degrees.
-                 // It will await all motors reach this position)
-    .select('m6')
-    .position(90, false) // It will send an instruction 
-                         // to Move the motor 'm6' to 90 degrees.
-                         // Without awaiting this position is reach, 
-                         // the next action will be executed.
-    .select('m2')
-    .position(-75)
-;
-```
-
-#### script.led(value) ⇒ ```this```
-
-Set the led value of the target motor(s).
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | 'off' \| 'red' \| 'green' \| 'blue' \| 'yellow' \| 'cyan' \| 'pink' \|'white' | value for the 'led' registry |
-
-**Example:**
-```js
-let script = P.createScript('all')
-    .led('blue') // will set the led color to blue
-;
-```
-
-#### script.wait(value) ⇒ ```this```
-
-The wait method.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| value | ```integer``` | wait delay (in ms) |
-
-
-**Example:**
-```js
-let script = P.createScript()
-    .select('m2')
-    .position(-90, false) // we do not wait the end of mouvement
-    .select('m3')
-    .position(90, false) // idem
-    .select('m5')
-    .position(-90, false) // idem
-    .wait(1000) // Wait 1 second
-;
-```
-
 ## Examples
 
 The examples have been moved to a dedicated [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## API
 
-The poppy-robot-client is mainly based on the following objects:
-- The Poppy object which handles:
-    - The robot configuration and then, the motors objects,
-    - The script execution engine.
-- The Motor Objects:
-    - ExtMotorRequest which handles high level actions of the motors,
-    - RawMotorRequest which handles the low-level rest requests to the motor registry.
-- The RequestHandlerObject object in charge of all the requests the http server,
-- The Script object in order to develop scripts.
-
-The API documentation will coming soon.
+The API documentation could be found [here](./doc/api.md).
 
 ## Credits
 

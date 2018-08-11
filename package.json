@@ -16,7 +16,7 @@
     "dynamixel xl-320"
   ],
   "scripts": {
-    "gendoc": "",
+    "gendoc": "markdown-toc -i README.md && cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md; echo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

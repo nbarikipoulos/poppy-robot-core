@@ -1,0 +1,11 @@
+{
+    "files": [
+        "../../index.js",
+        "../../lib/Poppy.js",
+        "../../lib/Script.js",
+        "../../lib/motor/ExtMotorRequest.js",
+        "../../lib/motor/RawMotorRequest.js",
+        "../../lib/utils/PoppyRequestHandler.js",
+        "../../lib/utils/descriptor.js"
+    ]
+}
