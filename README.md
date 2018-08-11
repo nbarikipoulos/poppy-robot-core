@@ -370,7 +370,7 @@ Note the same approach has been retained for the  examples located in the [poppy
 Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as parts about how to write script and execution purposes. 
 
 
-Next, Users should refers to the [Script API](./doc/api.md#poppy-robot-client~Script) for further details.
+Next, Users should refers to the [Script API](./doc/api.md#module_poppy-robot-client..Script) for further details.
 
 ### Initializing Context
 
@@ -424,7 +424,7 @@ The first line:
 - Creates a new variable named 'init',
 - And affects to 'init' a new Script object.
 
-Next lines are call to the 'methods' of Script Object which are fully described in the project API [here](./doc/api.md#poppy-robot-client~Script).
+Next lines are call to the 'methods' of Script Object which are fully described in the project API [here](./doc/api.md#module_poppy-robot-client..Script).
 
 We can also add other scripts to the file:
 
