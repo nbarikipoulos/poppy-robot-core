@@ -113,7 +113,7 @@ poppy config
 
 If not performed, the first command/request send to the Poppy next to switching it on will systematically failed, next ones will succeed.
 
-Furthermore, Note for particular/advanced cases, users can configure some Poppy parameters such as connection settings, and so on as explained in a dedicated [section](#Configuring-poppy).
+Furthermore, Note for particular/advanced cases, users can configure some Poppy parameters such as connection settings, and so on as explained in a dedicated [section](#configuring-poppy).
 
 ## CLI Mode
 
