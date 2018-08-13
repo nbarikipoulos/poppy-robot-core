@@ -1,10 +1,12 @@
 # Poppy Robot Client
 
+[![NPM version][npm-image]][npm-url]
+
 The Poppy Robot Client is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends to "replace" the snap UI with a __simple programmatic approach__ to drive robots of the [Poppy project](https://www.poppy-project.org/en/) family, or at least the Poppy Ergo Jr.
 
 It allows addressing the poppy robot in 2 modes:
-- A [CLI Mode](##CLI-Mode) to query and send basic set of instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
-- A [script exectution mode](#Writing-your-own-Scripts) to simply combine these basic instructions in order to test more complex motions. It is done writing script using the javascript language where all technical 'difficulties' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
+- A [CLI Mode](##cli-mode) to query and send basic set of instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
+- A [script exectution mode](#writing-your-own-Scripts) to simply combine these basic instructions in order to test more complex motions. It is done writing script using the javascript language where all technical 'difficulties' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
 
 Communications with the robot are based on the REST api exposed by the http server of the pypot library.
 
@@ -51,9 +53,9 @@ Enjoy, ;)
 
 ## TLTR;
 
-You just have to install this node module on your local computer, to turn on your Poppy (Ergo Jr, if not read [this](##discovering-robot-configuration)) and enjoy.
+You just have to install this node module on your local computer, to turn on your Poppy (Ergo Jr, if not read [this](#discovering-robot-configuration)) and enjoy.
 
-The next line will globally install the module on your computer (more details are available [here](###installation)):
+The next line will globally install the module on your computer (more details are available [here](#getting-started)):
 ```shell
 npm install poppy-robot-client -g
 ```
@@ -66,7 +68,7 @@ To access to the inline help provided with the cli which allows both querying an
 
 Note, once the Poppy switches on and ready (green light blinking), the __config__ command must be performed first.
 
-Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#Writing-your-own-Scripts). A set of ready-to-use examples (for Poppy Ergo Jr) are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
+Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#writing-your-own-Scripts). A set of ready-to-use examples (for Poppy Ergo Jr) are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## Getting Started
 
@@ -156,11 +158,11 @@ where the &lt;command&gt; are listed in the table below:
 
 name | description
 --- | ---
-[compliant](####compliant) | modify the 'compliant' state of motor(s)
-[speed](####speed) | set the speed of target motor(s)
-[rotate](####rotate) | rotate the selected motor(s) by x degrees
-[position](####position) | move the selected motor(s) to a given position.
-[led](####led) | set the led color of selected motor(s)
+[compliant](#compliant) | modify the 'compliant' state of motor(s)
+[speed](#speed) | set the speed of target motor(s)
+[rotate](#rotate) | rotate the selected motor(s) by x degrees
+[position](#position) | move the selected motor(s) to a given position.
+[led](#led) | set the led color of selected motor(s)
 
 
 All these commands have a common flag '-m'. If not set, a command will be applied to all motors ('m1' to 'm6 for the Poppy Ergo Jr.) excepted if this flag is set on the CLI. In this case, it allows to select the targeted motors on which will apply the command.
@@ -354,7 +356,7 @@ which could be use:
         ```shell
         poppy config -D -S myPoppy.json -s
         ```
-- or programatically through the Poppy object factory or constructor (see [API](##API)).
+- or programatically through the Poppy object factory or constructor (see [API](./doc/api.md)).
 
 Note Furthermore, the __config__ command allows validating of the current descriptor in use (users\' one or default one) with the targeted robot using the -v flag.
 
@@ -370,7 +372,7 @@ Note the same approach has been retained for the  examples located in the [poppy
 Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as parts about how to write script and execution purposes. 
 
 
-Next, Users should refers to the [Script API](./doc/api.md#module_poppy-robot-client..Script) for further details.
+Next, Users should refers to the [Script API](./doc/api.md#module_poppy-robot-client..script) for further details.
 
 ### Initializing Context
 
@@ -382,7 +384,7 @@ Open a terminal in the (root) target folder where you expect to write your scrip
 ```shell
 npm link poppy-robot-client
 ```
-it will create a sub-folder named 'node_modules' which simply contains link to the poppy-robot-client module and which allows node.js to reference the poppy-robot-client module when users will execute their scripts (see [here](#Executing-Scripts)).
+it will create a sub-folder named 'node_modules' which simply contains link to the poppy-robot-client module and which allows node.js to reference the poppy-robot-client module when users will execute their scripts (see [here](#executing-scripts)).
 
 ### Creating a Script file
 
@@ -424,7 +426,7 @@ The first line:
 - Creates a new variable named 'init',
 - And affects to 'init' a new Script object.
 
-Next lines are call to the 'methods' of Script Object which are fully described in the project API [here](./doc/api.md#module_poppy-robot-client..Script).
+Next lines are call to the 'methods' of Script Object which are fully described in the project API [here](./doc/api.md#module_poppy-robot-client..script).
 
 We can also add other scripts to the file:
 
@@ -494,3 +496,6 @@ The API documentation could be found [here](./doc/api.md).
 ## License
 
 The poppy-robot-client is MIT licensed. See [LICENSE](./LICENSE.md).
+
+[npm-url]: https://www.npmjs.com/package/poppy-robot-client
+[npm-image]: https://img.shields.io/npm/v/poppy-robot-client.svg
