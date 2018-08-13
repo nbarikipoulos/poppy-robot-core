@@ -81,15 +81,15 @@ option | desc | value | default
 <a name="module_poppy-robot-client.createPoppy"></a>
 
 ### P.createPoppy([options]) : [<code>Poppy</code>](#module_poppy-robot-client..Poppy)
-Factory which create the main module object: the Poppy one.
+Factory which creates the main module object: the Poppy one.
 
-As this object is in charge of the connection to the Poppy and
-handles the robot configuration, this factory allow modifying these
-settings for their particular cases.
+As the Poppy object is both in charge of the connection to the Poppy and
+it handles the robot configuration, this factory allows modifying 
+the settings for these properties.
 
 Note:
 - Intantitating a poppy object without any settings will use ones
-by default for a poppy ergo jr,
+by default _i.e._ for a poppy ergo jr,
 - This factory automatically reads the settings provided by both the .poppyrc
  file and and CLI options in this order:
      - It first checks if a .poppyrc file exists, and then it reads it,
@@ -124,7 +124,7 @@ let anotherPoppy = P.createPoppy({ // Another Poppy Ergo Jr...
 ### P.createScript([...motorId]) : [<code>Script</code>](#module_poppy-robot-client..Script)
 Convinient factory in order to create a new Poppy Script Object.
 It optionally allows selecting a bunch of motor (identified by their names) or
-all motors to apply to next actions until call to select method, if any.
+all motors to apply to next actions until call to the select method, if any.
 
 **Kind**: static method of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
 **See**: [Script](#module_poppy-robot-client..Script)  
@@ -154,11 +154,11 @@ let anotherScript = P.createScript('m1','m2');
 The main object of the module.
 The poppy object handles:
 - The robot descriptor aka the aliases and motors configuration,
-- The requesting object to the robot,
+- The object in charge of the requests to the robot,
 - At last the script execution engine.
 
-Note contrary to instantiating through the factory P.createPoppy, it does not automatically
-take into account settings of the .poppyrc file or passed through the CLI
+Note contrary to instantiating it through the factory P.createPoppy, it does not
+take into account settings from the .poppyrc file or passed through CLI flags.
 
 **Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
 
@@ -174,7 +174,8 @@ take into account settings of the .poppyrc file or passed through the CLI
 
 #### new Poppy([options])
 Instantiate a new Poppy object.
- Note Intantitating a poppy object without any settings will use ones
+
+Note Intantitating a poppy object without any settings will use ones
 by default for a poppy ergo jr,
 
 
@@ -201,26 +202,26 @@ let anotherPoppy = new Poppy({ // Another Poppy Ergo Jr...
 <a name="module_poppy-robot-client..Poppy+getConfig"></a>
 
 #### poppy.getConfig() ⇒ <code>Object</code>
-Accessor config object passed at instantiation __i.e.__
-without defaut values
+Accessor to the config object passed at instantiation time __i.e.__
+without defaut values/
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
 <a name="module_poppy-robot-client..Poppy+getDescriptor"></a>
 
 #### poppy.getDescriptor() ⇒ <code>Object</code>
-Accessor on the descriptor handled
+Accessor to the robot descriptor handled by this instance/
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
 <a name="module_poppy-robot-client..Poppy+getAllMotorIds"></a>
 
 #### poppy.getAllMotorIds() ⇒ <code>Array.&lt;string&gt;</code>
-Return a list containing all motor ids
+Return a list containing all motor ids.
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
 <a name="module_poppy-robot-client..Poppy+getMotor"></a>
 
 #### poppy.getMotor(id) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
-Accessor on the motor Object with id 'id'
+Accessor on the motor Object named/with id 'id'.
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
 
@@ -232,7 +233,7 @@ Accessor on the motor Object with id 'id'
 
 #### poppy.exec(...scripts) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
-Execute Scripts
+Execute Scripts.
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
 
@@ -589,7 +590,7 @@ Set the led register.
 <a name="module_poppy-robot-client..RawMotorRequest+getLedValues"></a>
 
 #### extMotorRequest.getLedValues() ⇒ <code>Array.&lt;string&gt;</code>
-Get the led values.
+Get the allowed values for the led register.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
 <a name="module_poppy-robot-client..RawMotorRequest"></a>
@@ -661,7 +662,7 @@ Set the led register.
 <a name="module_poppy-robot-client..RawMotorRequest+getLedValues"></a>
 
 #### rawMotorRequest.getLedValues() ⇒ <code>Array.&lt;string&gt;</code>
-Get the led values.
+Get the allowed values for the led register.
 
 **Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
 <a name="module_poppy-robot-client..PoppyRequestHandler"></a>

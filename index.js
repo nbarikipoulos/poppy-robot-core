@@ -81,15 +81,15 @@ yargs
 //////////////////////////////////
 
 /**
- * Factory which create the main module object: the Poppy one.
+ * Factory which creates the main module object: the Poppy one.
  * 
- * As this object is in charge of the connection to the Poppy and
- * handles the robot configuration, this factory allow modifying these
- * settings for their particular cases.
+ * As the Poppy object is both in charge of the connection to the Poppy and
+ * it handles the robot configuration, this factory allows modifying 
+ * the settings for these properties.
  * 
  * Note:
  * - Intantitating a poppy object without any settings will use ones
- * by default for a poppy ergo jr,
+ * by default _i.e._ for a poppy ergo jr,
  * - This factory automatically reads the settings provided by both the .poppyrc
  *  file and and CLI options in this order:
  *      - It first checks if a .poppyrc file exists, and then it reads it,
@@ -141,7 +141,7 @@ let createPoppy = (options) => {
 /**
  * Convinient factory in order to create a new Poppy Script Object.
  * It optionally allows selecting a bunch of motor (identified by their names) or
- * all motors to apply to next actions until call to select method, if any.
+ * all motors to apply to next actions until call to the select method, if any.
  * 
  * @param {...string=} motorId - the motor id/name or 'all' to select all motors
  * @type {module:poppy-robot-client~Script}
