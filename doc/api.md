@@ -816,7 +816,7 @@ A String to locate a Poppy descriptor whith a format inspired by the URI one: 's
 | Name | Type | Description |
 | --- | --- | --- |
 | schema | <code>&#x27;file&#x27;</code> \| <code>&#x27;desc&#x27;</code> | 'file' to refer to a local descriptor;           'desc' to refer to an inner descriptor of the module |
-| : | <code>path</code> | 'file' case: absolute or relative path to a local descriptor file,          'desc' case: id to an embedded descriptor (only poppy-ergo-jr is nowadays supported) |
+| path | <code>string</code> | 'file' case: absolute or relative path to a local descriptor file,          'desc' case: id to an embedded descriptor (only poppy-ergo-jr is nowadays supported) |
 
 **Example**  
 ```js
