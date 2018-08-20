@@ -5,8 +5,8 @@
 The Poppy Robot Client is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends to "replace" the snap UI with a __simple programmatic approach__ to drive robots of the [Poppy project](https://www.poppy-project.org/en/) family, or at least the Poppy Ergo Jr.
 
 It allows addressing the poppy robot in 2 modes:
-- A [CLI Mode](##cli-mode) to query and send basic set of instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
-- A [script exectution mode](#writing-your-own-Scripts) to simply combine these basic instructions in order to test more complex motions. It is done writing script using the javascript language where all technical 'difficulties' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
+- A [CLI Mode](#cli-mode) to query and send basic set of instructions to the motor registries and then, to allow performing unary 'action' on motors such as move, speed settings, simply typing in a command line terminal,
+- A [script exectution mode](#writing-your-own-scripts) to simply combine these basic instructions in order to test more complex motions. It is done writing script using the javascript language where all technical 'difficulties' have been hidden as much as possible and then, it allows users writing their own scripts without any particular knowledges/skills on javascript.
 
 Communications with the robot are based on the REST api exposed by the http server of the pypot library.
 
@@ -68,7 +68,7 @@ To access to the inline help provided with the cli which allows both querying an
 
 Note, once the Poppy switches on and ready (green light blinking), the __config__ command must be performed first.
 
-Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#writing-your-own-Scripts). A set of ready-to-use examples (for Poppy Ergo Jr) are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
+Next to the CLI uses, this module allows users writing their own (simple) scripts to test more complex actions such as some motions, and so on as explained [here](#writing-your-own-scripts). A set of ready-to-use examples (for Poppy Ergo Jr) are provided in another [repository](https://github.com/nbarikipoulos/poppy-examples).
 
 ## Getting Started
 
@@ -372,7 +372,7 @@ Note the same approach has been retained for the  examples located in the [poppy
 Thus, this section will describe the complete _modus operandi_ in order to _ab initio_ create a script file as well as parts about how to write script and execution purposes. 
 
 
-Next, Users should refers to the [Script API](./doc/api.md#module_poppy-robot-client..script) for further details.
+Next, Users should refers to the [Script API](./doc/api.md#module_poppy-robot-client..Script) for further details.
 
 ### Initializing Context
 
