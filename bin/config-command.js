@@ -99,7 +99,7 @@ const main = async (argv, poppy) => {
     // First of all, let check connexion settings
     //
 
-    console.log(`>> Connexion to Poppy (hostname/ip: ${cnxSettings.ip})`);
+    console.log(`>> Connection to Poppy (hostname/ip: ${cnxSettings.ip})`);
 
     let cnxStatus = await _basicConnectionTest(requestHandler);
 
