@@ -91,8 +91,8 @@ that will globally install the poppy-robot-client module.
 To verify that it has been successfully installed, type:
 ```shell
 npm list -g -depth=0
-├── npm@5.6.0
-└── poppy-robot-client@2.0.0 
+├── npm@6.4.1
+└── poppy-robot-client@2.1.0 
 ```
 
 Then, simply type:
