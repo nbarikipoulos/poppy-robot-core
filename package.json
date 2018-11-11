@@ -1,6 +1,6 @@
 {
   "name": "poppy-robot-client",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Poppy ergo jr front-end in javascript",
   "main": "index.js",
   "bin": {
