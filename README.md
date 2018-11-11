@@ -22,7 +22,7 @@ Enjoy, ;)
 
 <!-- toc -->
 
-- [TLTR;](#tltr)
+- [TL;DR](#tldr)
 - [Getting Started](#getting-started)
   * [Installing node.js](#installing-nodejs)
   * [Installing the poppy-robot-client module](#installing-the-poppy-robot-client-module)
@@ -51,7 +51,7 @@ Enjoy, ;)
 
 <!-- tocstop -->
 
-## TLTR;
+## TL;DR
 
 You just have to install this node module on your local computer, to turn on your Poppy (Ergo Jr, if not read [this](#discovering-robot-configuration)) and enjoy.
 
