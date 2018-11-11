@@ -71,51 +71,54 @@ const query = async (argv, poppy) => {
     let result = await _query(poppy, motors, registers);
 
     //
-    // ...And display them
+    // ...And display them, if any
     //
+    if ( result ) {
 
-    let display = argv['I'] ?
-        {
-            rows: motors, 
-            cols: registers,
-            cb: (row) => {
-                let o = {};
-                o[row] = Object
-                    .values(
-                        result.find( obj => row === obj.motor )
-                    )
-                    .slice(1) // motor attribute
-                    .map(v => _format(v)) // other attributes are register values
-                ;
-                return o;
+        let display = argv['I'] ?
+            {
+                rows: motors, 
+                cols: registers,
+                cb: (row) => {
+                    let o = {};
+                    o[row] = Object
+                        .values(
+                            result.find( obj => row === obj.motor )
+                        )
+                        .slice(1) // motor attribute
+                        .map(v => _format(v)) // other attributes are register values
+                    ;
+                    return o;
+                }
+            }:
+            {
+                rows: registers, 
+                cols: motors,
+                cb: (row) => {
+                    let o = {};
+                    o[row] = result.map( res => _format(res[row]) );
+                    return o;
+                }
             }
-        }:
-        {
-            rows: registers, 
-            cols: motors,
-            cb: (row) => {
-                let o = {};
-                o[row] = result.map( res => _format(res[row]) );
-                return o;
-            }
+        ;
+
+        let table = new Table({
+            head: [].concat('', ...display.cols)
+        });
+
+        for (let row of display.rows) {
+            table.push(
+                display.cb.call(null,row)
+            )
         }
-    ;
 
-    let table = new Table({
-        head: [].concat('', ...display.cols)
-    });
-
-    for (let row of display.rows) {
-        table.push(
-            display.cb.call(null,row)
-        )
+        // At last, let's display the result
+        
+        console.log(
+            table.toString()
+        );
     }
-
-    // At last, let's display the result
     
-    console.log(
-        table.toString()
-    );
   }
 
 const _query = async (poppy, motors, registers) => {
@@ -126,14 +129,20 @@ const _query = async (poppy, motors, registers) => {
     //for(let motor of motors) {        
         let data = (await Promise.all(
             registers.map( async register => 
-                await poppy[motor].get(register)
+                (await poppy[motor].get(register))
             )
-        )).reduce( (acc, obj) =>
+        ))
+        .reduce( (acc, obj) =>
             Object.assign(acc, obj),
             {motor}
         );
         res.push(data);
-    }));
+    }))
+    .catch( err => {
+        console.log(`Err: Unable to perform querying. Check connection settings:`);
+        console.log(`   Request URL: ${err.config.url}`);
+        res = null;
+    });
 
     return res;
   }
