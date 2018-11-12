@@ -25,7 +25,7 @@ option | desc | value | default
 -p/--http-port | Set the http server port on Poppy | integer | 8080
 -P/--snap-port | Set the snap server port on Poppy | integer | 6969
 
-**Version**: 2.0.0  
+**Version**: 2.1.0  
 
 * [poppy-robot-client](#module_poppy-robot-client)
     * _static_
