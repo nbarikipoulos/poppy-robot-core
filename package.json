@@ -7,7 +7,7 @@
     "poppy": "./bin/cli.js"
   },
   "homepage": "https://github.com/nbarikipoulos/poppy-robot-client#readme",
-  "author": "Nikolaos Barikipoulos <nikolaos.barikipoulos@outlook.fr>",
+  "author": "Nicolas Barriquand <nicolas.barriquand@outlook.fr>",
   "license": "MIT",
   "keywords": [
     "poppy",

@@ -491,7 +491,7 @@ The API documentation could be found [here](./doc/api.md).
 
 ## Credits
 
-- Nikolaos Barikipoulos ([nbarikipoulos](https://github.com/nbarikipoulos))
+- Nicolas Barriquand ([nbarikipoulos](https://github.com/nbarikipoulos))
 
 ## License
 
