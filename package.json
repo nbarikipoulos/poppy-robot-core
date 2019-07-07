@@ -13,11 +13,15 @@
     "dynamixel xl-320"
   ],
   "scripts": {
-    "gendoc": "markdown-toc -i README.md && cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md; echo",
+    "gendoc": "$(npm bin)/markdown-toc -i README.md && cd doc/jsdoc2md && $(npm bin)/jsdoc2md -t api.hbs > ../api.md; echo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^5.0.0",
+    "markdown-toc": "^1.2.0"
   },
   "repository": {
     "type": "git",
