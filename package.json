@@ -1,12 +1,9 @@
 {
-  "name": "poppy-robot-client",
-  "version": "2.1.0",
-  "description": "Javascript client side for Poppy (Ergo Jr) Robot.",
+  "name": "poppy-robot-core",
+  "version": "3.0.0-beta.0",
+  "description": "Javascript core client side for Poppy (Ergo Jr) Robot.",
   "main": "index.js",
-  "bin": {
-    "poppy": "./bin/cli.js"
-  },
-  "homepage": "https://github.com/nbarikipoulos/poppy-robot-client#readme",
+  "homepage": "https://github.com/nbarikipoulos/poppy-robot-core#readme",
   "author": "Nicolas Barriquand <nicolas.barriquand@outlook.fr>",
   "license": "MIT",
   "keywords": [
@@ -20,13 +17,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "cli-table": "^0.3.1",
-    "yargs": "^12.0.2"
+    "axios": "^0.18.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nbarikipoulos/poppy-robot-client.git"
+    "url": "https://github.com/nbarikipoulos/poppy-robot-core.git"
   },
   "engines": {
     "node": ">=8.0.0"
