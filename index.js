@@ -28,7 +28,7 @@
  * -p/--http-port | Set the http server port on Poppy | integer | 8080
  * -P/--snap-port | Set the snap server port on Poppy | integer | 6969
  * 
- * @module poppy-robot-client
+ * @module poppy-robot-core
  * @typicalname P
  * @version 3.0.0
  */
@@ -53,7 +53,7 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  * the settings for these properties.
  * 
  * Note:
- * - Intantitating a poppy object without any settings will use ones
+ * - Instantitating a poppy object without any settings will use ones
  * by default _i.e._ for a poppy ergo jr,
  * - This factory automatically reads the settings provided by both the .poppyrc
  *  file and and CLI options in this order:
@@ -63,11 +63,11 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  *  
  * 
  * @param {Object=} options - settings object
- * @param {module:poppy-robot-client~DescriptorLocator=} options.descriptor - Descriptor locator (for advanced users only)
- * @param {module:poppy-robot-client~ConnectionSettings=} options.connect - Connection Settings to Poppy
- * @type {module:poppy-robot-client~Poppy}
+ * @param {module:poppy-robot-core~DescriptorLocator=} options.descriptor - Descriptor locator (for advanced users only)
+ * @param {module:poppy-robot-core~ConnectionSettings=} options.connect - Connection Settings to Poppy
+ * @type {module:poppy-robot-core~Poppy}
  * @static
- * @see {@link module:poppy-robot-client~Poppy}
+ * @see {@link module:poppy-robot-core~Poppy}
  * 
  * @example
  * const P = require('poppy-robot-client'); 
@@ -102,9 +102,9 @@ let createPoppy = (options) => {
  * all motors to apply to next actions until call to the select method, if any.
  * 
  * @param {...string=} motorId - the motor id/name or 'all' to select all motors
- * @type {module:poppy-robot-client~Script}
+ * @type {module:poppy-robot-core~Script}
  * @static
- * @see {@link module:poppy-robot-client~Script}
+ * @see {@link module:poppy-robot-core~Script}
  * @example
  * const P = require('poppy-robot-core');
  * 
