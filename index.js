@@ -1,8 +1,8 @@
-/*! Copyright (c) 2018 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
+/*! Copyright (c) 2018-2019 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
 
 /**
  * 
- * This module is the main entry point for poppy robot client.
+ * This module is the main entry point for poppy robot core.
  * It contains factories for high-level objects of this module
  * _i.e._ for Poppy and Script Objects.
  * 
@@ -30,43 +30,16 @@
  * 
  * @module poppy-robot-client
  * @typicalname P
- * @version 2.1.0
+ * @version 3.0.0
  */
 
 'use strict'
-
-const yargs = require('yargs');
-
-const cliOptions = require('./bin/cli-options'),
-    OptionHelper = cliOptions.OptionHelper,
-    getPoppyConfiguration = cliOptions.getPoppyConfiguration
-;
 
 const Script = require('./lib/Script');
 const Poppy = require('./lib/Poppy');
 const ExtMotorRequest = require('./lib/motor/ExtMotorRequest');
 const RawMotorRequest = require('./lib/motor/ExtMotorRequest');
 const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
-
-
-//////////////////////////////////
-// Automatically add CLI options 
-// for Poppy configuration to any scripts
-//////////////////////////////////
-
-yargs
-    .locale('en')
-    .alias('h','help')
-    .help('h')
-;
-
-let optionHelper = new OptionHelper();
-optionHelper.addPoppyConfigurationOptions(yargs);
-
-yargs
-    .wrap(yargs.terminalWidth())
-    .argv
-;
 
 //////////////////////////////////
 // Main object factories
@@ -111,16 +84,9 @@ yargs
  */
 let createPoppy = (options) => {
 
-    // First let's obtain the configuration
-    let config = Object.assign( {},
-        getPoppyConfiguration(yargs.argv), // read from .poppyrc and CLI
-        options // from arguments
-    );
-
-    // At last, instantiate the Poppy object
     let poppy = undefined;
     try {
-        poppy = new Poppy(config);
+        poppy = new Poppy(options);
     } catch (error) {
         console.log('Unable to create Poppy object:')
         console.log(error.message);
@@ -140,7 +106,7 @@ let createPoppy = (options) => {
  * @static
  * @see {@link module:poppy-robot-client~Script}
  * @example
- * const P = require('poppy-robot-client');
+ * const P = require('poppy-robot-core');
  * 
  * // Instantiate a new script and automatically target all motors
  * let myScript = P.createScript('all');
