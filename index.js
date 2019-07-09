@@ -6,10 +6,10 @@
  * It contains factories for high-level objects of this module
  * _i.e._ for Poppy and Script Objects.
  * 
- * As user facing module, It exports the poppy-robot-client primary
+ * As user facing module, It exports the poppy-robot-core primary
  * public API and provides convenience accessors to certain sub-modules.
  * 
- * The poppy-robot-client is mainly based on the following objects:
+ * The poppy-robot-core is mainly based on the following objects:
  * - The Poppy object which handles:
  *      - The robot configuration and then, the motors objects,
  *      - The script execution engine.
@@ -19,14 +19,6 @@
  * - The RequestHandlerObject object in charge of all the requests the http server,
  * - The Script object in order to develop scripts.
  * 
- * Furthermore, Note it automatically appends a set of optional flags in order to set
- * the connection to poppy:
- * 
- * option | desc | value | default
- * --- | --- | --- | --- 
- * -i/--ip | Set the Poppy IP/hostname | string | poppy.local
- * -p/--http-port | Set the http server port on Poppy | integer | 8080
- * -P/--snap-port | Set the snap server port on Poppy | integer | 6969
  * 
  * @module poppy-robot-core
  * @typicalname P
@@ -52,15 +44,8 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  * it handles the robot configuration, this factory allows modifying 
  * the settings for these properties.
  * 
- * Note:
- * - Instantitating a poppy object without any settings will use ones
+ * Note instantitating a poppy object without any settings will use ones
  * by default _i.e._ for a poppy ergo jr,
- * - This factory automatically reads the settings provided by both the .poppyrc
- *  file and and CLI options in this order:
- *      - It first checks if a .poppyrc file exists, and then it reads it,
- *      - On a second hand, it uses the CLI settings, if any, and then it will override the corresponding values,
- *      - At last, it will override these settings with values passed through the arguments of this factory.
- *  
  * 
  * @param {Object=} options - settings object
  * @param {module:poppy-robot-core~DescriptorLocator=} options.descriptor - Descriptor locator (for advanced users only)
@@ -70,7 +55,7 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  * @see {@link module:poppy-robot-core~Poppy}
  * 
  * @example
- * const P = require('poppy-robot-client'); 
+ * const P = require('poppy-robot-core'); 
  * 
  * let poppy = P.createPoppy(); // create a poppy object
  *                              // using default settings for a Poppy Ergo Jr.
