@@ -1,12 +1,12 @@
-# poppy-robot-client API Reference
-This module is the main entry point for poppy robot client.
+# poppy-robot-core API Reference
+This module is the main entry point for poppy robot core.
 It contains factories for high-level objects of this module
 _i.e._ for Poppy and Script Objects.
 
-As user facing module, It exports the poppy-robot-client primary
+As user facing module, It exports the poppy-robot-core primary
 public API and provides convenience accessors to certain sub-modules.
 
-The poppy-robot-client is mainly based on the following objects:
+The poppy-robot-core is mainly based on the following objects:
 - The Poppy object which handles:
      - The robot configuration and then, the motors objects,
      - The script execution engine.
@@ -16,100 +16,85 @@ The poppy-robot-client is mainly based on the following objects:
 - The RequestHandlerObject object in charge of all the requests the http server,
 - The Script object in order to develop scripts.
 
-Furthermore, Note it automatically appends a set of optional flags in order to set
-the connection to poppy:
+**Version**: 3.0.0  
 
-option | desc | value | default
---- | --- | --- | --- 
--i/--ip | Set the Poppy IP/hostname | string | poppy.local
--p/--http-port | Set the http server port on Poppy | integer | 8080
--P/--snap-port | Set the snap server port on Poppy | integer | 6969
-
-**Version**: 2.1.0  
-
-* [poppy-robot-client](#module_poppy-robot-client)
+* [poppy-robot-core](#module_poppy-robot-core)
     * _static_
-        * [.createPoppy([options])](#module_poppy-robot-client.createPoppy) : [<code>Poppy</code>](#module_poppy-robot-client..Poppy)
-        * [.createScript([...motorId])](#module_poppy-robot-client.createScript) : [<code>Script</code>](#module_poppy-robot-client..Script)
+        * [.createPoppy([options])](#module_poppy-robot-core.createPoppy) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
+        * [.createScript([...motorId])](#module_poppy-robot-core.createScript) : [<code>Script</code>](#module_poppy-robot-core..Script)
     * _inner_
-        * [~Poppy](#module_poppy-robot-client..Poppy)
-            * [new Poppy([options])](#new_module_poppy-robot-client..Poppy_new)
-            * [.getConfig()](#module_poppy-robot-client..Poppy+getConfig) ⇒ <code>Object</code>
-            * [.getDescriptor()](#module_poppy-robot-client..Poppy+getDescriptor) ⇒ <code>Object</code>
-            * [.getAllMotorIds()](#module_poppy-robot-client..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
-            * [.getMotor(id)](#module_poppy-robot-client..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
-            * [.exec(...scripts)](#module_poppy-robot-client..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
-        * [~Script](#module_poppy-robot-client..Script)
-            * [new Script(...motorIds)](#new_module_poppy-robot-client..Script_new)
-            * [.select(...motorId)](#module_poppy-robot-client..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.led(value)](#module_poppy-robot-client..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.position(value, [wait])](#module_poppy-robot-client..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.rotate(value, [wait])](#module_poppy-robot-client..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.speed(value)](#module_poppy-robot-client..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.compliant(value)](#module_poppy-robot-client..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-            * [.wait(value)](#module_poppy-robot-client..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-        * [~ExtMotorRequest](#module_poppy-robot-client..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
-            * [new ExtMotorRequest(motor, requestHandler)](#new_module_poppy-robot-client..ExtMotorRequest_new)
-            * [.setSpeed(value)](#module_poppy-robot-client..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.setCompliant(value)](#module_poppy-robot-client..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.setPosition(value, [value])](#module_poppy-robot-client..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.rotate(@param, [wait])](#module_poppy-robot-client..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.wait(value)](#module_poppy-robot-client..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.getName()](#module_poppy-robot-client..RawMotorRequest+getName) ⇒ <code>string</code>
-            * [.set(register_name, data)](#module_poppy-robot-client..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.get(register_name)](#module_poppy-robot-client..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-            * [.led(color)](#module_poppy-robot-client..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.getLedValues()](#module_poppy-robot-client..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
-        * [~RawMotorRequest](#module_poppy-robot-client..RawMotorRequest)
-            * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-client..RawMotorRequest_new)
-            * [.getName()](#module_poppy-robot-client..RawMotorRequest+getName) ⇒ <code>string</code>
-            * [.set(register_name, data)](#module_poppy-robot-client..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.get(register_name)](#module_poppy-robot-client..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-            * [.led(color)](#module_poppy-robot-client..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.getLedValues()](#module_poppy-robot-client..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
-        * [~PoppyRequestHandler](#module_poppy-robot-client..PoppyRequestHandler)
-            * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-client..PoppyRequestHandler_new)
-            * [.getSettings()](#module_poppy-robot-client..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings)
-            * [.setMotorRegister(motor_name, register_name, data)](#module_poppy-robot-client..PoppyRequestHandler+setMotorRegister) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.getMotorRegister(motor_name, register_name)](#module_poppy-robot-client..PoppyRequestHandler+getMotorRegister) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-            * [.getAliases()](#module_poppy-robot-client..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-            * [.getAliasMotors(alias)](#module_poppy-robot-client..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+        * [~Poppy](#module_poppy-robot-core..Poppy)
+            * [new Poppy([options])](#new_module_poppy-robot-core..Poppy_new)
+            * [.getConfig()](#module_poppy-robot-core..Poppy+getConfig) ⇒ <code>Object</code>
+            * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
+            * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
+            * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+            * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
+        * [~Script](#module_poppy-robot-core..Script)
+            * [new Script(...motorIds)](#new_module_poppy-robot-core..Script_new)
+            * [.select(...motorId)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+        * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+            * [new ExtMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..ExtMotorRequest_new)
+            * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setPosition(value, [value])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.rotate(@param, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
+            * [.set(register_name, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.get(register_name)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+            * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.getLedValues()](#module_poppy-robot-core..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
+        * [~RawMotorRequest](#module_poppy-robot-core..RawMotorRequest)
+            * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..RawMotorRequest_new)
+            * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
+            * [.set(register_name, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.get(register_name)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+            * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.getLedValues()](#module_poppy-robot-core..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
+        * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
+            * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
+            * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
+            * [.setMotorRegister(motor_name, register_name, data)](#module_poppy-robot-core..PoppyRequestHandler+setMotorRegister) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.getMotorRegister(motor_name, register_name)](#module_poppy-robot-core..PoppyRequestHandler+getMotorRegister) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+            * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+            * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
         * _Typedefs_
-            * [~MotorDescriptor](#module_poppy-robot-client..MotorDescriptor) : <code>Object</code>
-            * [~ConnectionSettings](#module_poppy-robot-client..ConnectionSettings) : <code>Object</code>
-            * [~ResponseObject](#module_poppy-robot-client..ResponseObject) : <code>Object</code>
-            * [~DescriptorLocator](#module_poppy-robot-client..DescriptorLocator) : <code>string</code>
+            * [~MotorDescriptor](#module_poppy-robot-core..MotorDescriptor) : <code>Object</code>
+            * [~ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) : <code>Object</code>
+            * [~ResponseObject](#module_poppy-robot-core..ResponseObject) : <code>Object</code>
+            * [~DescriptorLocator](#module_poppy-robot-core..DescriptorLocator) : <code>string</code>
 
-<a name="module_poppy-robot-client.createPoppy"></a>
+<a name="module_poppy-robot-core.createPoppy"></a>
 
-### P.createPoppy([options]) : [<code>Poppy</code>](#module_poppy-robot-client..Poppy)
+### P.createPoppy([options]) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
 Factory which creates the main module object: the Poppy one.
 
 As the Poppy object is both in charge of the connection to the Poppy and
 it handles the robot configuration, this factory allows modifying 
 the settings for these properties.
 
-Note:
-- Intantitating a poppy object without any settings will use ones
+Note instantitating a poppy object without any settings will use ones
 by default _i.e._ for a poppy ergo jr,
-- This factory automatically reads the settings provided by both the .poppyrc
- file and and CLI options in this order:
-     - It first checks if a .poppyrc file exists, and then it reads it,
-     - On a second hand, it uses the CLI settings, if any, and then it will override the corresponding values,
-     - At last, it will override these settings with values passed through the arguments of this factory.
 
-**Kind**: static method of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
-**See**: [Poppy](#module_poppy-robot-client..Poppy)  
+**Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**See**: [Poppy](#module_poppy-robot-core..Poppy)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | settings object |
-| [options.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-client..DescriptorLocator) | Descriptor locator (for advanced users only) |
-| [options.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings) | Connection Settings to Poppy |
+| [options.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | Descriptor locator (for advanced users only) |
+| [options.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
 
 **Example**  
 ```js
-const P = require('poppy-robot-client'); 
+const P = require('poppy-robot-core'); 
 
 let poppy = P.createPoppy(); // create a poppy object
                              // using default settings for a Poppy Ergo Jr.
@@ -121,15 +106,15 @@ let anotherPoppy = P.createPoppy({ // Another Poppy Ergo Jr...
      }
 });
 ```
-<a name="module_poppy-robot-client.createScript"></a>
+<a name="module_poppy-robot-core.createScript"></a>
 
-### P.createScript([...motorId]) : [<code>Script</code>](#module_poppy-robot-client..Script)
+### P.createScript([...motorId]) : [<code>Script</code>](#module_poppy-robot-core..Script)
 Convinient factory in order to create a new Poppy Script Object.
 It optionally allows selecting a bunch of motor (identified by their names) or
 all motors to apply to next actions until call to the select method, if any.
 
-**Kind**: static method of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
-**See**: [Script](#module_poppy-robot-client..Script)  
+**Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**See**: [Script](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -137,7 +122,7 @@ all motors to apply to next actions until call to the select method, if any.
 
 **Example**  
 ```js
-const P = require('poppy-robot-client');
+const P = require('poppy-robot-core');
 
 // Instantiate a new script and automatically target all motors
 let myScript = P.createScript('all');
@@ -150,9 +135,9 @@ let myOtherScript = P.createScript()
 // Create another script selecting only motor 'm1' and 'm2'
 let anotherScript = P.createScript('m1','m2');
 ```
-<a name="module_poppy-robot-client..Poppy"></a>
+<a name="module_poppy-robot-core..Poppy"></a>
 
-### poppy-robot-client~Poppy
+### poppy-robot-core~Poppy
 The main object of the module.
 The poppy object handles:
 - The robot descriptor aka the aliases and motors configuration,
@@ -162,17 +147,17 @@ The poppy object handles:
 Note contrary to instantiating it through the factory P.createPoppy, it does not
 take into account settings from the .poppyrc file or passed through CLI flags.
 
-**Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
-* [~Poppy](#module_poppy-robot-client..Poppy)
-    * [new Poppy([options])](#new_module_poppy-robot-client..Poppy_new)
-    * [.getConfig()](#module_poppy-robot-client..Poppy+getConfig) ⇒ <code>Object</code>
-    * [.getDescriptor()](#module_poppy-robot-client..Poppy+getDescriptor) ⇒ <code>Object</code>
-    * [.getAllMotorIds()](#module_poppy-robot-client..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.getMotor(id)](#module_poppy-robot-client..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
-    * [.exec(...scripts)](#module_poppy-robot-client..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
+* [~Poppy](#module_poppy-robot-core..Poppy)
+    * [new Poppy([options])](#new_module_poppy-robot-core..Poppy_new)
+    * [.getConfig()](#module_poppy-robot-core..Poppy+getConfig) ⇒ <code>Object</code>
+    * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
+    * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+    * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
 
-<a name="new_module_poppy-robot-client..Poppy_new"></a>
+<a name="new_module_poppy-robot-core..Poppy_new"></a>
 
 #### new Poppy([options])
 Instantiate a new Poppy object.
@@ -184,12 +169,12 @@ by default for a poppy ergo jr,
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>Object</code> | settings object |
-| [options.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-client..DescriptorLocator) | Descriptor locator |
-| [options.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings) | Connection Settings to Poppy |
+| [options.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | Descriptor locator |
+| [options.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
 
 **Example**  
 ```js
-const Poppy = require('poppy-robot-client').Poppy; 
+const Poppy = require('poppy-robot-core').Poppy; 
 
 let poppy = new Poppy(); // create a poppy object
                              // using default settings for a Poppy Ergo Jr.
@@ -201,51 +186,51 @@ let anotherPoppy = new Poppy({ // Another Poppy Ergo Jr...
      }
 });
 ```
-<a name="module_poppy-robot-client..Poppy+getConfig"></a>
+<a name="module_poppy-robot-core..Poppy+getConfig"></a>
 
 #### poppy.getConfig() ⇒ <code>Object</code>
 Accessor to the config object passed at instantiation time __i.e.__
 without defaut values/
 
-**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
-<a name="module_poppy-robot-client..Poppy+getDescriptor"></a>
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+<a name="module_poppy-robot-core..Poppy+getDescriptor"></a>
 
 #### poppy.getDescriptor() ⇒ <code>Object</code>
 Accessor to the robot descriptor handled by this instance/
 
-**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
-<a name="module_poppy-robot-client..Poppy+getAllMotorIds"></a>
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+<a name="module_poppy-robot-core..Poppy+getAllMotorIds"></a>
 
 #### poppy.getAllMotorIds() ⇒ <code>Array.&lt;string&gt;</code>
 Return a list containing all motor ids.
 
-**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
-<a name="module_poppy-robot-client..Poppy+getMotor"></a>
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+<a name="module_poppy-robot-core..Poppy+getMotor"></a>
 
-#### poppy.getMotor(id) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
+#### poppy.getMotor(id) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
 Accessor on the motor Object named/with id 'id'.
 
-**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>string</code> | motor name/id |
 
-<a name="module_poppy-robot-client..Poppy+exec"></a>
+<a name="module_poppy-robot-core..Poppy+exec"></a>
 
 #### poppy.exec(...scripts) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Execute Scripts.
 
-**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-client..Poppy)  
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...scripts | [<code>Script</code>](#module_poppy-robot-client..Script) | The scripts to execute |
+| ...scripts | [<code>Script</code>](#module_poppy-robot-core..Script) | The scripts to execute |
 
-<a name="module_poppy-robot-client..Script"></a>
+<a name="module_poppy-robot-core..Script"></a>
 
-### poppy-robot-client~Script
+### poppy-robot-core~Script
 This object allows defining a set of actions to apply to target motors.
 It allows selecting targeted motors, and then applying them a set of actions.
 
@@ -258,19 +243,19 @@ Note contrary to the CLI mode, __no controls are performed on input values of
 these methods and then, it is easy to corrupt motor registries__.
 Such state will require a reboot of the robot.
 
-**Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
-* [~Script](#module_poppy-robot-client..Script)
-    * [new Script(...motorIds)](#new_module_poppy-robot-client..Script_new)
-    * [.select(...motorId)](#module_poppy-robot-client..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.led(value)](#module_poppy-robot-client..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.position(value, [wait])](#module_poppy-robot-client..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.rotate(value, [wait])](#module_poppy-robot-client..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.speed(value)](#module_poppy-robot-client..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.compliant(value)](#module_poppy-robot-client..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
-    * [.wait(value)](#module_poppy-robot-client..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+* [~Script](#module_poppy-robot-core..Script)
+    * [new Script(...motorIds)](#new_module_poppy-robot-core..Script_new)
+    * [.select(...motorId)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 
-<a name="new_module_poppy-robot-client..Script_new"></a>
+<a name="new_module_poppy-robot-core..Script_new"></a>
 
 #### new Script(...motorIds)
 Create a new Script Object.
@@ -285,7 +270,7 @@ this script.
 
 **Example**  
 ```js
-const Script = require('poppy-robot-client').Script;
+const Script = require('poppy-robot-core').Script;
 
 let script = new Script('all') // Select all motors
   .compliant(false) // Make them "drivable"
@@ -298,13 +283,13 @@ let myOtherScript = new Script('m1', 'm3') // Only select the 'm1' and 'm2' moto
   .rotate(20) // Rotate 'm4' by 20 degrees
 ;
 ```
-<a name="module_poppy-robot-client..Script+select"></a>
+<a name="module_poppy-robot-core..Script+select"></a>
 
-#### script.select(...motorId) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.select(...motorId) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Select the target motor(s) for the next script actions.
 It will define the targeted motor(s) until the next __select__ action, if any.
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -322,12 +307,12 @@ let script = P.createScript()
    .rotate(30) // and apply them a rotation by +30 degrees.
 ;
 ```
-<a name="module_poppy-robot-client..Script+led"></a>
+<a name="module_poppy-robot-core..Script+led"></a>
 
-#### script.led(value) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.led(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the led value of the target motor(s).
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -339,14 +324,14 @@ let script = P.createScript('all')
    .led('blue') // will set the led color to blue
 ;
 ```
-<a name="module_poppy-robot-client..Script+position"></a>
+<a name="module_poppy-robot-core..Script+position"></a>
 
-#### script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the target position (registry 'goal_position') of the selected motor(s).
 
 It will create an action which will move the selected motor(s) to a given position.
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -367,12 +352,12 @@ let script = P.createScript('all')
    .position(-75)
 ;
 ```
-<a name="module_poppy-robot-client..Script+rotate"></a>
+<a name="module_poppy-robot-core..Script+rotate"></a>
 
-#### script.rotate(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.rotate(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Create an action to rotate the selected motor(s) by x degrees.
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -393,12 +378,12 @@ let script = new Script('m1', 'm5')
    .rotate(20)
 ;
 ```
-<a name="module_poppy-robot-client..Script+speed"></a>
+<a name="module_poppy-robot-core..Script+speed"></a>
 
-#### script.speed(value) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.speed(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the speed (registry 'moving_speed') of the selected motor(s).
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -410,14 +395,14 @@ let script = P.createScript('all')
    .speed(100) // Set the speed of all motor to 100
 ;
 ```
-<a name="module_poppy-robot-client..Script+compliant"></a>
+<a name="module_poppy-robot-core..Script+compliant"></a>
 
-#### script.compliant(value) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.compliant(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the 'compliant' registry of the selected motor(s).
 It allows to select the motor state between programmatically "drivable" (false)
  or in "rest" mode (true) _i.e._ movable by hand.
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -429,15 +414,15 @@ let script = P.createScript('all')
    .compliant(false)
 ;
 ```
-<a name="module_poppy-robot-client..Script+wait"></a>
+<a name="module_poppy-robot-core..Script+wait"></a>
 
-#### script.wait(value) ⇒ [<code>Script</code>](#module_poppy-robot-client..Script)
+#### script.wait(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 The wait method. It allows to stop the script execution during a given
 delay.
 
 It mainly dedicated to wait the end of asynchronous actions.
 
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-client..Script)  
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -455,29 +440,29 @@ let script = P.createScript()
    .wait(1000) // Wait 1 second
 ;
 ```
-<a name="module_poppy-robot-client..ExtMotorRequest"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest"></a>
 
-### poppy-robot-client~ExtMotorRequest ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
+### poppy-robot-core~ExtMotorRequest ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
 Class representing a Poppy Motor which handles both low-level and 
 high-level actions on Poppy motor.
 
-**Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
-**Extends**: [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
+**Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**Extends**: [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
-* [~ExtMotorRequest](#module_poppy-robot-client..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)
-    * [new ExtMotorRequest(motor, requestHandler)](#new_module_poppy-robot-client..ExtMotorRequest_new)
-    * [.setSpeed(value)](#module_poppy-robot-client..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.setCompliant(value)](#module_poppy-robot-client..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.setPosition(value, [value])](#module_poppy-robot-client..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.rotate(@param, [wait])](#module_poppy-robot-client..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.wait(value)](#module_poppy-robot-client..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.getName()](#module_poppy-robot-client..RawMotorRequest+getName) ⇒ <code>string</code>
-    * [.set(register_name, data)](#module_poppy-robot-client..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.get(register_name)](#module_poppy-robot-client..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-    * [.led(color)](#module_poppy-robot-client..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.getLedValues()](#module_poppy-robot-client..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
+* [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+    * [new ExtMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..ExtMotorRequest_new)
+    * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setPosition(value, [value])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.rotate(@param, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
+    * [.set(register_name, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.get(register_name)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+    * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.getLedValues()](#module_poppy-robot-core..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
 
-<a name="new_module_poppy-robot-client..ExtMotorRequest_new"></a>
+<a name="new_module_poppy-robot-core..ExtMotorRequest_new"></a>
 
 #### new ExtMotorRequest(motor, requestHandler)
 Instantiate a new (extended) motor object.
@@ -485,78 +470,79 @@ Instantiate a new (extended) motor object.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| motor | [<code>MotorDescriptor</code>](#module_poppy-robot-client..MotorDescriptor) | motor descriptor |
-| requestHandler | [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler) | Poppy request handler object |
+| motor | [<code>MotorDescriptor</code>](#module_poppy-robot-core..MotorDescriptor) | motor descriptor |
+| requestHandler | [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler) | Poppy request handler object |
 
-<a name="module_poppy-robot-client..ExtMotorRequest+setSpeed"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest+setSpeed"></a>
 
 #### extMotorRequest.setSpeed(value) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Set the speed (registry 'moving_speed') of the motor.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is conversely to the value) |
 
-<a name="module_poppy-robot-client..ExtMotorRequest+setCompliant"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
 #### extMotorRequest.setCompliant(value) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Set the 'compliant' registry of the selected motor(s).
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
 
-<a name="module_poppy-robot-client..ExtMotorRequest+setPosition"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
 #### extMotorRequest.setPosition(value, [value]) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Set the target position (registry 'goal_position') of the selected motor(s).
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the position to reach in degree |
 | [value] | <code>boolean</code> | <code>false</code> | optionally wait that motor reachs the target position |
 
-<a name="module_poppy-robot-client..ExtMotorRequest+rotate"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest+rotate"></a>
 
 #### extMotorRequest.rotate(@param, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Rotate the selected motor(s) by x degrees.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | @param | <code>integer</code> |  | value - the rotation value, in degrees |
 | [wait] | <code>boolean</code> | <code>true</code> | optionally wait that motor will finish its rotation |
 
-<a name="module_poppy-robot-client..ExtMotorRequest+wait"></a>
+<a name="module_poppy-robot-core..ExtMotorRequest+wait"></a>
 
 #### extMotorRequest.wait(value) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Convinient wiat method
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>integer</code> | wait delay (in ms) |
 
-<a name="module_poppy-robot-client..RawMotorRequest+getName"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+getName"></a>
 
 #### extMotorRequest.getName() ⇒ <code>string</code>
 Get the motor name/id.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
-<a name="module_poppy-robot-client..RawMotorRequest+set"></a>
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+**Overrides**: [<code>getName</code>](#module_poppy-robot-core..RawMotorRequest+getName)  
+<a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### extMotorRequest.set(register_name, data) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
@@ -565,60 +551,64 @@ Set a register of the motor to a given value.
 Not it must not be used for the led registry 
 (see dedicated method.)
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+**Overrides**: [<code>set</code>](#module_poppy-robot-core..RawMotorRequest+set)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | register_name | <code>string</code> | register name |
 | data | <code>string</code> | data as string |
 
-<a name="module_poppy-robot-client..RawMotorRequest+get"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
 #### extMotorRequest.get(register_name) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 (__async method__)
 Get value of a given register.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+**Overrides**: [<code>get</code>](#module_poppy-robot-core..RawMotorRequest+get)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | register_name | <code>string</code> | register name |
 
-<a name="module_poppy-robot-client..RawMotorRequest+led"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+led"></a>
 
 #### extMotorRequest.led(color) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Set the led register.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+**Overrides**: [<code>led</code>](#module_poppy-robot-core..RawMotorRequest+led)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | color | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> \| <code>&#x27;white&#x27;</code> | register name |
 
-<a name="module_poppy-robot-client..RawMotorRequest+getLedValues"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+getLedValues"></a>
 
 #### extMotorRequest.getLedValues() ⇒ <code>Array.&lt;string&gt;</code>
 Get the allowed values for the led register.
 
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-client..ExtMotorRequest)  
-<a name="module_poppy-robot-client..RawMotorRequest"></a>
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+**Overrides**: [<code>getLedValues</code>](#module_poppy-robot-core..RawMotorRequest+getLedValues)  
+<a name="module_poppy-robot-core..RawMotorRequest"></a>
 
-### poppy-robot-client~RawMotorRequest
+### poppy-robot-core~RawMotorRequest
 Class handling the primary requests to a Poppy motor _i.e._ the motor registry accesses.
 
-**Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
-**See**: [PoppyRequestHandler](#module_poppy-robot-client..PoppyRequestHandler)  
+**Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**See**: [PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)  
 
-* [~RawMotorRequest](#module_poppy-robot-client..RawMotorRequest)
-    * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-client..RawMotorRequest_new)
-    * [.getName()](#module_poppy-robot-client..RawMotorRequest+getName) ⇒ <code>string</code>
-    * [.set(register_name, data)](#module_poppy-robot-client..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.get(register_name)](#module_poppy-robot-client..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-    * [.led(color)](#module_poppy-robot-client..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.getLedValues()](#module_poppy-robot-client..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
+* [~RawMotorRequest](#module_poppy-robot-core..RawMotorRequest)
+    * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..RawMotorRequest_new)
+    * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
+    * [.set(register_name, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.get(register_name)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+    * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.getLedValues()](#module_poppy-robot-core..RawMotorRequest+getLedValues) ⇒ <code>Array.&lt;string&gt;</code>
 
-<a name="new_module_poppy-robot-client..RawMotorRequest_new"></a>
+<a name="new_module_poppy-robot-core..RawMotorRequest_new"></a>
 
 #### new RawMotorRequest(motor, requestHandler)
 Instantiate a new raw motor object.
@@ -626,16 +616,16 @@ Instantiate a new raw motor object.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| motor | [<code>MotorDescriptor</code>](#module_poppy-robot-client..MotorDescriptor) | motor descriptor |
-| requestHandler | [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler) | Poppy request handler object |
+| motor | [<code>MotorDescriptor</code>](#module_poppy-robot-core..MotorDescriptor) | motor descriptor |
+| requestHandler | [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler) | Poppy request handler object |
 
-<a name="module_poppy-robot-client..RawMotorRequest+getName"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+getName"></a>
 
 #### rawMotorRequest.getName() ⇒ <code>string</code>
 Get the motor name/id.
 
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
-<a name="module_poppy-robot-client..RawMotorRequest+set"></a>
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
+<a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### rawMotorRequest.set(register_name, data) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
@@ -644,62 +634,62 @@ Set a register of the motor to a given value.
 Not it must not be used for the led registry 
 (see dedicated method.)
 
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | register_name | <code>string</code> | register name |
 | data | <code>string</code> | data as string |
 
-<a name="module_poppy-robot-client..RawMotorRequest+get"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
 #### rawMotorRequest.get(register_name) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 (__async method__)
 Get value of a given register.
 
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | register_name | <code>string</code> | register name |
 
-<a name="module_poppy-robot-client..RawMotorRequest+led"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+led"></a>
 
 #### rawMotorRequest.led(color) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
 Set the led register.
 
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | color | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> \| <code>&#x27;white&#x27;</code> | register name |
 
-<a name="module_poppy-robot-client..RawMotorRequest+getLedValues"></a>
+<a name="module_poppy-robot-core..RawMotorRequest+getLedValues"></a>
 
 #### rawMotorRequest.getLedValues() ⇒ <code>Array.&lt;string&gt;</code>
 Get the allowed values for the led register.
 
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-client..RawMotorRequest)  
-<a name="module_poppy-robot-client..PoppyRequestHandler"></a>
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
+<a name="module_poppy-robot-core..PoppyRequestHandler"></a>
 
-### poppy-robot-client~PoppyRequestHandler
+### poppy-robot-core~PoppyRequestHandler
 Class in charge of the requests to the Poppy Robot.
 
 It allow requesting the rest APIs exposed by both http and snap server
 served by the Poppy robot.
 
-**Kind**: inner class of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
-* [~PoppyRequestHandler](#module_poppy-robot-client..PoppyRequestHandler)
-    * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-client..PoppyRequestHandler_new)
-    * [.getSettings()](#module_poppy-robot-client..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings)
-    * [.setMotorRegister(motor_name, register_name, data)](#module_poppy-robot-client..PoppyRequestHandler+setMotorRegister) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.getMotorRegister(motor_name, register_name)](#module_poppy-robot-client..PoppyRequestHandler+getMotorRegister) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-    * [.getAliases()](#module_poppy-robot-client..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
-    * [.getAliasMotors(alias)](#module_poppy-robot-client..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+* [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
+    * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
+    * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
+    * [.setMotorRegister(motor_name, register_name, data)](#module_poppy-robot-core..PoppyRequestHandler+setMotorRegister) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.getMotorRegister(motor_name, register_name)](#module_poppy-robot-core..PoppyRequestHandler+getMotorRegister) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+    * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
+    * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 
-<a name="new_module_poppy-robot-client..PoppyRequestHandler_new"></a>
+<a name="new_module_poppy-robot-core..PoppyRequestHandler_new"></a>
 
 #### new PoppyRequestHandler([connect])
 Instantiate a new Poppy Request Handler.
@@ -710,15 +700,15 @@ settings.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings) | connection settings |
+| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings |
 
-<a name="module_poppy-robot-client..PoppyRequestHandler+getSettings"></a>
+<a name="module_poppy-robot-core..PoppyRequestHandler+getSettings"></a>
 
-#### poppyRequestHandler.getSettings() ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-client..ConnectionSettings)
+#### poppyRequestHandler.getSettings() ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
 Return an object including the connection settings
 
-**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler)  
-<a name="module_poppy-robot-client..PoppyRequestHandler+setMotorRegister"></a>
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
+<a name="module_poppy-robot-core..PoppyRequestHandler+setMotorRegister"></a>
 
 #### poppyRequestHandler.setMotorRegister(motor_name, register_name, data) ⇒ <code>Promise.&lt;null&gt;</code>
 (__async method__)
@@ -727,7 +717,7 @@ Set a register of a given motor with a value.
 Not it must not be used for the led registry 
 (see dedicated method.)
 
-**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler)  
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -735,20 +725,20 @@ Not it must not be used for the led registry
 | register_name | <code>string</code> | register name |
 | data | <code>string</code> | data as string |
 
-<a name="module_poppy-robot-client..PoppyRequestHandler+getMotorRegister"></a>
+<a name="module_poppy-robot-core..PoppyRequestHandler+getMotorRegister"></a>
 
 #### poppyRequestHandler.getMotorRegister(motor_name, register_name) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 (__async method__)
 Get value of a given register for a given motor.
 
-**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler)  
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | motor_name | <code>string</code> | motor name/id |
 | register_name | <code>string</code> | register name |
 
-<a name="module_poppy-robot-client..PoppyRequestHandler+getAliases"></a>
+<a name="module_poppy-robot-core..PoppyRequestHandler+getAliases"></a>
 
 #### poppyRequestHandler.getAliases() ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 (__async method__)
@@ -756,8 +746,8 @@ Get the aliases of the Poppy Robot.
 
 Note the data of the ResponseObject will be an array containing the alias name/ids.
 
-**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler)  
-<a name="module_poppy-robot-client..PoppyRequestHandler+getAliasMotors"></a>
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
+<a name="module_poppy-robot-core..PoppyRequestHandler+getAliasMotors"></a>
 
 #### poppyRequestHandler.getAliasMotors(alias) ⇒ <code>Promise.&lt;ResponseObject&gt;</code>
 (__async method__)
@@ -765,18 +755,18 @@ Get the motor of a given alias.
 
 Note the data of the ResponseObject will be an array containing the motor name/ids.
 
-**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-client..PoppyRequestHandler)  
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | alias | <code>string</code> | alias name/id |
 
-<a name="module_poppy-robot-client..MotorDescriptor"></a>
+<a name="module_poppy-robot-core..MotorDescriptor"></a>
 
-### poppy-robot-client~MotorDescriptor : <code>Object</code>
+### poppy-robot-core~MotorDescriptor : <code>Object</code>
 Motor Descriptor.
 
-**Kind**: inner typedef of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **Category**: Typedefs  
 **Properties**
 
@@ -786,12 +776,12 @@ Motor Descriptor.
 | lower_limit | <code>int</code> | lower angle boundary of the motor |
 | upper_limit | <code>int</code> | upper angle boundary of the motor |
 
-<a name="module_poppy-robot-client..ConnectionSettings"></a>
+<a name="module_poppy-robot-core..ConnectionSettings"></a>
 
-### poppy-robot-client~ConnectionSettings : <code>Object</code>
+### poppy-robot-core~ConnectionSettings : <code>Object</code>
 Connection Settings to Poppy Robot.
 
-**Kind**: inner typedef of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **Category**: Typedefs  
 **Properties**
 
@@ -803,15 +793,15 @@ Connection Settings to Poppy Robot.
 | [snapPort] | <code>int</code> | <code>6969</code> | port of the snap port served by the Poppy robot (used for led) |
 | [timeout] | <code>int</code> | <code>2000</code> | request timeout (in ms) |
 
-<a name="module_poppy-robot-client..ResponseObject"></a>
+<a name="module_poppy-robot-core..ResponseObject"></a>
 
-### poppy-robot-client~ResponseObject : <code>Object</code>
+### poppy-robot-core~ResponseObject : <code>Object</code>
 Response object to any request to poppy. 
 
 This object is the JSON returned by the request.
 Consult this [page](https://github.com/poppy-project/pypot/blob/master/REST-APIs.md) which describes the REST API of the pypot http server.
 
-**Kind**: inner typedef of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **Category**: Typedefs  
 **Properties**
 
@@ -820,12 +810,12 @@ Consult this [page](https://github.com/poppy-project/pypot/blob/master/REST-APIs
 | [register] | <code>string</code> | a property set to the queried register name |
 | [register.data] | <code>undefined</code> | value of the register |
 
-<a name="module_poppy-robot-client..DescriptorLocator"></a>
+<a name="module_poppy-robot-core..DescriptorLocator"></a>
 
-### poppy-robot-client~DescriptorLocator : <code>string</code>
+### poppy-robot-core~DescriptorLocator : <code>string</code>
 A String to locate a Poppy descriptor whith a format inspired by the URI one: 'schema://path'
 
-**Kind**: inner typedef of [<code>poppy-robot-client</code>](#module_poppy-robot-client)  
+**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **Category**: Typedefs  
 **Properties**
 
