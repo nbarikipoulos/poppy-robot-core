@@ -93,7 +93,7 @@ let config = {
 
 where:
 
-- The connect property handle the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings),
+- The connect property handle the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
 - The descriptor is a 'URI'-like to a local descriptor file handling the motors configuration. As example of structure for such descriptor, this module embeds a descriptor for the Poppy Ergo Jr: [config/poppy-ergo-jr.json](./config/poppy-ergo-jr.json).
 
 Note in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools (flags automatically appended to the cli or discovering features) for such purposes.
