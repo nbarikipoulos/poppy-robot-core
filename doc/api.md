@@ -20,7 +20,7 @@ The poppy-robot-core is mainly based on the following objects:
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
-        * [.createPoppy([options])](#module_poppy-robot-core.createPoppy) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
+        * [.createPoppy([config])](#module_poppy-robot-core.createPoppy) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
         * [.createScript([...motorId])](#module_poppy-robot-core.createScript) : [<code>Script</code>](#module_poppy-robot-core..Script)
     * _inner_
         * [~Poppy](#module_poppy-robot-core..Poppy)
@@ -73,7 +73,7 @@ The poppy-robot-core is mainly based on the following objects:
 
 <a name="module_poppy-robot-core.createPoppy"></a>
 
-### P.createPoppy([options]) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
+### P.createPoppy([config]) : [<code>Poppy</code>](#module_poppy-robot-core..Poppy)
 Factory which creates the main module object: the Poppy one.
 
 As the Poppy object is both in charge of the connection to the Poppy and
@@ -88,9 +88,9 @@ by default _i.e._ for a poppy ergo jr,
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [options] | <code>Object</code> | settings object |
-| [options.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | Descriptor locator (for advanced users only) |
-| [options.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
+| [config] | <code>object</code> | settings object |
+| [config.descriptor] | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | Descriptor locator (for advanced users only) |
+| [config.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
 
 **Example**  
 ```js

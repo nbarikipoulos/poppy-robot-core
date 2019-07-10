@@ -47,9 +47,9 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  * Note instantitating a poppy object without any settings will use ones
  * by default _i.e._ for a poppy ergo jr,
  * 
- * @param {Object=} options - settings object
- * @param {module:poppy-robot-core~DescriptorLocator=} options.descriptor - Descriptor locator (for advanced users only)
- * @param {module:poppy-robot-core~ConnectionSettings=} options.connect - Connection Settings to Poppy
+ * @param {object=} config - settings object
+ * @param {module:poppy-robot-core~DescriptorLocator=} config.descriptor - Descriptor locator (for advanced users only)
+ * @param {module:poppy-robot-core~ConnectionSettings=} config.connect - Connection Settings to Poppy
  * @type {module:poppy-robot-core~Poppy}
  * @static
  * @see {@link module:poppy-robot-core~Poppy}
@@ -67,11 +67,11 @@ const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
  *      }
  * });
  */
-let createPoppy = (options) => {
+let createPoppy = (config) => {
 
     let poppy = undefined;
     try {
-        poppy = new Poppy(options);
+        poppy = new Poppy(config);
     } catch (error) {
         console.log('Unable to create Poppy object:')
         console.log(error.message);
