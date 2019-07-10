@@ -28,6 +28,9 @@
     "type": "git",
     "url": "https://github.com/nbarikipoulos/poppy-robot-core.git"
   },
+  "bugs": {
+    "url": "https://github.com/nbarikipoulos/poppy-robot-core/issues"
+  },
   "engines": {
     "node": ">=8.0.0"
   }
