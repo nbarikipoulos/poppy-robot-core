@@ -1,6 +1,6 @@
 {
   "name": "poppy-robot-core",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0",
   "description": "Javascript library to address Poppy/Poppy Ergo Jr Robot.",
   "main": "index.js",
   "homepage": "https://github.com/nbarikipoulos/poppy-robot-core#readme",
