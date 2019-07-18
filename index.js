@@ -27,11 +27,13 @@
 
 'use strict'
 
-const Script = require('./lib/Script');
 const Poppy = require('./lib/Poppy');
+
 const ExtMotorRequest = require('./lib/motor/ExtMotorRequest');
 const RawMotorRequest = require('./lib/motor/ExtMotorRequest');
 const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler');
+
+const Script = require('./lib/script/Script');
 
 //////////////////////////////////
 // Main object factories
