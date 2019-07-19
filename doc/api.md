@@ -16,7 +16,7 @@ The poppy-robot-core is mainly based on the following objects:
 - The RequestHandlerObject object in charge of all the requests the http server,
 - The Script object in order to develop scripts.
 
-**Version**: 3.1.0  
+**Version**: 3.1.1  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -29,7 +29,7 @@ The poppy-robot-core is mainly based on the following objects:
             * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
             * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
             * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
-            * [.queryMotors(motorIds, registers)](#module_poppy-robot-core..Poppy+queryMotors) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.query(motorIds, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~Script](#module_poppy-robot-core..Script)
             * [new Script(...motorIds)](#new_module_poppy-robot-core..Script_new)
@@ -158,7 +158,7 @@ take into account settings from the .poppyrc file or passed through CLI flags.
     * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
     * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
-    * [.queryMotors(motorIds, registers)](#module_poppy-robot-core..Poppy+queryMotors) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.query(motorIds, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
 
 <a name="new_module_poppy-robot-core..Poppy_new"></a>
@@ -220,9 +220,9 @@ Accessor on the motor Object named/with id 'id'.
 | --- | --- | --- |
 | id | <code>string</code> | motor name/id |
 
-<a name="module_poppy-robot-core..Poppy+queryMotors"></a>
+<a name="module_poppy-robot-core..Poppy+query"></a>
 
-#### poppy.queryMotors(motorIds, registers) ⇒ <code>Promise.&lt;Object&gt;</code>
+#### poppy.query(motorIds, registers) ⇒ <code>Promise.&lt;Object&gt;</code>
 Convinient method to query register(s) of all or a set of registered motors.
 It returns an object with properties named with to the motor name
 and set to the [ResponseObject](#module_poppy-robot-core..PoppyRequestHandler) which contains the queried register values.
