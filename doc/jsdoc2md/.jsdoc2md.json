@@ -2,7 +2,8 @@
     "files": [
         "../../index.js",
         "../../lib/Poppy.js",
-        "../../lib/Script.js",
+        "../../lib/script/Script.js",
+        "../../lib/script/ScriptEngine.js",
         "../../lib/motor/ExtMotorRequest.js",
         "../../lib/motor/RawMotorRequest.js",
         "../../lib/utils/PoppyRequestHandler.js",
