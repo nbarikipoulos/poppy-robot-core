@@ -1,6 +1,7 @@
 # Poppy Robot Core
 
 [![NPM version][npm-image]][npm-url]
+[![JavaScript Style Guide][standard-image]][standard-url]
 
 The Poppy Robot Core mode is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
 
@@ -10,7 +11,7 @@ The Poppy Robot Core mode is a pure client side tool developped in [node.js](htt
 Below a script example and its execution:
 
 ```js
-const P = require('poppy-robot-core');
+const P = require('poppy-robot-core')
 
 let script = P.createScript()
   .select('all') // Select all motors
@@ -19,10 +20,9 @@ let script = P.createScript()
   .position(0) // and move all motors to position 'O' degree.
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
-;
 
-let poppy = P.createPoppy();
-poppy.exec(script);
+const poppy = P.createPoppy()
+poppy.exec(script)
 ```
 
 This module is mainly based on the following objects:
@@ -72,9 +72,9 @@ By default, the poppy robot core use default configuration for a Poppy Ergo Jr _
 Users can easily set their own settings through optionnal arguments of the createPoppy factory.
 
 ```js
-const P = require('poppy-robot-core');
+const P = require('poppy-robot-core')
 
-let poppy = P.createPoppy(config);
+let poppy = P.createPoppy(config)
 ```
 
 where config is an object that handles user's configuration and then, overrides default ones.
@@ -82,7 +82,7 @@ where config is an object that handles user's configuration and then, overrides 
 As example:
 
 ```js
-let config = { 
+let config = {
     connect: { // Connection settings
         ip: poppy1.local,
         httpPort: 8081
@@ -128,3 +128,5 @@ The poppy-robot-core is MIT licensed. See [LICENSE](./LICENSE.md).
 
 [npm-url]: https://www.npmjs.com/package/poppy-robot-core
 [npm-image]: https://img.shields.io/npm/v/poppy-robot-core.svg
+[standard-url]: https://standardjs.com
+[standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
