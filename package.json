@@ -15,14 +15,15 @@
   ],
   "scripts": {
     "gendoc": "$(npm bin)/markdown-toc -i README.md && cd doc/jsdoc2md && $(npm bin)/jsdoc2md -t api.hbs > ../api.md; echo",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard"
   },
   "dependencies": {
     "axios": "^0.19.0"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^5.0.1",
-    "markdown-toc": "^1.2.0"
+    "markdown-toc": "^1.2.0",
+    "standard": "*"
   },
   "repository": {
     "type": "git",
