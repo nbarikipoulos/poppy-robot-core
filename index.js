@@ -59,7 +59,7 @@ const Script = require('./lib/script/Script')
  *
  * let anotherPoppy = P.createPoppy({ // Another Poppy Ergo Jr...
  *   connect : { // ...with custom connection settings:
- *     ip: poppy1.local // hostname set to poppy1.local
+ *     ip: 'poppy1.local' // hostname set to poppy1.local
  *     httpPort: 8081   // and http server on port 8081
  *   }
  * })
