@@ -2,6 +2,8 @@
 
 [![NPM version][npm-image]][npm-url]
 [![JavaScript Style Guide][standard-image]][standard-url]
+[![Dependency Status][david-image]][david-url]
+[![devDependency Status][david-dev-image]][david-dev-url]
 
 The Poppy Robot Core mode is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
 
@@ -130,3 +132,8 @@ The poppy-robot-core is MIT licensed. See [LICENSE](./LICENSE.md).
 [npm-image]: https://img.shields.io/npm/v/poppy-robot-core.svg
 [standard-url]: https://standardjs.com
 [standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+
+[david-image]: https://img.shields.io/david/nbarikipoulos/poppy-robot-core.svg
+[david-url]: https://david-dm.org/nbarikipoulos/poppy-robot-core
+[david-dev-image]: https://img.shields.io/david/dev/nbarikipoulos/poppy-robot-core.svg
+[david-dev-url]: https://david-dm.org/nbarikipoulos/poppy-robot-core?type=dev
