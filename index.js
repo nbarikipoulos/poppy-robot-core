@@ -18,6 +18,9 @@
  * - The RequestHandlerObject object in charge of all the requests the http server,
  * - The Script object in order to develop scripts.
  *
+ * Furthermore it exposes a bunch of utility functions (Poppy and scripts factories,
+ *  discovreing robot function, etc...)
+ *
  * @module poppy-robot-core
  * @typicalname P
  * @version 3.1.2
@@ -32,6 +35,8 @@ const RawMotorRequest = require('./lib/motor/ExtMotorRequest')
 const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler')
 
 const Script = require('./lib/script/Script')
+
+const discoverRobot = require('./lib/poppy-utils').discoverRobot
 
 // ///////////////////////////////
 // Main object factories
@@ -103,10 +108,6 @@ const createPoppy = (config) => {
 const createScript = (...motorIds) => new Script(...motorIds)
 
 // ////////////////////////////////
-// Main object factories
-// ////////////////////////////////
-
-// ////////////////////////////////
 // ////////////////////////////////
 // Public API
 // ////////////////////////////////
@@ -115,6 +116,7 @@ const createScript = (...motorIds) => new Script(...motorIds)
 module.exports = {
   createScript,
   createPoppy,
+  discoverRobot,
   Script,
   Poppy,
   ExtMotorRequest,
