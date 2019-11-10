@@ -7,7 +7,7 @@
         "../../lib/motor/ExtMotorRequest.js",
         "../../lib/motor/RawMotorRequest.js",
         "../../lib/utils/PoppyRequestHandler.js",
-        "../../lib/utils/descriptor.js",
-        "../../lib/poppy-utils.js"
+        "../../lib/poppy-utils.js",
+        "../../lib/utils/descriptorFactory.js"
     ]
 }
