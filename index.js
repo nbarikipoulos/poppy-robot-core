@@ -45,7 +45,6 @@ const utils = require('./lib/poppy-utils')
 module.exports = {
   createPoppy: utils.createPoppy,
   createScript: utils.createScript,
-  discoverRobot: utils.discoverRobot,
   Script,
   Poppy,
   ExtMotorRequest,
