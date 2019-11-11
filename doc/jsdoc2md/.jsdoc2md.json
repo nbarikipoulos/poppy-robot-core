@@ -8,6 +8,6 @@
         "../../lib/motor/RawMotorRequest.js",
         "../../lib/utils/PoppyRequestHandler.js",
         "../../lib/poppy-utils.js",
-        "../../lib/utils/descriptorFactory.js"
+        "../../lib/utils/descriptor-factory.js"
     ]
 }
