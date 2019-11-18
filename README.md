@@ -7,15 +7,15 @@
 
 The Poppy Robot Core mode is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
 
-- to drive robots of the [Poppy project](https://www.poppy-project.org/en/) family, or at least the Poppy Ergo Jr, with a __simple programmatic approach__,
-- to be easily bound with any robot driven by the pypot library.
+- to drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__,
+- to be __easily and automatically bound__ with __any kind of/configuration of robot__ driven by the pypot library through the REST API exposed by this library.
 
 Below a script example and its execution:
 
 ```js
 const P = require('poppy-robot-core')
 
-let script = P.createScript()
+const script = P.createScript()
   .select('all') // Select all motors
   .compliant(false) // Make them "drivable"
   .speed(150) // Set their speed
@@ -23,8 +23,29 @@ let script = P.createScript()
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
 
-const poppy = P.createPoppy()
-poppy.exec(script)
+P.createPoppy().then(poppy => {
+  poppy.exec(script)  
+})
+```
+
+Or, using the ECMAScript 2017 async/await features:
+```js
+
+const myFunction = async _ => {
+  const poppy = await P.createPoppy()
+
+  const script = P.createScript('all')
+    .compliant(false)
+    .speed(150)
+    .position(0)
+    .select('m1','m2')
+    .rotate(30)
+
+  await poppy.exec(script)
+  // Other nice stuff with the poppy instance, next to this script execution  
+  ...
+}
+
 ```
 
 This module is mainly based on the following objects:
@@ -36,13 +57,12 @@ This module is mainly based on the following objects:
 - The Motor Objects:
   - ExtMotorRequest which handles high level actions of the motors,
   - RawMotorRequest which handles the low-level rest requests to the motor registry,
-  - The RequestHandlerObject object in charge of all the requests to the http server.
+  - The RequestHandlerObject object in charge of all the requests to the http (and snap) server.
 
 - The Script object in order to programmatically address and chain request to the motors.
 
-It has been __first developped and tested with the Poppy Ergo Jr__ and then, it is configured by default to fit with it but __advanced users' can easily set their own robot configurations__ with both any set of motors driven through the pypot library or connection settings as detailed [here](#configuring-robot).
-
-Note another module named [poppy-robot-cli][cli-link] appends to this module a set of common cli flags and tool to ease the modification of connection parameters of discover another Poppy configurations than the Ergo jr one which is used as default by this module.
+Furthermore, it is provided with a bunch of high-level factories (see [API.md](./doc/api.md)) in order to facilitate use and settings of these objects such as settings connection parameters, automatically perform a live discovering of the target robot, etc...
+The configuration features are detailed [here](#configuring-robot).
 
 ## Table of Contents
 
@@ -53,6 +73,7 @@ Note another module named [poppy-robot-cli][cli-link] appends to this module a s
 - [Write Scripts](#write-scripts)
 - [Examples](#examples)
 - [API](#api)
+- [Kown Limitations/Issues](#kown-limitationsissues)
 - [Credits](#credits)
 - [License](#license)
 
@@ -66,10 +87,9 @@ npm i poppy-robot-core
 
 ## Configuring Robot
 
-By default, the poppy robot core use default configuration for a Poppy Ergo Jr _i.e._:
-
-- The descriptor of the robot fit by the set of motors as well as their properties (name, angle range) for an Ergo Jr,
-- Connection settings are compliant with default one aka the REST API served by pypot and the snap server port (used for led settings of dynamixel xl-320) use respectively the 8080 and 6969 ports.
+By default, the poppy robot core:
+- Perform a live discovering of the structure of the target robot,
+- Use default connection settings for a Poppy Ergo Jr aka target hostname is set to 'poppy.local' and the REST API served by pypot and the snap server port (used for led settings of dynamixel xl-320) are supposed to respectively be set to the 8080 and 6969 ports.
 
 Users can easily set their own settings through optionnal arguments of the createPoppy factory.
 
@@ -89,16 +109,16 @@ let config = {
         ip: poppy1.local,
         httpPort: 8081
     },
-    descriptor: 'file://myPoppy.json'
+    locator: 'file://myPoppy.json'
 }
 ```
 
 where:
 
 - The connect property handle the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
-- The descriptor is a 'URI'-like to a local descriptor file handling the motors configuration. As example of structure for such descriptor, this module embeds a descriptor for the Poppy Ergo Jr: [config/poppy-ergo-jr.json](./config/poppy-ergo-jr.json).
+- The locator property is a 'URI'-like string indicating either user wants to perform a live discovering (default value) or use a local file handling the motors configuration. As example of structure for such descriptor, this module embeds a descriptor for the Poppy Ergo Jr: [config/poppy-ergo-jr.json](./config/poppy-ergo-jr.json).
 
-Note in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools (flags automatically appended to the cli or discovering features) for such purposes.
+Please refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools (flags automatically appended to the node cli or configuration features provided) for such purposes.
 
 ## Write Scripts
 
@@ -117,6 +137,10 @@ A set of scripts are available into a dedicated [repository](https://github.com/
 ## API
 
 See [API.md](./doc/api.md) for more details.
+
+## Kown Limitations/Issues
+
+Nodejs could not use the zeroconf service natively _i.e_ is unable to bind to the robot using 'poppy.local' as hostname. Hence users must set connection settings for hostname with an ip or configure a hostname in the dns server of their router/box.
 
 ## Credits
 
