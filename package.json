@@ -14,8 +14,7 @@
     "dynamixel xl-320"
   ],
   "scripts": {
-    "gendoc": "$(npm bin)/markdown-toc -i README.md && cd doc/jsdoc2md && $(npm bin)/jsdoc2md -t api.hbs > ../api.md; echo",
-    "gendoc.win32": ".\\node_modules\\.bin\\markdown-toc -i README.md && cd doc/jsdoc2md && ..\\..\\node_modules\\.bin\\jsdoc2md -t api.hbs > ..\\api.md",
+    "gendoc": "markdown-toc -i README.md && cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md",
     "test": "standard"
   },
   "dependencies": {
