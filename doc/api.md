@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 4.0.0  
+**Version**: 4.1.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -69,20 +69,18 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
         * _Typedefs_
             * [~MotorDescriptor](#module_poppy-robot-core..MotorDescriptor) : <code>Object</code>
-            * [~ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) : <code>Object</code>
             * [~ResponseObject](#module_poppy-robot-core..ResponseObject) : <code>Object</code>
             * [~Descriptor](#module_poppy-robot-core..Descriptor) : <code>Object</code>
             * [~DescriptorLocator](#module_poppy-robot-core..DescriptorLocator) : <code>string</code>
+            * [~ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) : <code>Object</code>
 
 <a name="module_poppy-robot-core.createPoppy"></a>
 
 ### P.createPoppy([config]) ⇒ [<code>Promise.&lt;Poppy&gt;</code>](#module_poppy-robot-core..Poppy)
-Factory which creates the main module object: the Poppy one.
-As the Poppy object is both in charge of the connection to the Poppy and
-it handles the robot configuration, this factory allows modifying
-the settings for these properties.
-Note instantitating a poppy object without any settings will use ones
-by default _i.e._ for a poppy ergo jr,
+Factory that creates the main module object: the Poppy one.
+Note It firstly discovers target robot structure using provided connection settings and then
+instantiate a new Poppy Object.
+Note instantitating a poppy object without any settings will use default one for a poppy ergo jr,
 
 **Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **See**: [Poppy](#module_poppy-robot-core..Poppy)  
@@ -881,22 +879,6 @@ Motor Descriptor.
 | lower_limit | <code>int</code> | lower angle boundary of the motor |
 | upper_limit | <code>int</code> | upper angle boundary of the motor |
 
-<a name="module_poppy-robot-core..ConnectionSettings"></a>
-
-### poppy-robot-core~ConnectionSettings : <code>Object</code>
-Connection Settings to Poppy Robot.
-
-**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
-**Category**: Typedefs  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ip] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot |
-| [httpPort] | <code>int</code> | <code>8080</code> | port of the http port served by the Poppy robot |
-| [snapPort] | <code>int</code> | <code>6969</code> | port of the snap port served by the Poppy robot (used for led) |
-| [timeout] | <code>int</code> | <code>1000</code> | request timeout (in ms) |
-
 <a name="module_poppy-robot-core..ResponseObject"></a>
 
 ### poppy-robot-core~ResponseObject : <code>Object</code>
@@ -958,3 +940,19 @@ A String to locate a Poppy descriptor whith a format inspired by the URI one: 's
 let locator = 'file://myPoppy.json' // locator to a local descriptor file named myPoppy.json
 let myOtherLocator = 'desc://live-discovering' // locator indicating a live discovrering will be executed
 ```
+<a name="module_poppy-robot-core..ConnectionSettings"></a>
+
+### poppy-robot-core~ConnectionSettings : <code>Object</code>
+Connection Settings to Poppy Robot.
+
+**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**Category**: Typedefs  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| [ip] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot |
+| [httpPort] | <code>int</code> | <code>8080</code> | port of the http port served by the Poppy robot |
+| [snapPort] | <code>int</code> | <code>6969</code> | port of the snap port served by the Poppy robot (used for led) |
+| [timeout] | <code>int</code> | <code>1000</code> | request timeout (in ms) |
+
