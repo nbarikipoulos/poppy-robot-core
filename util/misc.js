@@ -4,6 +4,8 @@
 
 const dns = require('dns')
 
+const DEFAULT_SETTINGS = require('../lib/utils/default-settings')
+
 /**
  * Convinient function to simplify call of type Promise.all( anArray.map( elt => f(elt) )
  * @param {Array.<*>} array - array of input data
@@ -19,7 +21,7 @@ const promiseAll = (array, cb) => Promise.all(array.map(cb))
  * @param {String} [hostname=poppy.local] - the hostname to resolve
  * @return {Promise<String>}
  */
-const lookUp = async (hostname = 'poppy.local') => {
+const lookUp = async (hostname = DEFAULT_SETTINGS.ip) => {
   if (!hostname.endsWith('.local')) { // Early exit
     return hostname
   }
