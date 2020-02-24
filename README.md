@@ -73,7 +73,6 @@ The configuration features are detailed [here](#configuring-robot).
 - [Write Scripts](#write-scripts)
 - [Examples](#examples)
 - [API](#api)
-- [Known Limitations/Issues](#known-limitationsissues)
 - [Credits](#credits)
 - [License](#license)
 
@@ -137,10 +136,6 @@ A set of scripts are available into a dedicated [repository](https://github.com/
 ## API
 
 See [API.md](./doc/api.md) for more details.
-
-## Known Limitations/Issues
-
-Nodejs could not use the zeroconf service natively _i.e_ is unable to bind to the robot using 'poppy.local' as hostname. Hence users must set connection settings for hostname with an ip or configure a hostname in the dns server of their router/box.
 
 ## Credits
 
