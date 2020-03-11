@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 5.0.0-beta.0  
+**Version**: 5.0.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
