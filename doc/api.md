@@ -62,7 +62,7 @@ Furthermore it exposes a bunch of utility functions such as factories
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
             * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
             * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-            * [.perform([client], [method])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -751,7 +751,7 @@ served by the Poppy robot.
 * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
     * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
     * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-    * [.perform([client], [method])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -796,7 +796,7 @@ Return the connection settings
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 <a name="module_poppy-robot-core..PoppyRequestHandler+perform"></a>
 
-#### poppyRequestHandler.perform([client], [method]) ⇒ <code>Promise.&lt;Object&gt;</code>
+#### poppyRequestHandler.perform(url, [client], [method], [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Convinient method performing request to the robot.
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
@@ -805,9 +805,10 @@ Convinient method performing request to the robot.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
+| url | <code>string</code> |  | relative or absolute url to http or snap server rest APIs. |
 | [client] | <code>&#x27;http&#x27;</code> \| <code>&#x27;snap&#x27;</code> | <code>&#x27;http&#x27;</code> | target server selector (http or snap) |
 | [method] | <code>string</code> | <code>&quot;&#x27;get&#x27;&quot;</code> | request method to be used when making the request |
-| [] | <code>Object</code> |  | extra axios client settings |
+| [config] | <code>Object</code> |  | extra axios client settings |
 
 **Example**  
 ```js
