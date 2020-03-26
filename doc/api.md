@@ -46,7 +46,7 @@ Furthermore it exposes a bunch of utility functions such as factories
         * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
             * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.setPosition(value, [value])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
@@ -505,7 +505,7 @@ high-level actions on Poppy motor.
 * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
     * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.setPosition(value, [value])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
@@ -537,7 +537,7 @@ Set the 'compliant' registry of the selected motor(s).
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
-#### extMotorRequest.setPosition(value, [value]) ⇒ <code>Promise.&lt;null&gt;</code>
+#### extMotorRequest.setPosition(value, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
 Set the target position (registry 'goal_position') of the selected motor(s).
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
@@ -545,7 +545,7 @@ Set the target position (registry 'goal_position') of the selected motor(s).
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the position to reach in degree |
-| [value] | <code>boolean</code> | <code>false</code> | optionally wait that motor reachs the target position |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until the motor reachs the target position |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+rotate"></a>
 
@@ -557,7 +557,7 @@ Rotate the selected motor(s) by x degrees.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the rotation value, in degrees |
-| [wait] | <code>boolean</code> | <code>true</code> | optionally wait that motor will finish its rotation |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until the motor ends its rotation |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+wait"></a>
 
