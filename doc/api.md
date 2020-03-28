@@ -423,7 +423,7 @@ Set the speed (registry 'moving_speed') of the selected motor(s).
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is conversely to the value) |
+| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit) |
 
 **Example**  
 ```js
@@ -519,7 +519,7 @@ Set the speed (registry 'moving_speed') of the motor.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is conversely to the value) |
+| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit) |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
