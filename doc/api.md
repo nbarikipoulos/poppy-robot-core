@@ -377,20 +377,18 @@ It will create an action which will move the selected motor(s) to a given positi
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the position to reach in degree |
-| [wait] | <code>boolean</code> | <code>true</code> | optionally wait that motor(s) reach(s)    the target position until executing the next action |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions. |
 
 **Example**  
 ```js
-let script = P.createScript('all')
-   .position(0) // Move all motors to 0 degrees.
-                 // It will await all motors reach this position)
-   .select('m6')
-   .position(90, false) // It will send an instruction
-                        // to Move the motor 'm6' to 90 degrees.
-                        // Without awaiting this position is reach,
-                        // the next action will be executed.
-   .select('m2')
-   .position(-75)
+let script = P.createScript('m6')
+   .position(90) // Send a request in order to "open" the grip.
+                 // It does not wait the end of this movement
+                 // and next instructions will be send in the wake of it
+   .select('m1', 'm2', 'm3', 'm4')
+   .position(0, true) // Send a instruction to move all selected motors to 0 sequentially.
+                      // i.e. for each motor, it awaits the end of the movement,
+                      // and then does the same for the next selected motor.
 ```
 <a name="module_poppy-robot-core..Script+rotate"></a>
 
@@ -402,20 +400,19 @@ Create an action to rotate the selected motor(s) by x degrees.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the rotation value, in degrees |
-| [wait] | <code>boolean</code> | <code>true</code> | optionally wait that motor(s) will finish    their rotations until executing the next action |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until the selected motors will end rotating    before executing the next action |
 
 **Example**  
 ```js
 let script = new Script('m1', 'm5')
-   .rotate(-30) // Rotate by -30 degrees the selected motors.
-                // It will await all motors finish their rotation)
+   .rotate(-30) // Send instruction to rotate by -30 degrees the selected motors.
+                // It does not wait the end of this movement
+                // and next instructions will be send in the wake of it
    .select('m6')
-   .rotate(60, false) // It will send an instruction in order to rotate
-                      // the motor 'm6' by 60 degrees.
-                      // Without awaiting the end of this action,
-                     // the next action will be executed.
-   .select('m5')
-   .rotate(20)
+   .rotate(60, true) // Send an instruction in order to rotate
+                     // the motor 'm6' by 60 degrees and await the end of the movement
+   .select('m6')
+   .rotate(-60, true)
 ```
 <a name="module_poppy-robot-core..Script+speed"></a>
 
@@ -457,7 +454,7 @@ let script = P.createScript('all')
 The wait method. It allows to stop the script execution during a given
 delay.
 
-It mainly dedicated to wait the end of asynchronous actions.
+It mainly dedicated to wait the end of actions "simultaneously" executed.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
@@ -469,12 +466,12 @@ It mainly dedicated to wait the end of asynchronous actions.
 ```js
 let script = P.createScript()
    .select('m2')
-   .position(-90, false) // we do not wait the end of movement
+   .position(-90) // we do not wait the end of movement
    .select('m3')
-   .position(90, false) // idem
+   .position(90) // idem
    .select('m5')
-   .position(-90, false) // idem
-   .wait(1000) // Wait 1 second
+   .position(-90) // idem
+   .wait(1000) // Wait 1 second before next actions
 ```
 <a name="module_poppy-robot-core..ScriptEngine"></a>
 
