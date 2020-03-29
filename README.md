@@ -17,9 +17,9 @@ const P = require('poppy-robot-core')
 
 const script = P.createScript()
   .select('all') // Select all motors
+  .speed(150) // Set their speeds
   .compliant(false) // Make them "drivable"
-  .speed(150) // Set their speed
-  .position(0) // and move all motors to position 'O' degree.
+  .position(0, true) // Then move all motors to position '0' degree.
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
 
@@ -35,9 +35,9 @@ const myFunction = async _ => {
   const poppy = await P.createPoppy()
 
   const script = P.createScript('all')
-    .compliant(false)
     .speed(150)
-    .position(0)
+    .compliant(false)
+    .position(0, true)
     .select('m1','m2')
     .rotate(30)
 
