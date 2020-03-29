@@ -5,7 +5,7 @@
 [![Dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 
-The Poppy Robot Core mode is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
+The Poppy Robot Core module is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
 
 - to drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__,
 - to be __easily and automatically bound__ with __any kind of/configuration of robot__ driven by the pypot library through the REST API exposed by this library.
