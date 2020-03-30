@@ -140,7 +140,7 @@ See [API.md](./doc/api.md) for more details.
 
 ## Known Limitations
 
-- __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the XL320 dynamixel speed in order to compute/estimate the movement duration.
+- __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the dynamixel XL320 speed in order to compute/estimate the movement duration.
 The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
 
 
