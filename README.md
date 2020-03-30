@@ -73,6 +73,7 @@ The configuration features are detailed [here](#configuring-robot).
 - [Write Scripts](#write-scripts)
 - [Examples](#examples)
 - [API](#api)
+- [Known Limitations](#known-limitations)
 - [Credits](#credits)
 - [License](#license)
 
@@ -136,6 +137,12 @@ A set of scripts are available into a dedicated [repository](https://github.com/
 ## API
 
 See [API.md](./doc/api.md) for more details.
+
+## Known Limitations
+
+Awaiting end of movement (_i.e._) setting the 'wait' argument to 'true' in position/rotate functions of Script/ExtMotorRequest is based on the XL320 dynamixel speed in order to compute the movement duration.
+The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
+
 
 ## Credits
 
