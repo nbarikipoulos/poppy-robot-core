@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 6.0.0-beta.2  
+**Version**: 6.0.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -559,7 +559,7 @@ Rotate the selected motor(s) by x degrees.
 <a name="module_poppy-robot-core..ExtMotorRequest+wait"></a>
 
 #### extMotorRequest.wait(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Convinient wiat method
+Convinient wait method
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
