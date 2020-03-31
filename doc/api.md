@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 6.0.0-beta.2  
+**Version**: 6.0.0-beta.3  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -67,6 +67,7 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
             * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+            * [.reset()](#module_poppy-robot-core..PoppyRequestHandler+reset)
         * _Typedefs_
             * [~MotorDescriptor](#module_poppy-robot-core..MotorDescriptor) : <code>Object</code>
             * [~ResponseObject](#module_poppy-robot-core..ResponseObject) : <code>Object</code>
@@ -559,7 +560,7 @@ Rotate the selected motor(s) by x degrees.
 <a name="module_poppy-robot-core..ExtMotorRequest+wait"></a>
 
 #### extMotorRequest.wait(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Convinient wiat method
+Convinient wait method
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -753,6 +754,7 @@ served by the Poppy robot.
     * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
     * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+    * [.reset()](#module_poppy-robot-core..PoppyRequestHandler+reset)
 
 <a name="new_module_poppy-robot-core..PoppyRequestHandler_new"></a>
 
@@ -891,6 +893,12 @@ Return an array that contains the motor name/ids.
 | --- | --- | --- |
 | alias | <code>string</code> | alias name/id |
 
+<a name="module_poppy-robot-core..PoppyRequestHandler+reset"></a>
+
+#### poppyRequestHandler.reset()
+Reboot the robot
+
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 <a name="module_poppy-robot-core..MotorDescriptor"></a>
 
 ### poppy-robot-core~MotorDescriptor : <code>Object</code>
