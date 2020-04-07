@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 6.0.0  
+**Version**: 6.0.1-beta.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -63,7 +63,7 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
             * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
             * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
-            * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
             * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -749,7 +749,7 @@ served by the Poppy robot.
     * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
     * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
     * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
     * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -833,19 +833,20 @@ const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
 ```
 <a name="module_poppy-robot-core..PoppyRequestHandler+setRegister"></a>
 
-#### poppyRequestHandler.setRegister(motorName, registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
+#### poppyRequestHandler.setRegister(motorName, registerName, data) ⇒ <code>Promise.&lt;Object&gt;</code>
 Set the value of a motor register.
 
 Note it MUST NOT be used for the led registry
 (see dedicated method.)
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - - Axios Response schema object  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | motorName | <code>string</code> | motor name/id |
 | registerName | <code>string</code> | register name |
-| data | <code>string</code> | **data as string** |
+| data | <code>\*</code> | data |
 
 <a name="module_poppy-robot-core..PoppyRequestHandler+getRegister"></a>
 
