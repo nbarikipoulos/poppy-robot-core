@@ -39,7 +39,7 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.compliant(value, [safe])](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
         * [~ScriptEngine](#module_poppy-robot-core..ScriptEngine)
             * [.exec(...scripts)](#module_poppy-robot-core..ScriptEngine+exec) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -297,7 +297,7 @@ Such state will require a reboot of the robot.
     * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.compliant(value, [safe])](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 
 <a name="new_module_poppy-robot-core..Script_new"></a>
@@ -432,16 +432,17 @@ let script = P.createScript('all')
 ```
 <a name="module_poppy-robot-core..Script+compliant"></a>
 
-#### script.compliant(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+#### script.compliant(value, [safe]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the 'compliant' registry of the selected motor(s).
 It allows to select the motor state between programmatically "drivable" (false)
  or in "rest" mode (true) _i.e._ movable by hand.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| value | <code>boolean</code> |  | __false__ for "drivable" state, __true__ for "rest" mode. |
+| [safe] | <code>boolean</code> | <code>true</code> | Init or not the 'goal_position' register value to  the 'present_position' one when switching the compliant stat to __false__ |
 
 **Example**  
 ```js
