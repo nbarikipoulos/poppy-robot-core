@@ -45,7 +45,7 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [.exec(...scripts)](#module_poppy-robot-core..ScriptEngine+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
             * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setCompliant(value, [safe])](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -501,7 +501,7 @@ high-level actions on Poppy motor.
 
 * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
     * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setCompliant(value, [safe])](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -523,14 +523,15 @@ Set the speed (registry 'moving_speed') of the motor.
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
-#### extMotorRequest.setCompliant(value) ⇒ <code>Promise.&lt;null&gt;</code>
+#### extMotorRequest.setCompliant(value, [safe]) ⇒ <code>Promise.&lt;null&gt;</code>
 Set the 'compliant' registry of the selected motor(s).
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| value | <code>boolean</code> |  | __false__ for "drivable" state, __true__ for "rest" mode. |
+| [safe] | <code>boolean</code> | <code>true</code> | Init or not the 'goal_position' register value to  the 'present_position' one when switching the compliant stat to __false__ |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
