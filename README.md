@@ -57,7 +57,7 @@ This module is mainly based on the following objects:
 - The Motor Objects:
   - ExtMotorRequest which handles high level actions of the motors,
   - RawMotorRequest which handles the low-level rest requests to the motor registry,
-  - The RequestHandlerObject object in charge of all the requests to the http (and snap) server.
+  - The RequestHandlerObject object in charge of all the requests to the REST API served by the pypot http server.
 
 - The Script object in order to programmatically address and chain request to the motors.
 
@@ -89,7 +89,7 @@ npm i poppy-robot-core
 
 By default, the poppy robot core:
 - Perform a live discovering of the structure of the target robot,
-- Use default connection settings for a Poppy Ergo Jr aka target hostname is set to 'poppy.local' and the REST API served by pypot and the snap server port (used for led settings of dynamixel xl-320) are supposed to respectively be set to the 8080 and 6969 ports.
+- Use default connection settings for a Poppy Ergo Jr aka target hostname is set to 'poppy.local' and the REST API served by pypot is supposed to be set to the 8080 port.
 
 Users can easily set their own settings through optionnal arguments of the createPoppy factory.
 
@@ -107,7 +107,7 @@ As example:
 let config = {
     connect: { // Connection settings
         ip: poppy1.local,
-        httpPort: 8081
+        port: 8081
     },
     locator: 'file://myPoppy.json'
 }
