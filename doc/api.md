@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 6.0.1-beta.0  
+**Version**: 7.0.0-beta.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -39,13 +39,13 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * [.compliant(value, [safe])](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
         * [~ScriptEngine](#module_poppy-robot-core..ScriptEngine)
             * [.exec(...scripts)](#module_poppy-robot-core..ScriptEngine+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
             * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.setCompliant(value, [safe])](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -63,7 +63,7 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
             * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
             * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
-            * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
             * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -297,7 +297,7 @@ Such state will require a reboot of the robot.
     * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * [.compliant(value, [safe])](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.compliant(value)](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.wait(value)](#module_poppy-robot-core..Script+wait) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 
 <a name="new_module_poppy-robot-core..Script_new"></a>
@@ -417,7 +417,7 @@ let script = new Script('m1', 'm5')
 <a name="module_poppy-robot-core..Script+speed"></a>
 
 #### script.speed(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-Set the speed (registry 'moving_speed') of the selected motor(s).
+Set the speed (registry 'goal_speed') of the selected motor(s).
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
@@ -432,17 +432,16 @@ let script = P.createScript('all')
 ```
 <a name="module_poppy-robot-core..Script+compliant"></a>
 
-#### script.compliant(value, [safe]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+#### script.compliant(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the 'compliant' registry of the selected motor(s).
 It allows to select the motor state between programmatically "drivable" (false)
  or in "rest" mode (true) _i.e._ movable by hand.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| value | <code>boolean</code> |  | __false__ for "drivable" state, __true__ for "rest" mode. |
-| [safe] | <code>boolean</code> | <code>true</code> | Init or not the 'goal_position' register value to  the 'present_position' one when switching the compliant stat to __false__ |
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
 
 **Example**  
 ```js
@@ -502,7 +501,7 @@ high-level actions on Poppy motor.
 
 * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
     * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.setCompliant(value, [safe])](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -514,7 +513,7 @@ high-level actions on Poppy motor.
 <a name="module_poppy-robot-core..ExtMotorRequest+setSpeed"></a>
 
 #### extMotorRequest.setSpeed(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the speed (registry 'moving_speed') of the motor.
+Set the speed (registry 'gaol_speed') of the motor.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -524,15 +523,14 @@ Set the speed (registry 'moving_speed') of the motor.
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
-#### extMotorRequest.setCompliant(value, [safe]) ⇒ <code>Promise.&lt;null&gt;</code>
+#### extMotorRequest.setCompliant(value) ⇒ <code>Promise.&lt;null&gt;</code>
 Set the 'compliant' registry of the selected motor(s).
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| value | <code>boolean</code> |  | __false__ for "drivable" state, __true__ for "rest" mode. |
-| [safe] | <code>boolean</code> | <code>true</code> | Init or not the 'goal_position' register value to  the 'present_position' one when switching the compliant stat to __false__ |
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
@@ -751,7 +749,7 @@ served by the Poppy robot.
     * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
     * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
     * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
-    * [.setRegister(motorName, registerName, data)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
     * [.getAliasMotors(alias)](#module_poppy-robot-core..PoppyRequestHandler+getAliasMotors) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -835,7 +833,7 @@ const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
 ```
 <a name="module_poppy-robot-core..PoppyRequestHandler+setRegister"></a>
 
-#### poppyRequestHandler.setRegister(motorName, registerName, data) ⇒ <code>Promise.&lt;Object&gt;</code>
+#### poppyRequestHandler.setRegister(motorName, registerName, value) ⇒ <code>Promise.&lt;Object&gt;</code>
 Set the value of a motor register.
 
 Note it MUST NOT be used for the led registry
@@ -848,7 +846,7 @@ Note it MUST NOT be used for the led registry
 | --- | --- | --- |
 | motorName | <code>string</code> | motor name/id |
 | registerName | <code>string</code> | register name |
-| data | <code>\*</code> | data |
+| value | <code>\*</code> | value to post |
 
 <a name="module_poppy-robot-core..PoppyRequestHandler+getRegister"></a>
 
