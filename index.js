@@ -11,8 +11,8 @@
  *      - The script execution engine.
  * - The Motor Objects:
  *      - ExtMotorRequest which handles high level actions of the motors,
- *      - RawMotorRequest which handles the low-level rest requests to the motor registry.
- * - The RequestHandlerObject object in charge of all the requests the http server,
+ *      - RawMotorRequest which handles the low-level rest requests to the motor registers.
+ * - The RequestHandlerObject object in charge of all the requests the REST API,
  * - The Script object in order to develop scripts.
  *
  * Furthermore it exposes a bunch of utility functions such as factories

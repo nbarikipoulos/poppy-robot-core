@@ -56,7 +56,7 @@ This module is mainly based on the following objects:
 
 - The Motor Objects:
   - ExtMotorRequest which handles high level actions of the motors,
-  - RawMotorRequest which handles the low-level rest requests to the motor registry,
+  - RawMotorRequest which handles the low-level rest requests to the motor register,
   - The RequestHandlerObject object in charge of all the requests to the REST API served by the pypot http server.
 
 - The Script object in order to programmatically address and chain request to the motors.
