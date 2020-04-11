@@ -9,15 +9,15 @@ The poppy-robot-core is mainly based on the following objects:
      - The script execution engine.
 - The Motor Objects:
      - ExtMotorRequest which handles high level actions of the motors,
-     - RawMotorRequest which handles the low-level rest requests to the motor registry.
-- The RequestHandlerObject object in charge of all the requests the http server,
+     - RawMotorRequest which handles the low-level rest requests to the motor registers.
+- The RequestHandlerObject object in charge of all the requests the REST API,
 - The Script object in order to develop scripts.
 
 Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 7.0.0-beta.0  
+**Version**: 7.0.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -46,23 +46,22 @@ Furthermore it exposes a bunch of utility functions such as factories
         * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
             * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
             * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
             * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-            * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~RawMotorRequest](#module_poppy-robot-core..RawMotorRequest)
             * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..RawMotorRequest_new)
             * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
             * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-            * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
             * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
             * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-            * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.perform(url, [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -104,7 +103,7 @@ P.createPoppy().then(poppy => {
 // Another Poppy with custom connection settings
 const connect = {
     ip: 'poppy1.local' // hostname set to poppy1.local
-    httpPort: 8081   // and http server on port 8081
+    port: 8081   // and REST API served on port 8081
 }
 P.createPoppy({connect}).then(poppy => {
  ... // Other nice stuff with this other poppy
@@ -358,7 +357,7 @@ Set the led value of the target motor(s).
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> | value for the 'led' registry |
+| value | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> | value for the 'led' register |
 
 **Example**  
 ```js
@@ -368,7 +367,7 @@ let script = P.createScript('all')
 <a name="module_poppy-robot-core..Script+position"></a>
 
 #### script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-Set the target position (registry 'goal_position') of the selected motor(s).
+Set the target position (register 'goal_position') of the selected motor(s).
 
 It will create an action which will move the selected motor(s) to a given position.
 
@@ -417,13 +416,13 @@ let script = new Script('m1', 'm5')
 <a name="module_poppy-robot-core..Script+speed"></a>
 
 #### script.speed(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-Set the speed (registry 'goal_speed') of the selected motor(s).
+Set the speed (register 'moving_speed') of the selected motor(s).
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit) |
+| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit).    Note using 0 set the speed to the highest possible value. |
 
 **Example**  
 ```js
@@ -433,7 +432,7 @@ let script = P.createScript('all')
 <a name="module_poppy-robot-core..Script+compliant"></a>
 
 #### script.compliant(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-Set the 'compliant' registry of the selected motor(s).
+Set the 'compliant' register of the selected motor(s).
 It allows to select the motor state between programmatically "drivable" (false)
  or in "rest" mode (true) _i.e._ movable by hand.
 
@@ -502,29 +501,29 @@ high-level actions on Poppy motor.
 * [~ExtMotorRequest](#module_poppy-robot-core..ExtMotorRequest) ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
     * [.setSpeed(value)](#module_poppy-robot-core..ExtMotorRequest+setSpeed) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
     * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
     * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-    * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setSpeed"></a>
 
 #### extMotorRequest.setSpeed(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the speed (registry 'gaol_speed') of the motor.
+Set the speed (register 'moving_speed') of the motor.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit) |
+| value | <code>integer</code> | the speed value. It should be included into    the [0,1023] range (speed is more or less 0.666 degree.s-1 per unit)    Note using 0 set the speed to the highest possible value. |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
 #### extMotorRequest.setCompliant(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the 'compliant' registry of the selected motor(s).
+Set the 'compliant' register of the motor.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -532,10 +531,21 @@ Set the 'compliant' registry of the selected motor(s).
 | --- | --- | --- |
 | value | <code>boolean</code> | __false__ for "drivable" state, __true__ for "rest" mode. |
 
+<a name="module_poppy-robot-core..ExtMotorRequest+setLed"></a>
+
+#### extMotorRequest.setLed(color)
+Set the led register.
+
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> \| <code>&#x27;white&#x27;</code> | Led color value |
+
 <a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
 #### extMotorRequest.setPosition(value, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the target position (registry 'goal_position') of the selected motor(s).
+Set the target position (register 'goal_position') of the selected motor(s).
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -578,7 +588,7 @@ Get the motor name/id.
 #### extMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
 Set a register of the motor to a given value.
 
-Not it must not be used for the led registry
+Not it must not be used for the led register
 (see dedicated method.)
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
@@ -617,21 +627,10 @@ motor.get('present_position', 'goal_position')
 //   goal_position: 80
 // }
 ```
-<a name="module_poppy-robot-core..RawMotorRequest+led"></a>
-
-#### extMotorRequest.led(color) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the led register.
-
-**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| color | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> \| <code>&#x27;white&#x27;</code> | register name |
-
 <a name="module_poppy-robot-core..RawMotorRequest"></a>
 
 ### poppy-robot-core~RawMotorRequest
-Class that handles the primary requests to a Poppy motor _i.e._ the motor registry accesses.
+Class that handles the primary requests to a Poppy motor _i.e._ the motor register accesses.
 
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **See**: [PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)  
@@ -641,7 +640,6 @@ Class that handles the primary requests to a Poppy motor _i.e._ the motor regist
     * [.getName()](#module_poppy-robot-core..RawMotorRequest+getName) ⇒ <code>string</code>
     * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-    * [.led(color)](#module_poppy-robot-core..RawMotorRequest+led) ⇒ <code>Promise.&lt;null&gt;</code>
 
 <a name="new_module_poppy-robot-core..RawMotorRequest_new"></a>
 
@@ -685,7 +683,7 @@ Get the motor name/id.
 #### rawMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
 Set a register of the motor to a given value.
 
-Not it must not be used for the led registry
+Not it must not be used for the led register
 (see dedicated method.)
 
 **Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
@@ -724,31 +722,20 @@ motor.get('present_position', 'goal_position')
 //   goal_position: 80
 // }
 ```
-<a name="module_poppy-robot-core..RawMotorRequest+led"></a>
-
-#### rawMotorRequest.led(color) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the led register.
-
-**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| color | <code>&#x27;off&#x27;</code> \| <code>&#x27;red&#x27;</code> \| <code>&#x27;green&#x27;</code> \| <code>&#x27;blue&#x27;</code> \| <code>&#x27;yellow&#x27;</code> \| <code>&#x27;cyan&#x27;</code> \| <code>&#x27;pink&#x27;</code> \| <code>&#x27;white&#x27;</code> | register name |
-
 <a name="module_poppy-robot-core..PoppyRequestHandler"></a>
 
 ### poppy-robot-core~PoppyRequestHandler
 Class in charge of the requests to the Poppy Robot.
 
-It allows requesting the rest APIs exposed by both http and snap server
-served by the Poppy robot.
+It allows requesting the REST API exposed by the http server located on
+the Robot.
 
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
 * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
     * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
     * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-    * [.perform(url, [client], [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.perform(url, [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.getRegister(motorName, registerName)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -771,10 +758,12 @@ settings.
 ```js
 const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
 
- const connect = { ip: 'poppy.home' }
+ const connect = {
+   ip: 'poppy.home',
+   port: 8081
+ }
 
- let req = new ReqHandler(connect) // Default settings _i.e._ a Poppy Ergo Jr
- // with hostname and http port respectively set to 'poppy.local' and 8080.
+ let req = new ReqHandler(connect)
 
  // set the 'moving_speed' register of the motor 'm1' to 100.
  reg.setRegister('m1', 'moving_speed', '100')
@@ -793,7 +782,7 @@ Return the connection settings
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 <a name="module_poppy-robot-core..PoppyRequestHandler+perform"></a>
 
-#### poppyRequestHandler.perform(url, [client], [method], [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
+#### poppyRequestHandler.perform(url, [method], [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Convinient method performing request to the robot.
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
@@ -802,8 +791,7 @@ Convinient method performing request to the robot.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| url | <code>string</code> |  | relative or absolute url to http or snap server rest APIs. |
-| [client] | <code>&#x27;http&#x27;</code> \| <code>&#x27;snap&#x27;</code> | <code>&#x27;http&#x27;</code> | target server selector (http or snap) |
+| url | <code>string</code> |  | relative or absolute url to REST API served by the http server. |
 | [method] | <code>string</code> | <code>&quot;&#x27;get&#x27;&quot;</code> | request method to be used when making the request |
 | [config] | <code>Object</code> |  | extra axios client settings |
 
@@ -824,20 +812,11 @@ const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
    '/motor/m1/register/compliant/value.json',
    { method: 'post', config: { data: 'false' } }
  ).catch(err => { console.log(err) })
-
- // Particular case for led
- req.perform(
-   '/motors/set/registers/m1:led:cyan',
-   { client: 'snap' }
- ).catch(err => { console.log(err) })
 ```
 <a name="module_poppy-robot-core..PoppyRequestHandler+setRegister"></a>
 
 #### poppyRequestHandler.setRegister(motorName, registerName, value) ⇒ <code>Promise.&lt;Object&gt;</code>
-Set the value of a motor register.
-
-Note it MUST NOT be used for the led registry
-(see dedicated method.)
+Set the value of a register of a motor.
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 **Returns**: <code>Promise.&lt;Object&gt;</code> - - Axios Response schema object  
@@ -980,7 +959,6 @@ Connection Settings to Poppy Robot.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | [ip] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot |
-| [httpPort] | <code>int</code> | <code>8080</code> | port of the http port served by the Poppy robot |
-| [snapPort] | <code>int</code> | <code>6969</code> | port of the snap port served by the Poppy robot (used for led) |
+| [port] | <code>int</code> | <code>8080</code> | port of the REST API served by the http server on robot |
 | [timeout] | <code>int</code> | <code>1000</code> | request timeout (in ms) |
 
