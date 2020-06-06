@@ -1,6 +1,6 @@
 {
   "name": "poppy-robot-core",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Javascript library to address Poppy/Poppy Ergo Jr Robot.",
   "main": "index.js",
   "homepage": "https://github.com/nbarikipoulos/poppy-robot-core#readme",
@@ -21,7 +21,7 @@
     "axios": "^0.19.2"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^5.0.1",
+    "jsdoc-to-markdown": "^6.0.1",
     "markdown-toc": "^1.2.0",
     "standard": "*"
   },
