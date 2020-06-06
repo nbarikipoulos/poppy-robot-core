@@ -143,6 +143,7 @@ See [API.md](./doc/api.md) for more details.
 - __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the speed of dynamixel XL320 in order to compute/estimate the movement duration.
 The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
 
+- __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6 (yet?).
 
 ## Credits
 
