@@ -21,7 +21,7 @@
  *
  * @module poppy-robot-core
  * @typicalname P
- * @version 8.1.0
+ * @version 8.1.0-beta.0
  */
 
 'use strict'
