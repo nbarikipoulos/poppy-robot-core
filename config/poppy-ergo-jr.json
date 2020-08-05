@@ -8,31 +8,37 @@
     "motors": [{
         "name": "m1",
         "model": "XL-320",
+        "id": 1,
         "lower_limit": -90,
         "upper_limit": 90
     },{
         "name": "m2",
         "model": "XL-320",
+        "id": 2,
         "lower_limit": 90,
         "upper_limit": -125
     },{
         "name": "m3",
         "model": "XL-320",
+        "id": 3,
         "lower_limit": 90,
         "upper_limit": -90
     },{
         "name": "m4",
         "model": "XL-320",
+        "id": 4,
         "lower_limit": -90,
         "upper_limit": 90
     },{
         "name": "m5",
         "model": "XL-320",
+        "id": 5,
         "lower_limit": 90,
         "upper_limit": -90
     },{
         "name": "m6",
         "model": "XL-320",
+        "id": 6,
         "lower_limit": 90,
         "upper_limit": -90
     }]
