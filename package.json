@@ -25,7 +25,7 @@
     "markdown-toc": "^1.2.0",
     "standard": "*"
   },
-  "files": ["/lib", "/util", "/config", "/doc/api.md"],
+  "files": ["/lib", "/util", "/doc/api.md"],
   "repository": {
     "type": "git",
     "url": "https://github.com/nbarikipoulos/poppy-robot-core.git"
