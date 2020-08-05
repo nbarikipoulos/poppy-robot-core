@@ -23,7 +23,7 @@ Furthermore it exposes a bunch of utility functions such as factories
     * _static_
         * [.createPoppy([config])](#module_poppy-robot-core.createPoppy) ⇒ [<code>Promise.&lt;Poppy&gt;</code>](#module_poppy-robot-core..Poppy)
         * [.createScript([...motorId])](#module_poppy-robot-core.createScript) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-        * [.createDescriptor(locator, [connect])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+        * [.createDescriptor([connect])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
     * _inner_
         * [~Poppy](#module_poppy-robot-core..Poppy)
             * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
@@ -71,7 +71,6 @@ Furthermore it exposes a bunch of utility functions such as factories
             * [~MotorDescriptor](#module_poppy-robot-core..MotorDescriptor) : <code>Object</code>
             * [~ResponseObject](#module_poppy-robot-core..ResponseObject) : <code>Object</code>
             * [~Descriptor](#module_poppy-robot-core..Descriptor) : <code>Object</code>
-            * [~DescriptorLocator](#module_poppy-robot-core..DescriptorLocator) : <code>string</code>
             * [~ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) : <code>Object</code>
 
 <a name="module_poppy-robot-core.createPoppy"></a>
@@ -89,14 +88,13 @@ Note instantitating a poppy object without any settings will use default one for
 | --- | --- | --- |
 | [config] | <code>object</code> | settings object |
 | [config.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
-| [config.locator] | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | Descriptor locator (for advanced users only) |
 
 **Example**  
 ```js
 const P = require('poppy-robot-core')
 
-// create a poppy object using live discovering
-// using default connection settings aka poppy.local and port 8080
+// create a poppy object using default connection settings
+// aka poppy.local and 8080 as hostname and port
 P.createPoppy().then(poppy => {
  ... // Nice stuff with my poppy
 })
@@ -140,24 +138,17 @@ let anotherScript = P.createScript('m1','m2')
 ```
 <a name="module_poppy-robot-core.createDescriptor"></a>
 
-### P.createDescriptor(locator, [connect]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+### P.createDescriptor([connect]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
 Create a Poppy motor configuration object aka descriptor that contains:
 - The list of motors,
-- The name and angle range of each motors,
+- The name, id, model and angle range of each motors,
 - At last the aliases _i.e._ set/group of motors
 
-It allows creating a Descriptor:
- - Performing a live discovering from connected robot,
- - From either an internal or provided by user json file.
-
-The connect options are only used for live discovering.
-
 **Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
-**See**: [DescriptorLocator](#module_poppy-robot-core..DescriptorLocator)  
+**See**: [module:poppy-robot-core~DescriptorLocator](module:poppy-robot-core~DescriptorLocator)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| locator | [<code>DescriptorLocator</code>](#module_poppy-robot-core..DescriptorLocator) | The descriptor locator. Set to 'desc://live-discovering' if undefined or null. |
 | [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings. If not provided, default [ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) will be used |
 
 <a name="module_poppy-robot-core..Poppy"></a>
@@ -935,25 +926,6 @@ And other descriptive data.
 | aliases | <code>Array.&lt;{name: string, motors: Array.&lt;string&gt;}&gt;</code> | list of aliases |
 | motors | [<code>Array.&lt;MotorDescriptor&gt;</code>](#module_poppy-robot-core..MotorDescriptor) | the motor "descriptors" |
 
-<a name="module_poppy-robot-core..DescriptorLocator"></a>
-
-### poppy-robot-core~DescriptorLocator : <code>string</code>
-A String to locate a Poppy descriptor whith a format inspired by the URI one: 'schema://path'
-
-**Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
-**Category**: Typedefs  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| schema | <code>&#x27;file&#x27;</code> \| <code>&#x27;desc&#x27;</code> | 'file' to refer to a local descriptor          'desc' to refer to an inner descriptor of the module |
-| path | <code>string</code> | 'file' case: absolute or relative path to a local descriptor file,          'desc' case:            - 'live-discovering': live discovering of the Poppy,            - id to an embedded descriptor (only poppy-ergo-jr is nowadays supported) |
-
-**Example**  
-```js
-let locator = 'file://myPoppy.json' // locator to a local descriptor file named myPoppy.json
-let myOtherLocator = 'desc://live-discovering' // locator indicating a live discovrering will be executed
-```
 <a name="module_poppy-robot-core..ConnectionSettings"></a>
 
 ### poppy-robot-core~ConnectionSettings : <code>Object</code>

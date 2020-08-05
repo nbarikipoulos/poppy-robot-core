@@ -69,7 +69,7 @@ The configuration features are detailed [here](#configuring-robot).
 <!-- toc -->
 
 - [Install](#install)
-- [Configuring Robot](#configuring-robot)
+- [Configuring Robot Connection](#configuring-robot-connection)
 - [Write Scripts](#write-scripts)
 - [Examples](#examples)
 - [API](#api)
@@ -85,11 +85,9 @@ The configuration features are detailed [here](#configuring-robot).
 npm i poppy-robot-core
 ```
 
-## Configuring Robot
+## Configuring Robot Connection
 
-By default, the poppy robot core:
-- Perform a live discovering of the structure of the target robot,
-- Use default connection settings for a Poppy Ergo Jr aka target hostname is set to 'poppy.local' and the REST API served by pypot is supposed to be set to the 8080 port.
+By default, the poppy robot core performs a live discovering of the target robot using default connection settings for a Poppy Ergo Jr aka setting are respectively set to 'poppy.local' and 8080 for hostname and port of the pypot REST API.
 
 Users can easily set their own settings through optionnal arguments of the createPoppy factory.
 
@@ -105,20 +103,17 @@ As example:
 
 ```js
 let config = {
-    connect: { // Connection settings
-        ip: poppy1.local,
-        port: 8081
-    },
-    locator: 'file://myPoppy.json'
+  connect: { // Connection settings
+    ip: poppy1.local,
+    port: 8081
+  }
 }
 ```
 
-where:
+where the connect property handles the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
 
-- The connect property handle the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
-- The locator property is a 'URI'-like string indicating either user wants to perform a live discovering (default value) or use a local file handling the motors configuration. As example of structure for such descriptor, this module embeds a descriptor for the Poppy Ergo Jr: [config/poppy-ergo-jr.json](./config/poppy-ergo-jr.json).
-
-Please refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools (flags automatically appended to the node cli or configuration features provided) for such purposes.
+Please refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools 
+for such purpose (flags automatically appended to the node command line of through a rc file).
 
 ## Write Scripts
 
