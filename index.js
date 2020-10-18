@@ -31,11 +31,11 @@ const Poppy = require('./lib/Poppy')
 const ExtMotorRequest = require('./lib/motor/ExtMotorRequest')
 const RawMotorRequest = require('./lib/motor/ExtMotorRequest')
 const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler')
-const descFactory = require('./lib/utils/descriptor-factory')
+const { createDescriptor } = require('./lib/utils/descriptor-factory')
 
 const Script = require('./lib/script/Script')
 
-const utils = require('./lib/poppy-utils')
+const { createPoppy, createScript } = require('./lib/poppy-utils')
 
 const DEFAULT_CONNECTION_SETTINGS = require('./lib/utils/default-settings')
 
@@ -46,9 +46,9 @@ const DEFAULT_CONNECTION_SETTINGS = require('./lib/utils/default-settings')
 // ////////////////////////////////
 
 module.exports = {
-  createPoppy: utils.createPoppy,
-  createScript: utils.createScript,
-  createDescriptor: descFactory.createDescriptor,
+  createPoppy,
+  createScript,
+  createDescriptor,
   Script,
   Poppy,
   ExtMotorRequest,
