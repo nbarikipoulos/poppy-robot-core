@@ -7,12 +7,25 @@ const dns = require('dns')
 const DEFAULT_SETTINGS = require('../lib/utils/default-settings')
 
 /**
- * Convinient function to simplify call of type Promise.all( anArray.map( elt => f(elt) )
- * @param {Array.<*>} array - array of input data
- * @param {function(*):Promise<*>} cb - function applied against each array elements
- * @return {Array.<Promise>}
-*/
-const promiseAll = (array, cb) => Promise.all(array.map(cb))
+ * Convinient function in order to chain promises and propagate results.
+ * Default implementation will return result of promises as in an array
+ * @param {Array.<Function>} promiseProvider - Providers of promises to chain.
+ * @param {Function=} res - Function to propagate results.
+ *  Default implementation store the result of the promises into an array.
+ * @param {*} [accumulator=[]] - Initial accumulator (an empty array as default)
+ * @return {Promise.<*>} - A Promise returning the accumulator when done.
+ */
+const chainPromises = (
+  promiseProviders,
+  res = (previous, current) => previous.concat(current),
+  accumulator = []
+) => promiseProviders.reduce(
+  (acc, pProvider) => acc.then(async (result) => {
+    const current = await pProvider()
+    return res(result, current)
+  }),
+  Promise.resolve(accumulator)
+)
 
 /**
  * Resolve adress ending with '.local' _i.e._ allow to get the
@@ -45,6 +58,6 @@ const lookUp = async (hostname = DEFAULT_SETTINGS.ip) => {
 // ///////////////////////
 
 module.exports = {
-  promiseAll,
+  chainPromises,
   lookUp
 }
