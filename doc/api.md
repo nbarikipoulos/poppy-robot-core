@@ -842,10 +842,9 @@ const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
 
  let req = new ReqHandler()
 
- req.getRegister('m1', 'present_position')
- // will return
- // a promise with result as:
- // {'present_position': 15}
+ req.getRegister('m1', 'present_position', 'compliant')
+ // will return a promise with resolved value as:
+ // { present_position: 90, compliant: false }
 ```
 <a name="module_poppy-robot-core..PoppyRequestHandler+getAliases"></a>
 
