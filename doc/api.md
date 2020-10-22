@@ -828,6 +828,7 @@ Set the value of a register of a motor.
 
 #### poppyRequestHandler.getRegister(motorName, ...registerNames) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
 Get the value of register(s).
+Note if a request for a register failed, its value will be set to undefined.
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 
