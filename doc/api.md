@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 9.1.1  
+**Version**: 9.2.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -484,7 +484,7 @@ Execute Scripts.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...scripts | [<code>Script</code>](#module_poppy-robot-core..Script) | The scripts to execute |
+| ...scripts | [<code>Script</code>](#module_poppy-robot-core..Script) \| [<code>Array.&lt;Script&gt;</code>](#module_poppy-robot-core..Script) | The scripts to execute |
 
 <a name="module_poppy-robot-core..ExtMotorRequest"></a>
 
