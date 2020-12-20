@@ -262,7 +262,7 @@ Execute Scripts.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...scripts | [<code>Script</code>](#module_poppy-robot-core..Script) | The scripts to execute |
+| ...scripts | [<code>Script</code>](#module_poppy-robot-core..Script) \| [<code>Array.&lt;Script&gt;</code>](#module_poppy-robot-core..Script) | The scripts to execute |
 
 <a name="module_poppy-robot-core..Script"></a>
 
