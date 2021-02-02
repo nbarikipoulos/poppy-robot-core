@@ -1,4 +1,4 @@
-/*! Copyright (c) 2019-2020 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
+/*! Copyright (c) 2019-2021 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
 
 'use strict'
 
@@ -28,23 +28,17 @@ const chainPromises = (
 )
 
 /**
- * Resolve adress ending with '.local' _i.e._ allow to get the
- * ip of robot from its zeroconf hostname.
- * It does nothing and simply returns the input parameter if not ending with '.local'
+ * Resolve hostname to ip address (ipv4 only).
  * @param {String} [hostname=poppy.local] - the hostname to resolve
  * @return {Promise<String>}
  */
 const lookUp = async (hostname = DEFAULT_SETTINGS.ip) => {
-  if (!hostname.endsWith('.local')) { // Early exit
-    return hostname
-  }
-
   let ip
 
   try {
     ip = (await dns.promises.lookup(hostname, 4)).address
   } catch (err) {
-    // return hostname
+    // return input hostname
     ip = hostname
   }
 
