@@ -35,7 +35,7 @@ const { createDescriptor } = require('./lib/utils/descriptor-factory')
 
 const Script = require('./lib/script/Script')
 
-const { createPoppy, createScript } = require('./lib/poppy-utils')
+const factories = require('./lib/poppy-utils')
 
 const { getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/utils/default-settings')
 
@@ -46,8 +46,9 @@ const { getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/utils/defaul
 // ////////////////////////////////
 
 module.exports = {
-  createPoppy,
-  createScript,
+  createPoppy: factories.createPoppy,
+  createScript: factories.createScript,
+  createRequestHandler: factories.createRequestHandler,
   createDescriptor,
   Script,
   Poppy,

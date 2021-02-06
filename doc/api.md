@@ -22,6 +22,7 @@ Furthermore it exposes a bunch of utility functions such as factories
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
         * [.createPoppy([config])](#module_poppy-robot-core.createPoppy) ⇒ [<code>Promise.&lt;Poppy&gt;</code>](#module_poppy-robot-core..Poppy)
+        * [.createRequestHandler([connect])](#module_poppy-robot-core.createRequestHandler) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
         * [.createScript([...motorId])](#module_poppy-robot-core.createScript) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
         * [.createDescriptor([settings])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
     * _inner_
@@ -93,11 +94,11 @@ Note instantitating a poppy object without any settings will use default one for
 
 **Example**  
 ```js
-const P = require('poppy-robot-core')
+const { createPoppy } = require('poppy-robot-core')
 
 // create a poppy object using default connection settings
 // aka poppy.local and 8080 as hostname and port
-P.createPoppy().then(poppy => {
+createPoppy().then(poppy => {
  ... // Nice stuff with my poppy
 })
 
@@ -106,8 +107,45 @@ const connect = {
     hostname: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
-P.createPoppy({ connect }).then(poppy => {
+createPoppy({ connect }).then(poppy => {
  ... // Other nice stuff with this other poppy
+})
+```
+<a name="module_poppy-robot-core.createRequestHandler"></a>
+
+### P.createRequestHandler([connect]) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
+Convinient factory in order to create PoppyRequestHandler.
+Note it will first set-up missing values (hostname, port and timeout) and,
+in a second hand, resolve the hostname.
+
+**Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
+**See**: [PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
+
+**Example**  
+```js
+const { createRequestHandler } = require('poppy-robot-core')
+
+// create a poppy request handler using default connection settings
+// aka poppy.local and 8080 as hostname and port
+createRequestHandler().then(reqHandler => {
+ // Get compliant state of motor m1
+ const speed = await reqHandler.get('/motor/m1/register/compliant/value.json')
+ ...  // Nice other stuff
+})
+
+// Another request handler to another poppy
+const connect = {
+    hostname: 'poppy1.local' // hostname set to poppy1.local
+    port: 8081   // and REST API served on port 8081
+}
+createRequestHandler(connect).then(reqHandler => {
+ // Set motor m1 state to stiff
+ await reqHandler.post('/motor/m1/register/compliant/value.json', false)
+ ...  // Nice other stuff
 })
 ```
 <a name="module_poppy-robot-core.createScript"></a>
@@ -120,23 +158,23 @@ all motors to apply to next actions until call to the select method, if any.
 **Kind**: static method of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **See**: [Script](#module_poppy-robot-core..Script)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [...motorId] | <code>string</code> | the motor id/name or 'all' to select all motors |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [...motorId] | <code>string</code> | <code>&quot;all&quot;</code> | the motor id/name or 'all' to select all motors |
 
 **Example**  
 ```js
-const P = require('poppy-robot-core')
+const { createScript } = require('poppy-robot-core')
 
-// Instantiate a new script and automatically target all motors
-let myScript = P.createScript('all')
+// Create a new Script object and automatically target all motors
+let myScript = createScript('all')
 
-// It is equivalent to
-let myOtherScript = P.createScript()
+// Note it is equivalent to
+let myOtherScript = createScript()
   .select('all')
 
 // Create another script selecting only motor 'm1' and 'm2'
-let anotherScript = P.createScript('m1','m2')
+let anotherScript = createScript('m1','m2')
 ```
 <a name="module_poppy-robot-core.createDescriptor"></a>
 
