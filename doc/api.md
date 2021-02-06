@@ -23,7 +23,7 @@ Furthermore it exposes a bunch of utility functions such as factories
     * _static_
         * [.createPoppy([config])](#module_poppy-robot-core.createPoppy) ⇒ [<code>Promise.&lt;Poppy&gt;</code>](#module_poppy-robot-core..Poppy)
         * [.createScript([...motorId])](#module_poppy-robot-core.createScript) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-        * [.createDescriptor([connect])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+        * [.createDescriptor([settings])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
     * _inner_
         * [~Poppy](#module_poppy-robot-core..Poppy)
             * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
@@ -62,7 +62,9 @@ Furthermore it exposes a bunch of utility functions such as factories
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
             * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
             * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-            * [.perform(url, [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.perform(url, method, [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.get(url, [config])](#module_poppy-robot-core..PoppyRequestHandler+get) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.post(url, data, [config])](#module_poppy-robot-core..PoppyRequestHandler+post) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.getRegister(motorName, ...registerNames)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -101,10 +103,10 @@ P.createPoppy().then(poppy => {
 
 // Another Poppy with custom connection settings
 const connect = {
-    ip: 'poppy1.local' // hostname set to poppy1.local
+    hostname: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
-P.createPoppy({connect}).then(poppy => {
+P.createPoppy({ connect }).then(poppy => {
  ... // Other nice stuff with this other poppy
 })
 ```
@@ -138,7 +140,7 @@ let anotherScript = P.createScript('m1','m2')
 ```
 <a name="module_poppy-robot-core.createDescriptor"></a>
 
-### P.createDescriptor([connect]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+### P.createDescriptor([settings]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
 Create a Poppy motor configuration object aka descriptor that contains:
 - The list of motors,
 - The name, id, model and angle range of each motors,
@@ -149,7 +151,7 @@ Create a Poppy motor configuration object aka descriptor that contains:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings. If not provided, default [ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) will be used |
+| [settings] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings. If not provided, default [ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) will be used |
 
 <a name="module_poppy-robot-core..Poppy"></a>
 
@@ -186,7 +188,7 @@ for a Poppy Ergo Jr,
 
 **Example**  
 ```js
-const Poppy = require('poppy-robot-core').Poppy
+const { Poppy } = require('poppy-robot-core')
 const factory = require('poppy-robot-core/utils/descriptorFactory')
 //
 // create a poppy object using default connection settings
@@ -198,7 +200,7 @@ const poppy = new Poppy(desc)
 // Let get another robot with with poppy1.local as hostname
 // and let discover it lively.
 //
-const connect = { ip: poppy1.local }
+const connect = { hostname: poppy1.local }
 const desc1 = factory.create(connect)
 const anotherPoppy = new Poppy(desc1, connect)
 ```
@@ -732,7 +734,9 @@ the Robot.
 * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
     * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
     * [.getSettings()](#module_poppy-robot-core..PoppyRequestHandler+getSettings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
-    * [.perform(url, [method], [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.perform(url, method, [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.get(url, [config])](#module_poppy-robot-core..PoppyRequestHandler+get) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.post(url, data, [config])](#module_poppy-robot-core..PoppyRequestHandler+post) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.setRegister(motorName, registerName, value)](#module_poppy-robot-core..PoppyRequestHandler+setRegister) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.getRegister(motorName, ...registerNames)](#module_poppy-robot-core..PoppyRequestHandler+getRegister) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getAliases()](#module_poppy-robot-core..PoppyRequestHandler+getAliases) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
@@ -753,17 +757,17 @@ settings.
 
 **Example**  
 ```js
-const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
+const { PoppyRequestHandler: ReqHandler } = require('poppy-robot-core')
 
  const connect = {
-   ip: 'poppy.home',
+   hostname: 'poppy.home',
    port: 8081
  }
 
  let req = new ReqHandler(connect)
 
  // set the 'moving_speed' register of the motor 'm1' to 100.
- reg.setRegister('m1', 'moving_speed', '100')
+ req.setRegister('m1', 'moving_speed', '100')
 
  //...
 
@@ -779,37 +783,76 @@ Return the connection settings
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
 <a name="module_poppy-robot-core..PoppyRequestHandler+perform"></a>
 
-#### poppyRequestHandler.perform(url, [method], [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
-Convinient method performing request to the robot.
+#### poppyRequestHandler.perform(url, method, [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
+Method performing request to the robot api.
 
 **Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - - Axios Response schema object  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - Axios Response schema object  
 **See**: https://github.com/axios/axios  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| url | <code>string</code> |  | relative or absolute url to REST API served by the http server. |
-| [method] | <code>string</code> | <code>&quot;&#x27;get&#x27;&quot;</code> | request method to be used when making the request |
-| [config] | <code>Object</code> |  | extra axios client settings |
+| Param | Type | Description |
+| --- | --- | --- |
+| url | <code>string</code> | relative or absolute url to REST API served by the http server. |
+| method | <code>string</code> | request method. |
+| [config] | <code>Object</code> | extra axios client settings. |
 
 **Example**  
 ```js
-const ReqHandler = require('poppy-robot-core').PoppyRequestHandler
+const { PoppyRequestHandler: ReqHandler } = require('poppy-robot-core')
 
- const req = new ReqHandler({ ip: 'poppy.home' })
+ const req = new ReqHandler({ hostname: 'poppy.home' })
 
 // Get: get the list the registers of the motor 'm1'
+ // aka perform a get request on http://poppy.local:8080/motor/m1/register/list.json
  req.perform('/motor/m1/register/list.json').then(response => {
    const list = response.data
    // ...
  })
 
- // Post request: set the 'compliant' register
+ // Post request: set the 'compliant' register to false aka stiff mode
+ // aka perform a post request on http://poppy.local:8080/motor/m1/register/compliant/value.json
  req.perform(
    '/motor/m1/register/compliant/value.json',
-   { method: 'post', config: { data: 'false' } }
- ).catch(err => { console.log(err) })
+   'post',
+   { data: 'false' }
+ )
+
+ // Override configuration to get logs served on http://poppy.local/api/raw_logs by poppy web server
+ req.perform(
+   '/api/raw_logs',
+   'post',
+   { baseURL: 'http://poppy.local', data: 'id=0' }
+ )
 ```
+<a name="module_poppy-robot-core..PoppyRequestHandler+get"></a>
+
+#### poppyRequestHandler.get(url, [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
+Perform a get request
+
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - - Axios Response schema object  
+**See**: https://github.com/axios/axios  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| url | <code>string</code> | relative url to the REST API. |
+| [config] | <code>Object</code> | extra axios client settings |
+
+<a name="module_poppy-robot-core..PoppyRequestHandler+post"></a>
+
+#### poppyRequestHandler.post(url, data, [config]) ⇒ <code>Promise.&lt;Object&gt;</code>
+Perform a post request
+
+**Kind**: instance method of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
+**Returns**: <code>Promise.&lt;Object&gt;</code> - - Axios Response schema object  
+**See**: https://github.com/axios/axios  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| url | <code>string</code> | relative url to the REST API. |
+| data | <code>\*</code> | data to post |
+| [config] | <code>Object</code> | extra axios client settings |
+
 <a name="module_poppy-robot-core..PoppyRequestHandler+setRegister"></a>
 
 #### poppyRequestHandler.setRegister(motorName, registerName, value) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -937,7 +980,8 @@ Connection Settings to Poppy Robot.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| [ip] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot |
+| [hostname] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot. |
+| resolved | <code>string</code> |  | Resolved ip of the targeted Poppy robot, if successful, otherwise set to hostname value. |
 | [port] | <code>int</code> | <code>8080</code> | port of the REST API served by the http server on robot |
 | [timeout] | <code>int</code> | <code>1000</code> | request timeout (in ms) |
 

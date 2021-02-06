@@ -4,8 +4,6 @@
 
 const dns = require('dns')
 
-const DEFAULT_SETTINGS = require('../lib/utils/default-settings')
-
 /**
  * Convinient function in order to chain promises and propagate results.
  * Default implementation will return result of promises as in an array
@@ -29,10 +27,10 @@ const chainPromises = (
 
 /**
  * Resolve hostname to ip address (ipv4 only).
- * @param {String} [hostname=poppy.local] - the hostname to resolve
+ * @param {String} [hostname] - the hostname to resolve
  * @return {Promise<String>}
  */
-const lookUp = async (hostname = DEFAULT_SETTINGS.ip) => {
+const lookUp = async (hostname) => {
   let ip
 
   try {

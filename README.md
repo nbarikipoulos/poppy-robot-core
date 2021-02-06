@@ -104,7 +104,7 @@ As example:
 ```js
 let config = {
   connect: { // Connection settings
-    ip: poppy1.local,
+    hostname: poppy1.local,
     port: 8081
   }
 }

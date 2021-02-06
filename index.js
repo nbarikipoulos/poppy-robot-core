@@ -1,4 +1,4 @@
-/*! Copyright (c) 2018-2020 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
+/*! Copyright (c) 2018-2021 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
 
 /**
  * This module is the main entry point for poppy robot core.
@@ -37,7 +37,7 @@ const Script = require('./lib/script/Script')
 
 const { createPoppy, createScript } = require('./lib/poppy-utils')
 
-const DEFAULT_CONNECTION_SETTINGS = require('./lib/utils/default-settings')
+const { getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/utils/default-settings')
 
 // ////////////////////////////////
 // ////////////////////////////////
@@ -54,5 +54,6 @@ module.exports = {
   ExtMotorRequest,
   RawMotorRequest,
   PoppyRequestHandler,
+  getSettings,
   DEFAULT_CONNECTION_SETTINGS
 }
