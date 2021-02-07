@@ -1040,7 +1040,7 @@ Connection Settings to Poppy Robot.
 | [hostname] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot. |
 | resolved | <code>string</code> |  | Resolved ip of the targeted Poppy robot, if successful, otherwise set to hostname value. |
 | [port] | <code>int</code> | <code>8080</code> | port of the REST API served by the http server on robot |
-| [timeout] | <code>int</code> | <code>1000</code> | request timeout (in ms) |
+| [timeout] | <code>int</code> | <code>500</code> | request timeout (in ms) |
 
 <a name="module_poppy-robot-core..MotorDescriptor"></a>
 
