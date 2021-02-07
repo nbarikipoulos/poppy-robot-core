@@ -6,12 +6,12 @@
  * public API and provides convenience accessors to certain sub-modules.
  *
  * The poppy-robot-core is mainly based on the following objects:
- * - The Poppy object which handles:
+ * - The Poppy object that handles:
  *      - The robot configuration and then, the motors objects,
  *      - The script execution engine.
  * - The Motor Objects:
- *      - ExtMotorRequest which handles high level actions of the motors,
- *      - RawMotorRequest which handles the low-level rest requests to the motor registers.
+ *      - ExtMotorRequest that handles high level actions of the motors,
+ *      - RawMotorRequest that handles the low-level rest requests to the motor registers.
  * - The RequestHandlerObject object in charge of all the requests the REST API,
  * - The Script object in order to develop scripts.
  *

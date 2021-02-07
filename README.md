@@ -5,17 +5,17 @@
 [![Dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 
-The Poppy Robot Core module is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript which intends:
+The Poppy Robot Core module is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript intending:
 
-- to drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__,
-- to be __easily and automatically bound__ with __any kind of/configuration of robot__ driven by the pypot library through the REST API exposed by this library.
+- To drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__,
+- To be __easily and automatically bound__ with __any kind of/configuration of robot__ driven by the pypot library through the REST API exposed by this library.
 
 Below a script example and its execution:
 
 ```js
-const P = require('poppy-robot-core')
+const { createPoppy, createScript } = require('poppy-robot-core')
 
-const script = P.createScript()
+const script = createScript()
   .select('all') // Select all motors
   .speed(150) // Set their speeds
   .stiff() // Make them programmatically "drivable"
@@ -23,7 +23,7 @@ const script = P.createScript()
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
 
-P.createPoppy().then(poppy => {
+createPoppy().then(poppy => {
   poppy.exec(script)  
 })
 ```
@@ -32,9 +32,9 @@ Or, using the ECMAScript 2017 async/await features:
 ```js
 
 const myFunction = async _ => {
-  const poppy = await P.createPoppy()
+  const poppy = await createPoppy()
 
-  const script = P.createScript('all')
+  const script = createScript('all')
     .speed(150)
     .stiff()
     .position(0, true)
@@ -50,18 +50,19 @@ const myFunction = async _ => {
 
 This module is mainly based on the following objects:
 
-- The Poppy object which handles:
-  - The robot configuration and then, the motors objects handled by the robot,
-  - A script execution engine.
+- The Poppy object that handles:
+  - The robot configuration (its structure, connection settings) and motor objects.
+  - A script execution engine in order to perform action on motors
 
 - The Motor Objects:
-  - ExtMotorRequest which handles high level actions of the motors,
-  - RawMotorRequest which handles the low-level rest requests to the motor register,
+  - ExtMotorRequest that handles high level actions of the motors,
+  - RawMotorRequest that handles the low-level rest requests to the motor register,
   - The RequestHandlerObject object in charge of all the requests to the REST API served by the pypot http server.
 
-- The Script object in order to programmatically address and chain request to the motors.
+- The Script object in order to programmatically address and chain request to the motors,
+- At last, the PoppyRequestHandler object in charge of querying/set the registers of motors.
 
-Furthermore, it is provided with a bunch of high-level factories (see [API.md](./doc/api.md)) in order to facilitate use and settings of these objects such as settings connection parameters, automatically perform a live discovering of the target robot, etc...
+Furthermore, it is provided with a bunch of **high-level factories** (see [API.md](./doc/api.md)) in order to facilitate use and settings of these objects such as settings connection parameters, automatically perform a live discovering of the target robot, etc...
 The configuration features are detailed [here](#configuring-robot).
 
 ## Table of Contents
@@ -92,9 +93,9 @@ By default, the poppy robot core performs a live discovering of the target robot
 Users can easily set their own settings through optionnal arguments of the createPoppy factory.
 
 ```js
-const P = require('poppy-robot-core')
+const { createPoppy } = require('poppy-robot-core')
 
-let poppy = P.createPoppy(config)
+let poppy = createPoppy(config)
 ```
 
 where config is an object that handles user's configuration and then, overrides default ones.
@@ -112,8 +113,7 @@ let config = {
 
 where the connect property handles the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
 
-Please refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] which provides a set of tools 
-for such purpose (flags automatically appended to the node command line of through a rc file).
+Refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] that provides a set of additional functionalities for such purpose (flags automatically appended to the node command line or serialized in a config file).
 
 ## Write Scripts
 

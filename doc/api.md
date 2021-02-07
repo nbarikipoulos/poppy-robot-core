@@ -4,12 +4,12 @@ As user facing module, It exports the poppy-robot-core primary
 public API and provides convenience accessors to certain sub-modules.
 
 The poppy-robot-core is mainly based on the following objects:
-- The Poppy object which handles:
+- The Poppy object that handles:
      - The robot configuration and then, the motors objects,
      - The script execution engine.
 - The Motor Objects:
-     - ExtMotorRequest which handles high level actions of the motors,
-     - RawMotorRequest which handles the low-level rest requests to the motor registers.
+     - ExtMotorRequest that handles high level actions of the motors,
+     - RawMotorRequest that handles the low-level rest requests to the motor registers.
 - The RequestHandlerObject object in charge of all the requests the REST API,
 - The Script object in order to develop scripts.
 
@@ -29,9 +29,9 @@ Furthermore it exposes a bunch of utility functions such as factories
     * _inner_
         * [~Poppy](#module_poppy-robot-core..Poppy)
             * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
-            * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
+            * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
             * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
-            * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+            * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
             * [.query(motorIds, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
@@ -183,7 +183,7 @@ Discover the target Poppy and create a descriptor object that contains:
 ```js
 const { createDescriptor } = require('poppy-robot-core')
 
-// Discover the structure/configuarion of a poppy using default connection settings
+// Discover the structure/configuration of a poppy using default connection settings
 // aka poppy.local and 8080 as hostname and port
 createDescriptor().then(descriptor => {
  console.log(descriptor)
@@ -223,8 +223,14 @@ let myScript = createScript('all')
 let myOtherScript = createScript()
   .select('all')
 
-// Create another script selecting only motor 'm1' and 'm2'
-let anotherScript = createScript('m1','m2')
+// Below an example of script
+let anotherScript = createScript('all')
+  .select('all') // Select all motors...
+  .stiff() // Make them programmatically "drivable"
+  .position(0) // ... move all motors to position 'O' degree.
+  . ...        // ... do other nice stuffs (always on all motors)
+  .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
+  .rotate(30) // and apply them a rotation by +30 degrees.
 ```
 <a name="module_poppy-robot-core..Poppy"></a>
 
@@ -239,18 +245,18 @@ The poppy object handles:
 
 * [~Poppy](#module_poppy-robot-core..Poppy)
     * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
-    * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ <code>Object</code>
+    * [.getDescriptor()](#module_poppy-robot-core..Poppy+getDescriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
     * [.getAllMotorIds()](#module_poppy-robot-core..Poppy+getAllMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+    * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
     * [.query(motorIds, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
 
 <a name="new_module_poppy-robot-core..Poppy_new"></a>
 
 #### new Poppy(descriptor, [connect])
-Instantiate a new Poppy object.
+Create a new Poppy object.
 
-Note Intantitating a poppy object without any settings will use ones
+Note creatingting a poppy object without any settings will use ones
 for a Poppy Ergo Jr,
 
 
@@ -261,25 +267,31 @@ for a Poppy Ergo Jr,
 
 **Example**  
 ```js
-const { Poppy } = require('poppy-robot-core')
-const factory = require('poppy-robot-core/utils/descriptorFactory')
-//
-// create a poppy object using default connection settings
-//
-const desc = factory.create()
-const poppy = new Poppy(desc)
+const { Poppy, discoverDescriptor } = require('poppy-robot-core')
 
-//
-// Let get another robot with with poppy1.local as hostname
-// and let discover it lively.
-//
-const connect = { hostname: poppy1.local }
-const desc1 = factory.create(connect)
-const anotherPoppy = new Poppy(desc1, connect)
+const f = async _ => {
+  //
+  // create a poppy object using default connection settings
+  //
+  await desc = discoverDescriptor()
+
+  const poppy = new Poppy(desc)
+
+  //
+  // Let get another robot with with poppy1.local as hostname
+  //
+  const connect = { hostname: poppy1.local }
+  const desc1 = await discoverDescriptor(connect)
+
+  const poppy1 = new Poppy(desc1, connect)
+
+  ... // Nice stuff with poppy and poppy1
+
+}
 ```
 <a name="module_poppy-robot-core..Poppy+getDescriptor"></a>
 
-#### poppy.getDescriptor() ⇒ <code>Object</code>
+#### poppy.getDescriptor() ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
 Accessor to the robot descriptor handled by this instance/
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
@@ -291,7 +303,7 @@ Return a list containing all registered motor names/ids for this instance.
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 <a name="module_poppy-robot-core..Poppy+getMotor"></a>
 
-#### poppy.getMotor(id) ⇒ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
+#### poppy.getMotor(id) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
 Accessor on the motor Object named/with id 'id'.
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
@@ -304,8 +316,7 @@ Accessor on the motor Object named/with id 'id'.
 
 #### poppy.query(motorIds, registers) ⇒ <code>Promise.&lt;Object&gt;</code>
 Convinient method to query register(s) of all or a set of registered motors.
-It returns an object with properties named with to the motor name
-and set to the [ResponseObject](#module_poppy-robot-core..PoppyRequestHandler) which contains the queried register values.
+It returns an object gathering by motor the [ResponseObject](#module_poppy-robot-core..PoppyRequestHandler).
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 **See**: [ResponseObject](#module_poppy-robot-core..ResponseObject)  
@@ -317,16 +328,20 @@ and set to the [ResponseObject](#module_poppy-robot-core..PoppyRequestHandler) w
 
 **Example**  
 ```js
-const Poppy = require('poppy-robot-core').Poppy
+const { Poppy } = require('poppy-robot-core')
 
-const poppy = new Poppy()
+const f = async _ => {
+  const desc = ...
 
-poppy.query(['m1', 'm2'], ['present_position', 'goal_position'])
-// Will return a promise with result as
-// {
-//   m1: {present_position: 10, goal_position: 80},
-//   m2: {present_position: 0, goal_position: -90},
-//}
+  const poppy = new Poppy(desc)
+
+  poppy.query(['m1', 'm2'], ['present_position', 'goal_position'])
+  // Will return a promise with result as
+  // {
+  //   m1: {present_position: 10, goal_position: 80},
+  //   m2: {present_position: 0, goal_position: -90},
+  // }
+}
 ```
 <a name="module_poppy-robot-core..Poppy+exec"></a>
 
@@ -532,7 +547,7 @@ Return an array that contains the motor name/ids.
 <a name="module_poppy-robot-core..ExtMotorRequest"></a>
 
 ### poppy-robot-core~ExtMotorRequest ⇐ [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)
-Class representing a Poppy Motor which handles both low-level and
+Object representing a Poppy Motor that handles both low-level and
 high-level actions on Poppy motor.
 
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
@@ -626,17 +641,14 @@ Get the motor name/id.
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### extMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
-Set a register of the motor to a given value.
-
-Not it must not be used for the led register
-(see dedicated method.)
+Set a register of the motor with a given value.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | registerName | <code>string</code> | register name |
-| data | <code>string</code> | data as string |
+| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> | data |
 
 <a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
@@ -651,13 +663,11 @@ Get value of target register(s).
 
 **Example**  
 ```js
-const P = require('poppy-robot-core'),
- RawMotor = P.RawMotorRequest,
- ReqHandler = P.PoppyRequestHandler
+const {RawMotorRequest: Motor, PoppyRequestHandler: RequestHandler } = require('poppy-robot-core')
 
-let motor = new RawMotor(
+let motor = new Motor(
  { name: 'm1', lower_limit: -90, upper_limit: 90},
- new ReqHandler() // default setting to Poppy Ergo Jr
+ new RequestHandler() // default setting to Poppy Ergo Jr
 })
 
 motor.get('present_position', 'goal_position')
@@ -684,7 +694,7 @@ Class that handles the primary requests to a Poppy motor _i.e._ the motor regist
 <a name="new_module_poppy-robot-core..RawMotorRequest_new"></a>
 
 #### new RawMotorRequest(motor, requestHandler)
-Instantiate a new raw motor object.
+Create a new raw motor object.
 
 
 | Param | Type | Description |
@@ -694,13 +704,11 @@ Instantiate a new raw motor object.
 
 **Example**  
 ```js
-const P = require('poppy-robot-core'),
- RawMotor = P.RawMotorRequest,
- ReqHandler = P.PoppyRequestHandler
+const {RawMotorRequest: Motor, PoppyRequestHandler: RequestHandler} = require('poppy-robot-core')
 
-let motor = new RawMotor(
+let motor = new Motor(
   { name: 'm1', lower_limit: -90, upper_limit: 90},
-  new ReqHandler() // default setting to Poppy Ergo Jr
+  new RequestHandler() // default setting to Poppy Ergo Jr
 )
 
 motor.set('moving_speed', '100') // Will set the speed to 100,
@@ -721,17 +729,14 @@ Get the motor name/id.
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### rawMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
-Set a register of the motor to a given value.
-
-Not it must not be used for the led register
-(see dedicated method.)
+Set a register of the motor with a given value.
 
 **Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | registerName | <code>string</code> | register name |
-| data | <code>string</code> | data as string |
+| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> | data |
 
 <a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
@@ -746,13 +751,11 @@ Get value of target register(s).
 
 **Example**  
 ```js
-const P = require('poppy-robot-core'),
- RawMotor = P.RawMotorRequest,
- ReqHandler = P.PoppyRequestHandler
+const {RawMotorRequest: Motor, PoppyRequestHandler: RequestHandler } = require('poppy-robot-core')
 
-let motor = new RawMotor(
+let motor = new Motor(
  { name: 'm1', lower_limit: -90, upper_limit: 90},
- new ReqHandler() // default setting to Poppy Ergo Jr
+ new RequestHandler() // default setting to Poppy Ergo Jr
 })
 
 motor.get('present_position', 'goal_position')
@@ -805,11 +808,12 @@ this script.
 
 **Example**  
 ```js
-const Script = require('poppy-robot-core').Script
+const { Script } = require('poppy-robot-core')
 
 let script = new Script('all') // Select all motors
-  .stiff() // Make them programmatically "drivable"
   .speed(100) // Set all motor speed to 100
+  .stiff() // Make them programmatically "drivable"
+  .position(0) // Move all motors to 0 degree.
 
 let myOtherScript = new Script('m1', 'm3') // Only select the 'm1' and 'm2' motors
   .rotate(30) // rotate 'm1' and 'm3' by 30 degrees.
@@ -830,11 +834,9 @@ It will define the targeted motor(s) until the next __select__ action, if any.
 
 **Example**  
 ```js
-let script = P.createScript()
+let script = new Script('all')
    .select('all') // Select all motors...
    .stiff() // Make them programmatically "drivable"
-   .position(0) // ... move all motors to position 'O' degree.
-   . ...        // ... do other nice stuffs (always on all motors)
    . ...
    .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
    .rotate(30) // and apply them a rotation by +30 degrees.
@@ -852,7 +854,7 @@ Set the led value of the target motor(s).
 
 **Example**  
 ```js
-let script = P.createScript('all')
+let script = new Script('all')
    .led('blue') // will set the led color to blue
 ```
 <a name="module_poppy-robot-core..Script+position"></a>
@@ -860,7 +862,7 @@ let script = P.createScript('all')
 #### script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the target position (register 'goal_position') of the selected motor(s).
 
-It will create an action which will move the selected motor(s) to a given position.
+It will create an action that will move the selected motor(s) to a given position.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
@@ -871,7 +873,7 @@ It will create an action which will move the selected motor(s) to a given positi
 
 **Example**  
 ```js
-let script = P.createScript('m6')
+let script = new Script('m6')
    .position(90) // Send a request in order to "open" the grip.
                  // It does not wait the end of this movement
                  // and next instructions will be send in the wake of it
@@ -917,7 +919,7 @@ Set the speed (register 'moving_speed') of the selected motor(s).
 
 **Example**  
 ```js
-let script = P.createScript('all')
+let script = new Script('all')
    .speed(100) // Set the speed of all motor to 100
 ```
 <a name="module_poppy-robot-core..Script+compliant"></a>
@@ -928,7 +930,7 @@ let script = P.createScript('all')
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 **Example**  
 ```js
-let endScript = P.createScript('all')
+let endScript = new Script('all')
    .compliant()
 ```
 <a name="module_poppy-robot-core..Script+stiff"></a>
@@ -939,7 +941,7 @@ let endScript = P.createScript('all')
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 **Example**  
 ```js
-let script = P.createScript('all')
+let script = new Script('all')
    .stiff()
 ```
 <a name="module_poppy-robot-core..Script+wait"></a>
@@ -958,7 +960,7 @@ It mainly dedicated to wait the end of actions "simultaneously" executed.
 
 **Example**  
 ```js
-let script = P.createScript()
+let script = new Script()
    .select('m2')
    .position(-90) // we do not wait the end of movement
    .select('m3')
