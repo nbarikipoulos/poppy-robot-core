@@ -1,14 +1,15 @@
 {
     "files": [
         "../../index.js",
-        "../../lib/Poppy.js",
-        "../../lib/script/Script.js",
-        "../../lib/script/ScriptEngine.js",
+        "../../lib/poppy/Poppy.js",
+        "../../lib/poppy/descriptor.js",
+        "../../lib/request/PoppyRequestHandler.js",
+        "../../lib/request/settings.js",
         "../../lib/motor/ExtMotorRequest.js",
         "../../lib/motor/RawMotorRequest.js",
-        "../../lib/utils/PoppyRequestHandler.js",
-        "../../lib/poppy-utils.js",
-        "../../lib/utils/descriptor-factory.js",
-        "../../lib/utils/default-settings.js"
+        "../../lib/script/Script.js",
+        "../../lib/script/ScriptEngine.js",
+        "../../lib/factories.js"
+        
     ]
 }

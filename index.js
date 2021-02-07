@@ -26,18 +26,11 @@
 
 'use strict'
 
-const Poppy = require('./lib/Poppy')
-
-const ExtMotorRequest = require('./lib/motor/ExtMotorRequest')
-const RawMotorRequest = require('./lib/motor/ExtMotorRequest')
-const PoppyRequestHandler = require('./lib/utils/PoppyRequestHandler')
-const { createDescriptor } = require('./lib/utils/descriptor-factory')
-
-const Script = require('./lib/script/Script')
-
-const factories = require('./lib/poppy-utils')
-
-const { getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/utils/default-settings')
+const { Poppy } = require('./lib/poppy')
+const { ExtMotorRequest, RawMotorRequest } = require('./lib/motor')
+const { PoppyRequestHandler, getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/request')
+const { Script } = require('./lib/script')
+const { createPoppy, createScript, createDescriptor, createRequestHandler } = require('./lib/factories')
 
 // ////////////////////////////////
 // ////////////////////////////////
@@ -46,9 +39,9 @@ const { getSettings, DEFAULT_CONNECTION_SETTINGS } = require('./lib/utils/defaul
 // ////////////////////////////////
 
 module.exports = {
-  createPoppy: factories.createPoppy,
-  createScript: factories.createScript,
-  createRequestHandler: factories.createRequestHandler,
+  createPoppy,
+  createScript,
+  createRequestHandler,
   createDescriptor,
   Script,
   Poppy,
