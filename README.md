@@ -2,8 +2,8 @@
 
 [![NPM version][npm-image]][npm-url]
 [![JavaScript Style Guide][standard-image]][standard-url]
-[![Dependency Status][david-image]][david-url]
-[![devDependency Status][david-dev-image]][david-dev-url]
+[![Language grade: JavaScript][lgtm-image]][lgtm-url]
+[![Maintainability][code-climate-image]][code-climate-url]
 
 This module is dedicated to remotely drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__.
 
@@ -164,7 +164,7 @@ The poppy-robot-core is MIT licensed. See [LICENSE](./LICENSE.md).
 [standard-url]: https://standardjs.com
 [standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
 
-[david-image]: https://img.shields.io/david/nbarikipoulos/poppy-robot-core.svg
-[david-url]: https://david-dm.org/nbarikipoulos/poppy-robot-core
-[david-dev-image]: https://img.shields.io/david/dev/nbarikipoulos/poppy-robot-core.svg
-[david-dev-url]: https://david-dm.org/nbarikipoulos/poppy-robot-core?type=dev
+[lgtm-url]: https://lgtm.com/projects/g/nbarikipoulos/poppy-robot-core
+[lgtm-image]: https://img.shields.io/lgtm/grade/javascript/g/nbarikipoulos/poppy-robot-core.svg?logo=lgtm&logoWidth=18
+[code-climate-url]: https://codeclimate.com/github/nbarikipoulos/poppy-robot-core/maintainability
+[code-climate-image]: https://api.codeclimate.com/v1/badges/e6e11269379853eae9a8/maintainability
