@@ -1,6 +1,6 @@
 {
   "name": "poppy-robot-core",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "Remotely drive/query Poppy/Poppy Ergo Jr robots.",
   "main": "index.js",
   "homepage": "https://github.com/nbarikipoulos/poppy-robot-core#readme",
