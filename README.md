@@ -5,10 +5,11 @@
 [![Dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 
-The Poppy Robot Core module is a pure client side tool developped in [node.js](https://nodejs.org/en/download/)/javascript intending:
+This module is dedicated to remotely drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__.
 
-- To drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__,
-- To be __easily and automatically bound__ with __any kind of/configuration of robot__ driven by the pypot library through the REST API exposed by this library.
+It has been done aiming to __easily and automatically connect to any kind of/configuration of robot__ driven by the pypot library (a live discovering of the targeted robot is performed in order to get its structure aka aliases and motors).
+
+Note it is based on the REST API exposed by the library pypot and then, depends on its release (see [prerequisite](#prerequisite)).
 
 Below a script example and its execution:
 
@@ -69,6 +70,7 @@ The configuration features are detailed [here](#configuring-robot).
 
 <!-- toc -->
 
+- [Prerequisite](#prerequisite)
 - [Install](#install)
 - [Configuring Robot Connection](#configuring-robot-connection)
 - [Write Scripts](#write-scripts)
@@ -79,6 +81,10 @@ The configuration features are detailed [here](#configuring-robot).
 - [License](#license)
 
 <!-- tocstop -->
+
+## Prerequisite
+
+__This module requires Poppy software ^v3.0.0__ installed on robot.
 
 ## Install
 
@@ -135,7 +141,10 @@ See [API.md](./doc/api.md) for more details.
 
 ## Known Limitations
 
-- __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the speed of dynamixel XL320 in order to compute/estimate the movement duration.
+- __This module have been only tested with the Poppy Ergo Jr__ (aka with a set of dynamixel XL-320). As it communicates with the robot via the REST API of the pypot library, it should be easily usable with any robots of the poppy family.
+
+
+- __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the velocity of dynamixel XL-320 in order to compute/estimate the movement duration.
 The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
 
 - __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6 (yet?).
