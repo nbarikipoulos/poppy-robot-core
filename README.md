@@ -82,7 +82,7 @@ The configuration features are detailed [here](#configuring-robot).
 
 ## Prerequisite
 
-__This module requires Poppy software ^v3.0.0__ installed on robot.
+This module requires the __pypot REST API v4.0.0__ aka __Poppy software ^v4.0.0__ installed on robot.
 
 ## Install
 
