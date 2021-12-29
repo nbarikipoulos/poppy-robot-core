@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 11.0.0-beta.0  
+**Version**: 11.0.0-beta.1  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -575,7 +575,7 @@ Set the 'compliant' register of the motor.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>boolean</code> | __false__ for programmatically "drivable" state, __true__ for "rest" one. |
+| value | <code>boolean</code> | true/false for compliant/stiff state. |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+setLed"></a>
 
@@ -991,8 +991,8 @@ And other descriptive data.
 | --- | --- | --- |
 | [description] | <code>string</code> | a human readable text about this descriptor |
 | name | <code>string</code> | name/id of this descriptor |
-| aliases | <code>Array.&lt;{name: string, motors: Array.&lt;string&gt;}&gt;</code> | list of aliases |
-| motors | [<code>Array.&lt;MotorDescriptor&gt;</code>](#module_poppy-robot-core..MotorDescriptor) | the motor "descriptors" |
+| aliases | <code>Array.&lt;{name: string, motors: Array.&lt;string&gt;}&gt;</code> | Array of aliases and their motors |
+| motors | [<code>Array.&lt;MotorDescriptor&gt;</code>](#module_poppy-robot-core..MotorDescriptor) | Array of motor descriptors |
 
 <a name="module_poppy-robot-core..ResponseObject"></a>
 
