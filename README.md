@@ -9,7 +9,7 @@ This module is dedicated to remotely drive/query robots of the [Poppy project](h
 
 It has been done aiming to __easily and automatically connect to any kind of/configuration of robot__ driven by the pypot library (a live discovering of the targeted robot is performed in order to get its structure aka aliases and motors).
 
-Note it is based on the REST API exposed by the library pypot and then, depends on its release (see [prerequisite](#prerequisite)).
+Note it is based on the REST API exposed by the pypot library and then, depends on its release (see [prerequisite](#prerequisite)).
 
 Below a script example and its execution:
 
@@ -31,7 +31,6 @@ createPoppy().then(poppy => {
 
 Or, using the ECMAScript 2017 async/await features:
 ```js
-
 const myFunction = async _ => {
   const poppy = await createPoppy()
 
@@ -46,7 +45,6 @@ const myFunction = async _ => {
   // Other nice stuff with the poppy instance, next to this script execution  
   ...
 }
-
 ```
 
 This module is mainly based on the following objects:
@@ -72,8 +70,8 @@ The configuration features are detailed [here](#configuring-robot).
 
 - [Prerequisite](#prerequisite)
 - [Install](#install)
-- [Configuring Robot Connection](#configuring-robot-connection)
-- [Write Scripts](#write-scripts)
+- [Configuring Connection to Poppy](#configuring-connection-to-poppy)
+- [Writing Scripts](#writing-scripts)
 - [Examples](#examples)
 - [API](#api)
 - [Known Limitations](#known-limitations)
@@ -92,36 +90,26 @@ __This module requires Poppy software ^v3.0.0__ installed on robot.
 npm i poppy-robot-core
 ```
 
-## Configuring Robot Connection
+## Configuring Connection to Poppy
 
-By default, the poppy robot core performs a live discovering of the target robot using default connection settings for a Poppy Ergo Jr aka setting are respectively set to 'poppy.local' and 8080 for hostname and port of the pypot REST API.
+By default, the poppy robot core performs a live discovering of the target robot using default connection settings for a Poppy Ergo Jr aka setting are respectively set to 'poppy.local' and 8080 for hostname and port for the pypot REST API.
 
-Users can easily set their own settings through optionnal arguments of the createPoppy factory.
+Users can easily set their own settings through optional arguments of the createPoppy factory.
 
 ```js
 const { createPoppy } = require('poppy-robot-core')
 
+let config = 
+  hostname: poppy1.local,
+  port: 8081
+}
+
 let poppy = createPoppy(config)
 ```
 
-where config is an object that handles user's configuration and then, overrides default ones.
-
-As example:
-
-```js
-let config = {
-  connect: { // Connection settings
-    hostname: poppy1.local,
-    port: 8081
-  }
-}
-```
-
-where the connect property handles the connection settings (full description is available [here](./doc/api.md#module_poppy-robot-core..ConnectionSettings)),
-
 Refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] that provides a set of additional functionalities for such purpose (flags automatically appended to the node command line or serialized in a config file).
 
-## Write Scripts
+## Writing Scripts
 
 The poppy robot core module is provided with a script execution engine and then, users, can write their own scripts to test complex  combination of actions.
 
@@ -147,7 +135,7 @@ See [API.md](./doc/api.md) for more details.
 - __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the velocity of dynamixel XL-320 in order to compute/estimate the movement duration.
 The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
 
-- __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6 (yet?).
+- __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6.
 
 ## Credits
 

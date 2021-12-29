@@ -27,6 +27,7 @@ const chainPromises = (
 
 /**
  * Resolve hostname to ip address (ipv4 only).
+ * Return undefined value if unable to resolve.
  * @param {String} [hostname] - the hostname to resolve
  * @return {Promise<String>}
  */
@@ -35,10 +36,7 @@ const lookUp = async (hostname) => {
 
   try {
     ip = (await dns.promises.lookup(hostname, 4)).address
-  } catch (err) {
-    // return input hostname
-    ip = hostname
-  }
+  } catch (err) { /* Do nothing */ }
 
   return ip
 }

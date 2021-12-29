@@ -21,22 +21,22 @@ Furthermore it exposes a bunch of utility functions such as factories
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
-        * [.discoverDescriptor([connect])](#module_poppy-robot-core.discoverDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+        * [.discoverDescriptor([config])](#module_poppy-robot-core.discoverDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
         * [.createPoppy([config])](#module_poppy-robot-core.createPoppy) ⇒ [<code>Promise.&lt;Poppy&gt;</code>](#module_poppy-robot-core..Poppy)
-        * [.createRequestHandler([connect])](#module_poppy-robot-core.createRequestHandler) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
-        * [.createDescriptor([connect])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+        * [.createRequestHandler([config])](#module_poppy-robot-core.createRequestHandler) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
+        * [.createDescriptor([config])](#module_poppy-robot-core.createDescriptor) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
         * [.createScript([...motorId])](#module_poppy-robot-core.createScript) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * _inner_
         * [~Poppy](#module_poppy-robot-core..Poppy)
-            * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
+            * [new Poppy(descriptor, [config])](#new_module_poppy-robot-core..Poppy_new)
             * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
             * [.allMotorIds](#module_poppy-robot-core..Poppy+allMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
             * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
             * [.query(motorIds, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
-            * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
-            * [.settings](#module_poppy-robot-core..PoppyRequestHandler+settings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
+            * [new PoppyRequestHandler([config])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
+            * [.settings](#module_poppy-robot-core..PoppyRequestHandler+settings) ⇒ <code>module:poppy-robot-core~ConnectionSettings</code>
             * [.perform(url, method, [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.get(url, [config])](#module_poppy-robot-core..PoppyRequestHandler+get) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.post(url, data, [config])](#module_poppy-robot-core..PoppyRequestHandler+post) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -74,12 +74,12 @@ Furthermore it exposes a bunch of utility functions such as factories
         * _Typedefs_
             * [~Descriptor](#module_poppy-robot-core..Descriptor) : <code>Object</code>
             * [~ResponseObject](#module_poppy-robot-core..ResponseObject) : <code>Object</code>
-            * [~ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) : <code>Object</code>
+            * [~PoppyConfig](#module_poppy-robot-core..PoppyConfig) : <code>Object</code>
             * [~MotorDescriptor](#module_poppy-robot-core..MotorDescriptor) : <code>Object</code>
 
 <a name="module_poppy-robot-core.discoverDescriptor"></a>
 
-### P.discoverDescriptor([connect]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+### P.discoverDescriptor([config]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
 Discover the target Poppy and create a descriptor object that contains:
 - The list of motors,
 - The name, id, model and angle range of each motors,
@@ -90,7 +90,7 @@ Discover the target Poppy and create a descriptor object that contains:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings. If not provided, default [ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) will be used |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | Connection settings |
 
 <a name="module_poppy-robot-core.createPoppy"></a>
 
@@ -105,8 +105,7 @@ Note instantitating a poppy object without any settings will use default one for
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [config] | <code>object</code> | settings object |
-| [config.connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | Connection Settings to Poppy |
 
 **Example**  
 ```js
@@ -119,17 +118,17 @@ createPoppy().then(poppy => {
 })
 
 // Another Poppy with custom connection settings
-const connect = {
+const config = {
     hostname: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
-createPoppy({ connect }).then(poppy => {
+createPoppy(config).then(poppy => {
  ... // Other nice stuff with this other poppy
 })
 ```
 <a name="module_poppy-robot-core.createRequestHandler"></a>
 
-### P.createRequestHandler([connect]) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
+### P.createRequestHandler([config]) ⇒ [<code>Promise.&lt;PoppyRequestHandler&gt;</code>](#module_poppy-robot-core..PoppyRequestHandler)
 Convinient factory in order to create PoppyRequestHandler.
 Note it will first set-up missing values (hostname, port and timeout) and,
 in a second hand, resolve the hostname.
@@ -139,7 +138,7 @@ in a second hand, resolve the hostname.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | Connection Settings to Poppy |
 
 **Example**  
 ```js
@@ -149,24 +148,24 @@ const { createRequestHandler } = require('poppy-robot-core')
 // aka poppy.local and 8080 as hostname and port
 createRequestHandler().then(reqHandler => {
  // Get compliant state of motor m1
- const speed = await reqHandler.get('/motor/m1/register/compliant/value.json')
+ const speed = await reqHandler.get('m1', 'compliant')
  ...  // Nice other stuff
 })
 
 // Another request handler to another poppy
-const connect = {
+const config = {
     hostname: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
-createRequestHandler(connect).then(reqHandler => {
+createRequestHandler(config).then(reqHandler => {
  // Set motor m1 state to stiff
- await reqHandler.post('/motor/m1/register/compliant/value.json', false)
+ await reqHandler.post('m1', 'compliant', false)
  ...  // Nice other stuff
 })
 ```
 <a name="module_poppy-robot-core.createDescriptor"></a>
 
-### P.createDescriptor([connect]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
+### P.createDescriptor([config]) ⇒ [<code>Promise.&lt;Descriptor&gt;</code>](#module_poppy-robot-core..Descriptor)
 Discover the target Poppy and create a descriptor object that contains:
 - The list of motors,
 - The name, id, model and angle range of each motors,
@@ -177,7 +176,7 @@ Discover the target Poppy and create a descriptor object that contains:
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings. If not provided, default [ConnectionSettings](#module_poppy-robot-core..ConnectionSettings) will be used |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | Connection settings |
 
 **Example**  
 ```js
@@ -190,11 +189,11 @@ createDescriptor().then(descriptor => {
 })
 
 // Discover another poppy:
-const connect = {
+const config = {
     hostname: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
-createDescriptor(connect).then(descriptor => {
+createDescriptor(config).then(descriptor => {
  console.log(descriptor)
 })
 ```
@@ -244,7 +243,7 @@ The poppy object handles:
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
 * [~Poppy](#module_poppy-robot-core..Poppy)
-    * [new Poppy(descriptor, [connect])](#new_module_poppy-robot-core..Poppy_new)
+    * [new Poppy(descriptor, [config])](#new_module_poppy-robot-core..Poppy_new)
     * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
     * [.allMotorIds](#module_poppy-robot-core..Poppy+allMotorIds) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getMotor(id)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
@@ -253,7 +252,7 @@ The poppy object handles:
 
 <a name="new_module_poppy-robot-core..Poppy_new"></a>
 
-#### new Poppy(descriptor, [connect])
+#### new Poppy(descriptor, [config])
 Create a new Poppy object.
 
 Note creatingting a poppy object without any settings will use ones
@@ -263,7 +262,7 @@ for a Poppy Ergo Jr,
 | Param | Type | Description |
 | --- | --- | --- |
 | descriptor | [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor) | Robot descriptor |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | Connection Settings to Poppy |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | Connection settings |
 
 **Example**  
 ```js
@@ -365,8 +364,8 @@ the Robot.
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 
 * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
-    * [new PoppyRequestHandler([connect])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
-    * [.settings](#module_poppy-robot-core..PoppyRequestHandler+settings) ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
+    * [new PoppyRequestHandler([config])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
+    * [.settings](#module_poppy-robot-core..PoppyRequestHandler+settings) ⇒ <code>module:poppy-robot-core~ConnectionSettings</code>
     * [.perform(url, method, [config])](#module_poppy-robot-core..PoppyRequestHandler+perform) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.get(url, [config])](#module_poppy-robot-core..PoppyRequestHandler+get) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.post(url, data, [config])](#module_poppy-robot-core..PoppyRequestHandler+post) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -377,7 +376,7 @@ the Robot.
 
 <a name="new_module_poppy-robot-core..PoppyRequestHandler_new"></a>
 
-#### new PoppyRequestHandler([connect])
+#### new PoppyRequestHandler([config])
 Instantiate a new Poppy Request Handler.
 
 Default instantiation will use the default poppy ergo jr connection
@@ -386,18 +385,13 @@ settings.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [connect] | [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings) | connection settings |
+| [config] | [<code>PoppyConfig</code>](#module_poppy-robot-core..PoppyConfig) | connection settings |
 
 **Example**  
 ```js
 const { PoppyRequestHandler: ReqHandler } = require('poppy-robot-core')
 
- const connect = {
-   hostname: 'poppy.home',
-   port: 8081
- }
-
- let req = new ReqHandler(connect)
+ let req = new ReqHandler()
 
  // set the 'moving_speed' register of the motor 'm1' to 100.
  req.setRegister('m1', 'moving_speed', '100')
@@ -410,7 +404,7 @@ const { PoppyRequestHandler: ReqHandler } = require('poppy-robot-core')
 ```
 <a name="module_poppy-robot-core..PoppyRequestHandler+settings"></a>
 
-#### poppyRequestHandler.settings ⇒ [<code>ConnectionSettings</code>](#module_poppy-robot-core..ConnectionSettings)
+#### poppyRequestHandler.settings ⇒ <code>module:poppy-robot-core~ConnectionSettings</code>
 Return the connection settings
 
 **Kind**: instance property of [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)  
@@ -1028,10 +1022,10 @@ about the REST API of the pypot http server.
 | --- | --- | --- |
 | `$registerName` | <code>string</code> \| <code>integer</code> \| <code>boolean</code> | a property set to the queried register. |
 
-<a name="module_poppy-robot-core..ConnectionSettings"></a>
+<a name="module_poppy-robot-core..PoppyConfig"></a>
 
-### poppy-robot-core~ConnectionSettings : <code>Object</code>
-Connection Settings to Poppy Robot.
+### poppy-robot-core~PoppyConfig : <code>Object</code>
+Poppy config object.
 
 **Kind**: inner typedef of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **Category**: Typedefs  
@@ -1041,8 +1035,8 @@ Connection Settings to Poppy Robot.
 | --- | --- | --- | --- |
 | [hostname] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot. |
 | resolved | <code>string</code> |  | Resolved ip of the targeted Poppy robot, if successful, otherwise set to hostname value. |
-| [port] | <code>int</code> | <code>8080</code> | port of the REST API served by the http server on robot |
-| [timeout] | <code>int</code> | <code>500</code> | request timeout (in ms) |
+| [port] | <code>int</code> | <code>8080</code> | Port of the pypot REST API |
+| [timeout] | <code>int</code> | <code>500</code> | Request timeout (in ms) |
 
 <a name="module_poppy-robot-core..MotorDescriptor"></a>
 
