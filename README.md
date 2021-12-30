@@ -92,7 +92,7 @@ npm i poppy-robot-core
 
 ## Configuring Connection to Poppy
 
-By default, the poppy robot core performs a live discovering of the target robot using default connection settings for a Poppy Ergo Jr aka setting are respectively set to 'poppy.local' and 8080 for hostname and port for the pypot REST API.
+By default, the poppy robot core performs a live discovering of the target robot using default connection settings for a Poppy Ergo Jr aka setting are respectively set to 'poppy.local' and 8080 for host and port for the pypot REST API.
 
 Users can easily set their own settings through optional arguments of the createPoppy factory.
 
@@ -100,7 +100,7 @@ Users can easily set their own settings through optional arguments of the create
 const { createPoppy } = require('poppy-robot-core')
 
 let config = 
-  hostname: poppy1.local,
+  host: poppy1.local,
   port: 8081
 }
 

@@ -17,7 +17,7 @@ Furthermore it exposes a bunch of utility functions such as factories
  for "high-level" objects _i.e._ Script and Poppy ones
  or discovering robot utility, etc...
 
-**Version**: 11.0.0-beta.1  
+**Version**: 11.0.0-beta.1 
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
@@ -118,7 +118,7 @@ createPoppy().then(poppy => {
 
 // Another Poppy with custom connection settings
 const config = {
-    hostname: 'poppy1.local' // hostname set to poppy1.local
+    host: 'poppy1.local' // hostname set to poppy1.local
     port: 8081   // and REST API served on port 8081
 }
 createPoppy(config).then(poppy => {
@@ -153,8 +153,8 @@ createRequestHandler().then(reqHandler => {
 
 // Another request handler to another poppy
 const config = {
-    hostname: 'poppy1.local' // hostname set to poppy1.local
-    port: 8081   // and REST API served on port 8081
+    host: 'poppy1.local'
+    port: 8081
 }
 createRequestHandler(config).then(reqHandler => {
  // Set motor m1 state to stiff
@@ -189,8 +189,8 @@ createDescriptor().then(descriptor => {
 
 // Discover another poppy:
 const config = {
-    hostname: 'poppy1.local' // hostname set to poppy1.local
-    port: 8081   // and REST API served on port 8081
+    host: 'poppy1.local'
+    port: 8081
 }
 createDescriptor(config).then(descriptor => {
  console.log(descriptor)
@@ -277,7 +277,7 @@ const f = async _ => {
   //
   // Let get another robot with with poppy1.local as hostname
   //
-  const config = { hostname: poppy1.local }
+  const config = { host: poppy1.local }
   const descriptor1 = await discoverDescriptor(config)
 
   const poppy1 = new Poppy(descriptor1, config)
@@ -418,7 +418,7 @@ Method performing request to the robot api.
 ```js
 const { PoppyRequestHandler: ReqHandler } = require('poppy-robot-core')
 
- const req = new ReqHandler({ hostname: 'poppy.home' })
+ const req = new ReqHandler({ host: 'poppy.home' })
 
 // Get: get the list the registers of the motor 'm1'
  // aka perform a get request on http://poppy.local:8080/motor/m1/register/list.json
@@ -1024,8 +1024,8 @@ Poppy config object.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| [hostname] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot. |
-| resolved | <code>string</code> |  | Resolved ip of the targeted Poppy robot, if successful, otherwise set to hostname value. |
+| [host] | <code>string</code> | <code>&quot;poppy.local&quot;</code> | hostname/ip of the targeted Poppy robot. |
+| resolved | <code>string</code> |  | Resolved ip of the targeted Poppy robot, if successful, otherwise set to the host value. |
 | [port] | <code>int</code> | <code>8080</code> | Port of the pypot REST API |
 | [timeout] | <code>int</code> | <code>500</code> | Request timeout (in ms) |
 
