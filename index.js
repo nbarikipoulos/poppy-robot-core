@@ -28,7 +28,7 @@
 
 const { Poppy } = require('./lib/poppy')
 const { ExtMotorRequest, RawMotorRequest } = require('./lib/motor')
-const { PoppyRequestHandler, getConfig } = require('./lib/request')
+const { PoppyRequestHandler, getConfig, DEFAULT_SETTINGS } = require('./lib/request')
 const { Script } = require('./lib/script')
 const { createPoppy, createScript, createDescriptor, createRequestHandler } = require('./lib/factories')
 
@@ -48,5 +48,6 @@ module.exports = {
   ExtMotorRequest,
   RawMotorRequest,
   PoppyRequestHandler,
-  getConfig
+  getConfig,
+  DEFAULT_SETTINGS
 }
