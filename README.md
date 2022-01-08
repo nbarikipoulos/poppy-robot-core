@@ -82,7 +82,7 @@ Users can easily set their own settings through optional arguments of the create
 ```js
 const { createPoppy } = require('poppy-robot-core')
 
-let config = 
+let config = {
   host: poppy1.local,
   port: 8081
 }
