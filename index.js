@@ -1,23 +1,22 @@
-/*! Copyright (c) 2018-2021 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
+/*! Copyright (c) 2018-2022 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
 
 /**
  * This module is the main entry point for poppy robot core.
  * As user facing module, It exports the poppy-robot-core primary
  * public API and provides convenience accessors to certain sub-modules.
  *
- * The poppy-robot-core is mainly based on the following objects:
+ * The poppy-robot-core module is mainly based on the following objects:
  * - The Poppy object that handles:
- *      - The robot configuration and then, the motors objects,
- *      - The script execution engine.
+ *      - The robot configuration (its structure, connection settings) and motor objects,
+ *      - A script execution engine in order to perform actions on motors.
  * - The Motor Objects:
- *      - ExtMotorRequest that handles high level actions of the motors,
- *      - RawMotorRequest that handles the low-level rest requests to the motor registers.
- * - The RequestHandlerObject object in charge of all the requests the REST API,
- * - The Script object in order to develop scripts.
+ *      - ExtMotorRequest that handles high-level actions on motors,
+ *      - RawMotorRequest that handles the low-level requests to the motor registers.
+ * - At last, the PoppyRequestHandler object in charge of all the requests to the pypot REST API.
  *
- * Furthermore it exposes a bunch of utility functions such as factories
- *  for "high-level" objects _i.e._ Script and Poppy ones
- *  or discovering robot utility, etc...
+ * Furthermore, it exposes a bunch of high-level factories in order to ease use of
+ *  these objects such as settings connection parameters, automatically perform a live discovering
+ *  of the target robot, and so on.
  *
  * @module poppy-robot-core
  * @typicalname P

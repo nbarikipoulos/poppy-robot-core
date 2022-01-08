@@ -5,11 +5,7 @@
 [![Language grade: JavaScript][lgtm-image]][lgtm-url]
 [![Maintainability][code-climate-image]][code-climate-url]
 
-This module is dedicated to remotely drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family with a __simple programmatic approach__.
-
-It has been done aiming to __easily and automatically connect to any kind of/configuration of robot__ driven by the pypot library (a live discovering of the targeted robot is performed in order to get its structure aka aliases and motors).
-
-Note it is based on the REST API exposed by the pypot library and then, depends on its release (see [prerequisite](#prerequisite)).
+This module is dedicated to remotely drive/query robots of the [Poppy project](https://www.poppy-project.org/en/) family.
 
 Below a script example and its execution:
 
@@ -20,49 +16,36 @@ const script = createScript()
   .select('all') // Select all motors
   .speed(150) // Set their speeds
   .stiff() // Make them programmatically "drivable"
-  .position(0, true) // Then move all motors to position '0' degree.
+  .position(0, true) // Then move all motors to position '0' degree awaiting the end of the movement
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
 
-createPoppy().then(poppy => {
-  poppy.exec(script)  
+createPoppy().then(async poppy => {
+  await poppy.exec(script)
+  // Other nice stuff with the poppy instance, next to this script execution
+  ...  
 })
 ```
 
-Or, using the ECMAScript 2017 async/await features:
+Next an example of querying registers:
+
 ```js
-const myFunction = async _ => {
-  const poppy = await createPoppy()
+const { createPoppy } = require('poppy-robot-core')
 
-  const script = createScript('all')
-    .speed(150)
-    .stiff()
-    .position(0, true)
-    .select('m1','m2')
-    .rotate(30)
-
-  await poppy.exec(script)
-  // Other nice stuff with the poppy instance, next to this script execution  
-  ...
-}
+createPoppy().then(poppy => poppy.query(
+  ['m1', 'm2'],
+  ['present_position', 'goal_position']
+)).then(console.log)
+// will display
+// {
+//   m1: {present_position: 10, goal_position: 80},
+//   m2: {present_position: 0, goal_position: -90},
+// }
 ```
 
-This module is mainly based on the following objects:
+It has been done aiming to __easily and automatically connect to any kind of/configuration of robot__ driven by the pypot library (a live discovering of the targeted robot is performed in order to get its structure aka aliases and motors).
 
-- The Poppy object that handles:
-  - The robot configuration (its structure, connection settings) and motor objects.
-  - A script execution engine in order to perform action on motors
-
-- The Motor Objects:
-  - ExtMotorRequest that handles high level actions of the motors,
-  - RawMotorRequest that handles the low-level rest requests to the motor register,
-  - The RequestHandlerObject object in charge of all the requests to the REST API served by the pypot http server.
-
-- The Script object in order to programmatically address and chain request to the motors,
-- At last, the PoppyRequestHandler object in charge of querying/set the registers of motors.
-
-Furthermore, it is provided with a bunch of **high-level factories** (see [API.md](./doc/api.md)) in order to facilitate use and settings of these objects such as settings connection parameters, automatically perform a live discovering of the target robot, etc...
-The configuration features are detailed [here](#configuring-robot).
+Note this module is based on the REST API exposed by the pypot library and then, depends on its release (see [prerequisite](#prerequisite)).
 
 ## Table of Contents
 
@@ -107,7 +90,7 @@ let config =
 let poppy = createPoppy(config)
 ```
 
-Refer to the module [API](#api) for further details or, in a easiest way, users can use the [poppy-robot-cli module][cli-link] that provides a set of additional functionalities for such purpose (flags automatically appended to the node command line or serialized in a config file).
+Refer to the module [API](#api) for further details or, in an easier way, users can use the [poppy-robot-cli][cli-link] module that re-export api of this module and provides a set of additional functionalities for such purpose (flags automatically appended to the node command line to set hostname/port or using a config file to store them).
 
 ## Writing Scripts
 
@@ -133,7 +116,7 @@ See [API.md](./doc/api.md) for more details.
 
 
 - __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the velocity of dynamixel XL-320 in order to compute/estimate the movement duration.
-The value is 0.666 degree per second (see [documentation](https://github.com/ROBOTIS-GIT/emanual/blob/master/docs/en/dxl/x/xl320.md)).
+The value is 0.666 degree per second (see [documentation](https://emanual.robotis.com/docs/en/dxl/x/xl320/)).
 
 - __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6.
 
