@@ -18,7 +18,7 @@
     "test": "standard"
   },
   "dependencies": {
-    "axios": "^0.24.0"
+    "axios": "^0.27.2"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^7.1.0",
