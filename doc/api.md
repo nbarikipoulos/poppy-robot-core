@@ -62,7 +62,8 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
             * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.goto(value, [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * ~~[.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
             * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.compliant()](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -225,7 +226,7 @@ let myOtherScript = createScript()
 let anotherScript = createScript('all')
   .select('all') // Select all motors...
   .stiff() // Make them programmatically "drivable"
-  .position(0) // ... move all motors to position 'O' degree.
+  .goto(0) // ... move all motors to position 'O' degree.
   . ...        // ... do other nice stuffs (always on all motors)
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
@@ -778,7 +779,8 @@ Such state will require a reboot of the robot.
     * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
     * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * [.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.goto(value, [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * ~~[.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
     * [.rotate(value, [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.compliant()](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -805,7 +807,7 @@ const { Script } = require('poppy-robot-core')
 let script = new Script('all') // Select all motors
   .speed(100) // Set all motor speed to 100
   .stiff() // Make them programmatically "drivable"
-  .position(0) // Move all motors to 0 degree.
+  .goto(0) // Move all motors to 0 degree.
 
 let myOtherScript = new Script('m1', 'm3') // Only select the 'm1' and 'm2' motors
   .rotate(30) // rotate 'm1' and 'm3' by 30 degrees.
@@ -849,12 +851,12 @@ Set the led value of the target motor(s).
 let script = new Script('all')
    .led('blue') // will set the led color to blue
 ```
-<a name="module_poppy-robot-core..Script+position"></a>
+<a name="module_poppy-robot-core..Script+goto"></a>
 
-#### script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+#### script.goto(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the target position (register 'goal_position') of the selected motor(s).
 
-It will create an action that will move the selected motor(s) to a given position.
+It will create an action that will move the selected motor(s) to the given position.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
@@ -866,14 +868,27 @@ It will create an action that will move the selected motor(s) to a given positio
 **Example**  
 ```js
 let script = new Script('m6')
-   .position(90) // Send a request in order to "open" the grip.
+   .goto(90) // Send a request in order to "open" the grip.
                  // It does not wait the end of this movement
                  // and next instructions will be send in the wake of it
    .select('m1', 'm2', 'm3', 'm4')
-   .position(0, true) // Send a instruction to move all selected motors to 0 sequentially.
+   .goto(0, true) // Send a instruction to move all selected motors to 0 sequentially.
                       // i.e. for each motor, it awaits the end of the movement,
                       // and then does the same for the next selected motor.
 ```
+<a name="module_poppy-robot-core..Script+position"></a>
+
+#### ~~script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
+***Deprecated***
+
+**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
+**See**: [goto](#module_poppy-robot-core..Script+goto)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| value | <code>integer</code> |  | the position to reach in degree |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions. |
+
 <a name="module_poppy-robot-core..Script+rotate"></a>
 
 #### script.rotate(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -954,11 +969,11 @@ It mainly dedicated to wait the end of actions "simultaneously" executed.
 ```js
 let script = new Script()
    .select('m2')
-   .position(-90) // we do not wait the end of movement
+   .goto(-90) // we do not wait the end of movement
    .select('m3')
-   .position(90) // idem
+   .goto(90) // idem
    .select('m5')
-   .position(-90) // idem
+   .goto(-90) // idem
    .wait(1000) // Wait 1 second before next actions
 ```
 <a name="module_poppy-robot-core..ScriptEngine"></a>

@@ -16,7 +16,7 @@ const script = createScript()
   .select('all') // Select all motors
   .speed(150) // Set their speeds
   .stiff() // Make them programmatically "drivable"
-  .position(0, true) // Then move all motors to position '0' degree awaiting the end of the movement
+  .goto(0, true) // Then move all motors to position '0' degree awaiting the end of the movement
   .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
   .rotate(30) // and apply them a rotation by +30 degrees.
 
@@ -82,12 +82,12 @@ Users can easily set their own settings through optional arguments of the create
 ```js
 const { createPoppy } = require('poppy-robot-core')
 
-let config = {
+const config = {
   host: poppy1.local,
   port: 8081
 }
 
-let poppy = createPoppy(config)
+const poppy = createPoppy(config)
 ```
 
 Refer to the module [API](#api) for further details or, in an easier way, users can use the [poppy-robot-cli][cli-link] module that re-export api of this module and provides a set of additional functionalities for such purpose (flags automatically appended to the node command line to set hostname/port or using a config file to store them).
