@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "gendoc": "markdown-toc -i README.md && cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md",
-    "test": "standard"
+    "lint": "standard",
+    "test": "npm run lint"
   },
   "dependencies": {
     "axios": "^0.27.2"
