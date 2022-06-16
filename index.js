@@ -1,5 +1,3 @@
-/*! Copyright (c) 2018-2022 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
-
 /**
  * This module is the main entry point for poppy robot core.
  * As user facing module, It exports the poppy-robot-core primary
