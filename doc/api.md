@@ -33,6 +33,7 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
             * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
             * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
+            * [.goto(motorNames, position)](#module_poppy-robot-core..Poppy+goto) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
@@ -253,6 +254,7 @@ The poppy object handles:
     * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
     * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
+    * [.goto(motorNames, position)](#module_poppy-robot-core..Poppy+goto) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
 
@@ -335,6 +337,36 @@ Accessor on the motor Object by name.
 | --- | --- | --- |
 | name | <code>string</code> | Motor name |
 
+<a name="module_poppy-robot-core..Poppy+goto"></a>
+
+#### poppy.goto(motorNames, position) ⇒ <code>Promise.&lt;null&gt;</code>
+Access to the 'goto' endpoint for many motors.
+Note it will:
+  - Be executed whatever the value of the compliant register
+  - Set the speed register of targeted motors to fill the duration constraint,
+
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| motorNames | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | target motor name(s) |
+| position | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
+
+**Example**  
+```js
+const poppy = ...
+
+// Move all motors to position 0 degrees in 3s awaiting the end of the movement
+await poppy.goto('all', 0, 3, true)
+
+// Send instruction to move m1, m2 and m3 to respectively
+// positions 30, 50 and 90 degrees in 5s without awaiting the end of movement
+await poppy.goto(
+  ['m1', 'm2', 'm3'],
+  [30, 50, 90],
+  5
+)
+```
 <a name="module_poppy-robot-core..Poppy+query"></a>
 
 #### poppy.query(motorNames, registers) ⇒ <code>Promise.&lt;Object&gt;</code>
