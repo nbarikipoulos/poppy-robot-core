@@ -26,11 +26,15 @@ const chainPromises = (
 
 /**
  * The awaiting Promise
- * @param {integer} [delay] - delay in ms
+ * @param {number} [delay] - delay in s
  * @param {*=} [res=undefined] - value to resolve
  * @return {Promise<*>} - A promise of res
  */
-const wait = (delay, res) => new Promise(resolve => setTimeout(resolve, delay, res))
+const wait = (delay, res) => new Promise(resolve => setTimeout(
+  resolve,
+  1000 * delay,
+  res
+))
 
 /**
  * Resolve hostname to ip address (ipv4 only).

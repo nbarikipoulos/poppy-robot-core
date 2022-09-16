@@ -650,7 +650,7 @@ Convinient wait method
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | wait delay (in ms) |
+| value | <code>number</code> | wait delay (in s) |
 
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
@@ -1006,18 +1006,16 @@ delay.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>integer</code> | wait delay (in ms) |
+| value | <code>number</code> | wait delay (in s) |
 
 **Example**  
 ```js
 let script = new Script()
    .select('m2')
    .goto(-90) // we do not wait the end of movement
+   .wait(1) // Wait 1 second before executing the next action
    .select('m3')
-   .goto(90) // idem
-   .select('m5')
-   .goto(-90) // idem
-   .wait(1000) // Wait 1 second before next actions
+   .goto(90)
 ```
 <a name="module_poppy-robot-core..ScriptEngine"></a>
 
