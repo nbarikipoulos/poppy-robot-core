@@ -4,24 +4,33 @@ const dns = require('dns')
 
 /**
  * Convinient function in order to chain promises and propagate results.
- * Default implementation will return result of promises as in an array
+ * Default implementation will return result of promises in an array
  * @param {Array.<Function>} promiseProvider - Providers of promises to chain.
- * @param {Function=} res - Function to propagate results.
+ * @param {Function=} fn - Function to propagate results between steps. Default use
+ * an array as accumulator and push result inside.
  *  Default implementation store the result of the promises into an array.
  * @param {*} [accumulator=[]] - Initial accumulator (an empty array as default)
- * @return {Promise.<*>} - A Promise returning the accumulator when done.
+ * @return {Promise.<*>} - A Promise returning the accumulator.
  */
 const chainPromises = (
   promiseProviders,
-  res = (previous, current) => previous.concat(current),
+  fn = (previous, current) => previous.concat(current),
   accumulator = []
 ) => promiseProviders.reduce(
   (acc, pProvider) => acc.then(async (result) => {
     const current = await pProvider()
-    return res(result, current)
+    return fn(result, current)
   }),
   Promise.resolve(accumulator)
 )
+
+/**
+ * The awaiting Promise
+ * @param {integer} [delay] - delay in ms
+ * @param {*=} [res=undefined] - value to resolve
+ * @return {Promise<*>} - A promise of res
+ */
+const wait = (delay, res) => new Promise(resolve => setTimeout(resolve, delay, res))
 
 /**
  * Resolve hostname to ip address (ipv4 only).
@@ -47,5 +56,6 @@ const lookUp = async (hostname) => {
 
 module.exports = {
   chainPromises,
+  wait,
   lookUp
 }

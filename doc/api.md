@@ -29,7 +29,9 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
         * [~Poppy](#module_poppy-robot-core..Poppy)
             * [new Poppy(descriptor, [config])](#new_module_poppy-robot-core..Poppy_new)
             * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
+            * [.requestHandler](#module_poppy-robot-core..Poppy+requestHandler) ⇒ [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)
             * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
+            * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
             * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
             * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -53,11 +55,13 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
+            * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
         * [~RawMotorRequest](#module_poppy-robot-core..RawMotorRequest)
             * [new RawMotorRequest(motor, requestHandler)](#new_module_poppy-robot-core..RawMotorRequest_new)
             * [.name](#module_poppy-robot-core..RawMotorRequest+name) ⇒ <code>string</code>
             * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
+            * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
         * [~Script](#module_poppy-robot-core..Script)
             * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
             * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -245,7 +249,9 @@ The poppy object handles:
 * [~Poppy](#module_poppy-robot-core..Poppy)
     * [new Poppy(descriptor, [config])](#new_module_poppy-robot-core..Poppy_new)
     * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
+    * [.requestHandler](#module_poppy-robot-core..Poppy+requestHandler) ⇒ [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)
     * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
     * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -271,7 +277,7 @@ const f = async _ => {
   //
   // create a poppy object using default connection settings
   //
-  await descriptor = discoverDescriptor()
+  const descriptor = await discoverDescriptor()
 
   const poppy = new Poppy(descriptor)
 
@@ -290,7 +296,13 @@ const f = async _ => {
 <a name="module_poppy-robot-core..Poppy+descriptor"></a>
 
 #### poppy.descriptor ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
-Return the robot descriptor handled by this instance
+Accessor to the robot descriptor handled by this instance
+
+**Kind**: instance property of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+<a name="module_poppy-robot-core..Poppy+requestHandler"></a>
+
+#### poppy.requestHandler ⇒ [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)
+Accessor to the request handler for this robot
 
 **Kind**: instance property of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 <a name="module_poppy-robot-core..Poppy+motorNames"></a>
@@ -299,6 +311,19 @@ Return the robot descriptor handled by this instance
 Return an array containing all registered motor names of the robot.
 
 **Kind**: instance property of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+<a name="module_poppy-robot-core..Poppy+toMotorNames"></a>
+
+#### poppy.toMotorNames(motorNames) ⇒ <code>Array.&lt;string&gt;</code>
+Convinient function to manage the 'all' keyword for motor names.
+if input parameter is 'all', it will return an array containing the name of all the motors
+of the robot. Otherwise, the entry input will be returned.
+
+**Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| motorNames | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | Names of motor provided as an array or 'all' |
+
 <a name="module_poppy-robot-core..Poppy+getMotor"></a>
 
 #### poppy.getMotor(name) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
@@ -326,14 +351,9 @@ It returns an object gathering by motor the [ResponseObject](#module_poppy-robot
 
 **Example**  
 ```js
-const { Poppy } = require('poppy-robot-core')
+const poppy = ...
 
-const f = async _ => {
-  const descriptor = ...
-
-  const poppy = new Poppy(descriptor)
-
-  poppy.query(['m1', 'm2'], ['present_position', 'goal_position'])
+  await poppy.query(['m1', 'm2'], ['present_position', 'goal_position'])
   // Will return a promise with result as
   // {
   //   m1: {present_position: 10, goal_position: 80},
@@ -556,6 +576,7 @@ high-level actions on Poppy motor.
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
+    * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
 
 <a name="module_poppy-robot-core..RawMotorRequest+name"></a>
 
@@ -566,7 +587,7 @@ Return the motor name/id.
 <a name="module_poppy-robot-core..ExtMotorRequest+setSpeed"></a>
 
 #### extMotorRequest.setSpeed(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the speed (register 'moving_speed') of the motor.
+Set the 'moving_speed' register.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -577,7 +598,7 @@ Set the speed (register 'moving_speed') of the motor.
 <a name="module_poppy-robot-core..ExtMotorRequest+setCompliant"></a>
 
 #### extMotorRequest.setCompliant(value) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the 'compliant' register of the motor.
+Set the 'compliant' register.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -588,7 +609,7 @@ Set the 'compliant' register of the motor.
 <a name="module_poppy-robot-core..ExtMotorRequest+setLed"></a>
 
 #### extMotorRequest.setLed(color)
-Set the led register.
+Set the 'led' register.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -599,19 +620,19 @@ Set the led register.
 <a name="module_poppy-robot-core..ExtMotorRequest+setPosition"></a>
 
 #### extMotorRequest.setPosition(value, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
-Set the target position (register 'goal_position') of the selected motor(s).
+Set the 'goal_position' register to value.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | <code>integer</code> |  | the position to reach in degree |
+| value | <code>integer</code> |  | the angle to reach in degree |
 | [wait] | <code>boolean</code> | <code>false</code> | wait until the motor reachs the target position |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+rotate"></a>
 
 #### extMotorRequest.rotate(value, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
-Rotate the selected motor(s) by x degrees.
+Rotate the motor by x degrees.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -634,7 +655,7 @@ Convinient wait method
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### extMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
-Set a register of the motor with a given value.
+Set a register of the motor to a given value.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -646,7 +667,7 @@ Set a register of the motor with a given value.
 <a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
 #### extMotorRequest.get(...registerNames) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-Get value of target register(s).
+Return the value(s) of register(s) as an object.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
@@ -670,10 +691,21 @@ motor.get('present_position', 'goal_position')
 //   goal_position: 80
 // }
 ```
+<a name="module_poppy-robot-core..RawMotorRequest+getRegisterValue"></a>
+
+#### extMotorRequest.getRegisterValue(...registerNames) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
+Return the value of a register as a primitive type.
+
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...registerNames | <code>string</code> | target register names |
+
 <a name="module_poppy-robot-core..RawMotorRequest"></a>
 
 ### poppy-robot-core~RawMotorRequest
-Class that handles the primary requests to a Poppy motor _i.e._ the motor register accesses.
+Class that handles the primary requests to a Poppy motor _i.e._ access to the registers of the motor.
 
 **Kind**: inner class of [<code>poppy-robot-core</code>](#module_poppy-robot-core)  
 **See**: [PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)  
@@ -683,6 +715,7 @@ Class that handles the primary requests to a Poppy motor _i.e._ the motor regist
     * [.name](#module_poppy-robot-core..RawMotorRequest+name) ⇒ <code>string</code>
     * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
+    * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
 
 <a name="new_module_poppy-robot-core..RawMotorRequest_new"></a>
 
@@ -708,9 +741,10 @@ motor.set('moving_speed', '100') // Will set the speed to 100,
 
 //...
 
-motor.get('moving_speed') // Will return a promise with result as
+motor.get('moving_speed', 'compliant') // Will return a promise with result as
 // {
 //   moving_speed: 100
+//   compliant: true
 // }
 ```
 <a name="module_poppy-robot-core..RawMotorRequest+name"></a>
@@ -722,7 +756,7 @@ Return the motor name/id.
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
 #### rawMotorRequest.set(registerName, data) ⇒ <code>Promise.&lt;null&gt;</code>
-Set a register of the motor with a given value.
+Set a register of the motor to a given value.
 
 **Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
@@ -734,7 +768,7 @@ Set a register of the motor with a given value.
 <a name="module_poppy-robot-core..RawMotorRequest+get"></a>
 
 #### rawMotorRequest.get(...registerNames) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
-Get value of target register(s).
+Return the value(s) of register(s) as an object.
 
 **Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
 
@@ -758,6 +792,17 @@ motor.get('present_position', 'goal_position')
 //   goal_position: 80
 // }
 ```
+<a name="module_poppy-robot-core..RawMotorRequest+getRegisterValue"></a>
+
+#### rawMotorRequest.getRegisterValue(...registerNames) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
+Return the value of a register as a primitive type.
+
+**Kind**: instance method of [<code>RawMotorRequest</code>](#module_poppy-robot-core..RawMotorRequest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...registerNames | <code>string</code> | target register names |
+
 <a name="module_poppy-robot-core..Script"></a>
 
 ### poppy-robot-core~Script
@@ -887,7 +932,7 @@ let script = new Script('m6')
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the position to reach in degree |
-| [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions. |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions |
 
 <a name="module_poppy-robot-core..Script+rotate"></a>
 
@@ -956,8 +1001,6 @@ let script = new Script('all')
 #### script.wait(value) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 The wait method. It allows to stop the script execution during a given
 delay.
-
-It mainly dedicated to wait the end of actions "simultaneously" executed.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
