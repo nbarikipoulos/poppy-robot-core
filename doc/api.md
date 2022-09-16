@@ -53,7 +53,9 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
             * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.goto(position, duration, [wait])](#module_poppy-robot-core..ExtMotorRequest+goto) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.computeDuration(data)](#module_poppy-robot-core..ExtMotorRequest+computeDuration) ⇒ <code>number</code>
             * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
             * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
@@ -605,7 +607,9 @@ high-level actions on Poppy motor.
     * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
     * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.goto(position, duration, [wait])](#module_poppy-robot-core..ExtMotorRequest+goto) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.computeDuration(data)](#module_poppy-robot-core..ExtMotorRequest+computeDuration) ⇒ <code>number</code>
     * [.set(registerName, data)](#module_poppy-robot-core..RawMotorRequest+set) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.get(...registerNames)](#module_poppy-robot-core..RawMotorRequest+get) ⇒ [<code>Promise.&lt;ResponseObject&gt;</code>](#module_poppy-robot-core..ResponseObject)
     * [.getRegisterValue(...registerNames)](#module_poppy-robot-core..RawMotorRequest+getRegisterValue) ⇒ <code>Promise.&lt;(string\|integer\|boolean)&gt;</code>
@@ -673,6 +677,21 @@ Rotate the motor by x degrees.
 | value | <code>integer</code> |  | the rotation value, in degrees |
 | [wait] | <code>boolean</code> | <code>false</code> | wait until the motor ends its rotation |
 
+<a name="module_poppy-robot-core..ExtMotorRequest+goto"></a>
+
+#### extMotorRequest.goto(position, duration, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
+Move motor to a given postion setting the duration of the movement.
+
+Note the speed register of the motor could change the if wait is set to 'false'.
+
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| position | <code>integer</code> |  | the position to reach in degree |
+| duration | <code>number</code> |  | duration of the movemement (in s) |
+| [wait] | <code>boolean</code> | <code>false</code> | wait until the motor reachs the target position |
+
 <a name="module_poppy-robot-core..ExtMotorRequest+wait"></a>
 
 #### extMotorRequest.wait(value) ⇒ <code>Promise.&lt;null&gt;</code>
@@ -683,6 +702,20 @@ Convinient wait method
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>number</code> | wait delay (in s) |
+
+<a name="module_poppy-robot-core..ExtMotorRequest+computeDuration"></a>
+
+#### extMotorRequest.computeDuration(data) ⇒ <code>number</code>
+Compute expected movement duration between 2 angles (in s).
+
+**Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>object</code> | Input data |
+| [data.start] | <code>integer</code> | Start position. If not provided, it will be set to the current position from register |
+| data.end | <code>integer</code> | Target position |
+| [data.speed] | <code>integer</code> | Speed. If not provided, it will be set with the value from register |
 
 <a name="module_poppy-robot-core..RawMotorRequest+set"></a>
 
