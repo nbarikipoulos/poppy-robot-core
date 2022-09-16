@@ -52,7 +52,7 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
             * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+            * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.goto(position, duration, [wait])](#module_poppy-robot-core..ExtMotorRequest+goto) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.computeDuration(data)](#module_poppy-robot-core..ExtMotorRequest+computeDuration) ⇒ <code>number</code>
@@ -606,7 +606,7 @@ high-level actions on Poppy motor.
     * [.setCompliant(value)](#module_poppy-robot-core..ExtMotorRequest+setCompliant) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.setLed(color)](#module_poppy-robot-core..ExtMotorRequest+setLed)
     * [.setPosition(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+setPosition) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.rotate(value, [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
+    * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..ExtMotorRequest+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.goto(position, duration, [wait])](#module_poppy-robot-core..ExtMotorRequest+goto) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.wait(value)](#module_poppy-robot-core..ExtMotorRequest+wait) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.computeDuration(data)](#module_poppy-robot-core..ExtMotorRequest+computeDuration) ⇒ <code>number</code>
@@ -667,7 +667,7 @@ Set the 'goal_position' register to value.
 
 <a name="module_poppy-robot-core..ExtMotorRequest+rotate"></a>
 
-#### extMotorRequest.rotate(value, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
+#### extMotorRequest.rotate(value, [duration], [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
 Rotate the motor by x degrees.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
@@ -675,6 +675,7 @@ Rotate the motor by x degrees.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | value | <code>integer</code> |  | the rotation value, in degrees |
+| [duration] | <code>number</code> |  | duration of the movemement (in s) |
 | [wait] | <code>boolean</code> | <code>false</code> | wait until the motor ends its rotation |
 
 <a name="module_poppy-robot-core..ExtMotorRequest+goto"></a>
@@ -682,7 +683,7 @@ Rotate the motor by x degrees.
 #### extMotorRequest.goto(position, duration, [wait]) ⇒ <code>Promise.&lt;null&gt;</code>
 Move motor to a given postion setting the duration of the movement.
 
-Note the speed register of the motor could change the if wait is set to 'false'.
+Note the speed register of the motor could change if 'wait' is set to 'false'.
 
 **Kind**: instance method of [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)  
 
