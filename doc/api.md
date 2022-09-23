@@ -31,12 +31,12 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
             * [.requestHandler](#module_poppy-robot-core..Poppy+requestHandler) ⇒ [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)
             * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
-            * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
+            * [.toMotorNames(names)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
             * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
             * [.move(input)](#module_poppy-robot-core..Poppy+move) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.rotate(input)](#module_poppy-robot-core..Poppy+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
             * [.goto(input)](#module_poppy-robot-core..Poppy+goto) ⇒ <code>Promise.&lt;null&gt;</code>
-            * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
+            * [.query(input)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
             * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
         * [~PoppyRequestHandler](#module_poppy-robot-core..PoppyRequestHandler)
             * [new PoppyRequestHandler([config])](#new_module_poppy-robot-core..PoppyRequestHandler_new)
@@ -256,12 +256,12 @@ The poppy object handles:
     * [.descriptor](#module_poppy-robot-core..Poppy+descriptor) ⇒ [<code>Descriptor</code>](#module_poppy-robot-core..Descriptor)
     * [.requestHandler](#module_poppy-robot-core..Poppy+requestHandler) ⇒ [<code>PoppyRequestHandler</code>](#module_poppy-robot-core..PoppyRequestHandler)
     * [.motorNames](#module_poppy-robot-core..Poppy+motorNames) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.toMotorNames(motorNames)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.toMotorNames(names)](#module_poppy-robot-core..Poppy+toMotorNames) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getMotor(name)](#module_poppy-robot-core..Poppy+getMotor) ⇒ [<code>ExtMotorRequest</code>](#module_poppy-robot-core..ExtMotorRequest)
     * [.move(input)](#module_poppy-robot-core..Poppy+move) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.rotate(input)](#module_poppy-robot-core..Poppy+rotate) ⇒ <code>Promise.&lt;null&gt;</code>
     * [.goto(input)](#module_poppy-robot-core..Poppy+goto) ⇒ <code>Promise.&lt;null&gt;</code>
-    * [.query(motorNames, registers)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.query(input)](#module_poppy-robot-core..Poppy+query) ⇒ <code>Promise.&lt;Object&gt;</code>
     * [.exec(...scripts)](#module_poppy-robot-core..Poppy+exec) ⇒ <code>Promise.&lt;null&gt;</code>
 
 <a name="new_module_poppy-robot-core..Poppy_new"></a>
@@ -321,7 +321,7 @@ Return an array containing all registered motor names of the robot.
 **Kind**: instance property of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 <a name="module_poppy-robot-core..Poppy+toMotorNames"></a>
 
-#### poppy.toMotorNames(motorNames) ⇒ <code>Array.&lt;string&gt;</code>
+#### poppy.toMotorNames(names) ⇒ <code>Array.&lt;string&gt;</code>
 Convinient function to manage the 'all' keyword for motor names.
 if input parameter is 'all', it will return an array containing the name of all the motors
 of the robot. Otherwise, the entry input will be returned.
@@ -330,7 +330,7 @@ of the robot. Otherwise, the entry input will be returned.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| motorNames | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | Names of motor provided as an array or 'all' |
+| names | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | Names of motor provided as an array or 'all' |
 
 <a name="module_poppy-robot-core..Poppy+getMotor"></a>
 
@@ -359,7 +359,7 @@ Note the speed register of motors could changed when duration is provided or wai
 | --- | --- | --- | --- |
 | input | <code>object</code> |  | input parameters |
 | input.motors | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> |  | Names of the target motors |
-| input.position | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
+| input.positions | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
 | [input.duration] | <code>number</code> |  | duration of the movemement (in s) |
 | [input.wait] | <code>boolean</code> | <code>false</code> | wait until the end of the movement |
 
@@ -439,7 +439,7 @@ Note it will:
 | --- | --- | --- | --- |
 | input | <code>object</code> |  | input parameters |
 | input.motors | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> |  | Names of the target motors |
-| input.position | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
+| input.positions | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
 | input.duration | <code>number</code> |  | duration of the movemement (in s) |
 | [input.wait] | <code>boolean</code> | <code>false</code> | wait until the end of the movement |
 
@@ -465,28 +465,32 @@ await poppy.goto({
 ```
 <a name="module_poppy-robot-core..Poppy+query"></a>
 
-#### poppy.query(motorNames, registers) ⇒ <code>Promise.&lt;Object&gt;</code>
+#### poppy.query(input) ⇒ <code>Promise.&lt;Object&gt;</code>
 Convinient method to query register(s) of all or a set of registered motors.
 It returns an object gathering by motor the [ResponseObject](#module_poppy-robot-core..PoppyRequestHandler).
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 **See**: [ResponseObject](#module_poppy-robot-core..ResponseObject)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| motorNames | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | Names of the target motors |
-| registers | <code>Array.&lt;string&gt;</code> | target registers |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| input | <code>object</code> |  | input parameters |
+| [input.motors] | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> | <code>&#x27;all&#x27;</code> | Names of the target motors |
+| input.registers | <code>Array.&lt;string&gt;</code> |  | targeted registers |
 
 **Example**  
 ```js
 const poppy = ...
 
-  await poppy.query(['m1', 'm2'], ['present_position', 'goal_position'])
-  // Will return a promise with result as
-  // {
-  //   m1: {present_position: 10, goal_position: 80},
-  //   m2: {present_position: 0, goal_position: -90},
-  // }
+await poppy.query({
+  motors: ['m1', 'm2'],
+  registers: ['present_position', 'goal_position']
+})
+// Will return a promise with result as
+// {
+//   m1: {present_position: 10, goal_position: 80},
+//   m2: {present_position: 0, goal_position: -90},
+// }
 }
 ```
 <a name="module_poppy-robot-core..Poppy+exec"></a>
