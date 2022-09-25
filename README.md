@@ -16,9 +16,12 @@ const script = createScript()
   .select('all') // Select all motors
   .speed(150) // Set their speeds
   .stiff() // Make them programmatically "drivable"
-  .goto(0, true) // Then move all motors to position '0' degree awaiting the end of the movement
-  .select('m1','m2') // Next select only the motors 'm1' and 'm2'...
-  .rotate(30) // and apply them a rotation by +30 degrees.
+  .goto(0, 5, true) // Then move them to '0' degree in 5s, awaiting the end of movement
+  .select('m1') // Select 'm1'
+  .goto('150', 1) // And send instruction to move it to 150 degrees in 1s without awaiting the end of the movement
+  .select('m6') // Select motor 'm6'
+  .rotate(90, 0.5, true) // And rotate it by +90 degrees in half of second.
+  .rotate(-90, 0.5) //...
 
 createPoppy().then(async poppy => {
   await poppy.exec(script)
@@ -32,10 +35,10 @@ Next an example of querying registers:
 ```js
 const { createPoppy } = require('poppy-robot-core')
 
-createPoppy().then(poppy => poppy.query(
-  ['m1', 'm2'],
-  ['present_position', 'goal_position']
-)).then(console.log)
+createPoppy().then(poppy => poppy.query({
+  motors: ['m1', 'm2'],
+  registers: ['present_position', 'goal_position']
+})).then(console.log)
 // will display
 // {
 //   m1: {present_position: 10, goal_position: 80},
