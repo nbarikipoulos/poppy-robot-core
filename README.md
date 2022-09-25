@@ -115,13 +115,11 @@ See [API.md](./doc/api.md) for more details.
 
 ## Known Limitations
 
-- __This module have been only tested with the Poppy Ergo Jr__ (aka with a set of dynamixel XL-320). As it communicates with the robot via the REST API of the pypot library, it should be easily usable with any robots of the poppy family.
+- __This module have been only tested with the Poppy Ergo Jr__ (aka with a set of dynamixel XL-320). As it communicates with the robot via the REST API of the pypot library, it should work with any robots of the poppy family.
 
 
 - __position/rotate functions of Script/ExtMotorRequest__: Awaiting end of movement _i.e._ setting the 'wait' argument to 'true' is based on the velocity of dynamixel XL-320 in order to compute/estimate the movement duration.
 The value is 0.666 degree per second (see [documentation](https://emanual.robotis.com/docs/en/dxl/x/xl320/)).
-
-- __Resolving 'poppy.local'__ is done looking for an __ipv4 address__ and does not support ipv6.
 
 ## Credits
 
