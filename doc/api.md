@@ -16,7 +16,7 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
  these objects such as settings connection parameters, automatically perform a live discovering
  of the target robot, and so on.
 
-**Version**: 11.1.0  
+**Version**: 12.0.0  
 
 * [poppy-robot-core](#module_poppy-robot-core)
     * _static_
