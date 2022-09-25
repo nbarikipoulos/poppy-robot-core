@@ -71,8 +71,8 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
             * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * [.goto(value, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.goto(values, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+            * [.rotate(values, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.compliant()](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.stiff()](#module_poppy-robot-core..Script+stiff) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -360,7 +360,7 @@ Note the speed register of motors could changed when duration is provided or wai
 | --- | --- | --- | --- |
 | input | <code>object</code> |  | input parameters |
 | input.motors | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> |  | Names of the target motors |
-| input.positions | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | target position: Either an array containing   all targeted position or an integer if position is the same for all motors |
+| input.positions | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | Either an array containing   the target position for each motor or an integer if position is the same for all |
 | [input.duration] | <code>number</code> |  | duration of the movemement (in s) |
 | [input.wait] | <code>boolean</code> | <code>false</code> | wait until the end of the movement |
 
@@ -401,7 +401,7 @@ Note the speed register of motors could changed when duration is provided or wai
 | --- | --- | --- | --- |
 | input | <code>object</code> |  | input parameters |
 | input.motors | <code>Array.&lt;string&gt;</code> \| <code>&#x27;all&#x27;</code> |  | Names of the target motors |
-| input.angles | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | rotation values: Either an array containing   all angles or an integer if the rotation is the same for all motors |
+| input.angles | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | Either an array containing   the rotation value for each motor or an integer if the rotation is the same for all |
 | [input.duration] | <code>number</code> |  | duration of the movemement (in s) |
 | [input.wait] | <code>boolean</code> | <code>false</code> | wait until the end of the movement |
 
@@ -989,8 +989,8 @@ Such state will require a reboot of the robot.
     * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
     * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * [.goto(value, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.goto(values, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+    * [.rotate(values, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.compliant()](#module_poppy-robot-core..Script+compliant) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.stiff()](#module_poppy-robot-core..Script+stiff) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -1062,7 +1062,7 @@ let script = new Script('all')
 ```
 <a name="module_poppy-robot-core..Script+goto"></a>
 
-#### script.goto(value, [duration], [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+#### script.goto(values, [duration], [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Set the target position (register 'goal_position') of the selected motor(s).
 
 It will create an action that will move the selected motor(s) to the given position.
@@ -1071,7 +1071,7 @@ It will create an action that will move the selected motor(s) to the given posit
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | <code>integer</code> |  | the position to reach in degree |
+| values | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | Either an array containing   the target position for each motor or an integer if position is the same for all |
 | [duration] | <code>number</code> |  | set the movement duration duration (in s) |
 | [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions. |
 
@@ -1079,38 +1079,39 @@ It will create an action that will move the selected motor(s) to the given posit
 ```js
 let script = new Script('m6')
    .goto(90) // Send a request in order to "open" the grip.
-                 // It does not wait the end of this movement
-                 // and next instructions will be send in the wake of it
-   .select('m1')
-   .goto(150, 2.5) // move the motor 'm1' to 150 degrees in 2.5s
-   .select('m2', 'm3', 'm4')
-   .goto(0, true) // Send a instruction to move all selected motors to 0
-                  // awaiting the end of the movement.
+             // It does not wait the end of this movement
+             // and next instructions will be send in the wake of it
+   .select('m1', 'm2')
+   .goto(0, 2.5) // move the motor 'm1' to position 0 degree in 2.5s
+   .select('m2', 'm3')
+   .goto([30, 90], true) // Send a instruction to move 'm2' and 'm3' to
+                         // respectively position 30 and 90 degrees
+                         // awaiting the end of the movement.
 ```
 <a name="module_poppy-robot-core..Script+rotate"></a>
 
-#### script.rotate(value, [duration], [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
+#### script.rotate(values, [duration], [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
 Create an action to rotate the selected motor(s) by x degrees.
 
 **Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| value | <code>integer</code> |  | the rotation value, in degrees |
+| values | <code>Array.&lt;integer&gt;</code> \| <code>integer</code> |  | Either an array containing   the rotation value for each motor or an integer if the rotation is the same for all |
 | [duration] | <code>number</code> |  | set the movement duration duration (in s) |
 | [wait] | <code>boolean</code> | <code>false</code> | wait until the selected motors will end   their rotations before executing the next action |
 
 **Example**  
 ```js
-let script = new Script('m1', 'm5')
+let script = new Script('m5')
    .rotate(-30) // Send instruction to rotate by -30 degrees the selected motors.
                 // It does not wait the end of this movement
                 // and next instructions will be send in the wake of it
-   .select('m6')
-   .rotate(60, true) // Send an instruction in order to rotate
-                     // the motor 'm6' by 60 degrees and await the end of the movement
-   .select('m6')
-   .rotate(-60, 3, true) // perform rotation by -60 degrees in 3s
+   .select('m1', 'm6')
+   .rotate([-90, 90], true) // Send an instruction in order to rotate
+                     // the motors 'm1' and 'm6' by respectively -90 and 90 degrees
+                     // awaiting the end of the movement
+   .rotate([90, -90], 3, true) // then rotate 'm1' and 'm6' by 90 and -90 degrees in 3s.
 ```
 <a name="module_poppy-robot-core..Script+speed"></a>
 
