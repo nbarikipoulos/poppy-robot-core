@@ -71,7 +71,6 @@ Furthermore, it exposes a bunch of high-level factories in order to ease use of
             * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
             * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-            * ~~[.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
             * [.goto(value, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
             * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -988,7 +987,6 @@ Such state will require a reboot of the robot.
     * [new Script(...motorNames)](#new_module_poppy-robot-core..Script_new)
     * [.select(...motorNames)](#module_poppy-robot-core..Script+select) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.led(value)](#module_poppy-robot-core..Script+led) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
-    * ~~[.position(value, [wait])](#module_poppy-robot-core..Script+position) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
     * [.goto(value, [duration], [wait])](#module_poppy-robot-core..Script+goto) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.rotate(value, [duration], [wait])](#module_poppy-robot-core..Script+rotate) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
     * [.speed(value)](#module_poppy-robot-core..Script+speed) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
@@ -1060,19 +1058,6 @@ Set the led value of the target motor(s).
 let script = new Script('all')
    .led('blue') // will set the led color to blue
 ```
-<a name="module_poppy-robot-core..Script+position"></a>
-
-#### ~~script.position(value, [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Script</code>](#module_poppy-robot-core..Script)  
-**See**: [goto](#module_poppy-robot-core..Script+goto)  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| value | <code>integer</code> |  | the position to reach in degree |
-| [wait] | <code>boolean</code> | <code>false</code> | wait until motors reach their target positions |
-
 <a name="module_poppy-robot-core..Script+goto"></a>
 
 #### script.goto(value, [duration], [wait]) ⇒ [<code>Script</code>](#module_poppy-robot-core..Script)
