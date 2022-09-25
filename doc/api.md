@@ -322,8 +322,10 @@ Return an array containing all registered motor names of the robot.
 
 #### poppy.toMotorNames(names) ⇒ <code>Array.&lt;string&gt;</code>
 Convinient function to manage the 'all' keyword for motor names.
-if input parameter is 'all', it will return an array containing the name of all the motors
-of the robot. Otherwise, the entry input will be returned.
+
+If the input parameter is 'all' or an array including it,
+it will return an array containing the name of all motors of the robot.
+Otherwise, the entry input will be returned.
 
 **Kind**: instance method of [<code>Poppy</code>](#module_poppy-robot-core..Poppy)  
 
