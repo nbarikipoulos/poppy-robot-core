@@ -1007,7 +1007,7 @@ this script.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...motorNames | <code>string</code> | the motor name(s) or 'all' to select all motors |
+| ...motorNames | <code>string</code> \| <code>Array.&lt;string&gt;</code> | the motor name(s) or 'all' to select all motors |
 
 **Example**  
 ```js
@@ -1033,7 +1033,7 @@ It will define the targeted motor(s) until the next __select__ action, if any.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...motorNames | <code>string</code> | the name(s) of the selected motor or 'all' to select all motors |
+| ...motorNames | <code>string</code> \| <code>Array.&lt;string&gt;</code> | the name(s) of the selected motor or 'all' to select all motors |
 
 **Example**  
 ```js
